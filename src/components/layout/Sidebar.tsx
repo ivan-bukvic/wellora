@@ -23,7 +23,7 @@ export const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col rounded-r-3xl z-50">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col z-50">
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-8">
         <div className="w-10 h-10 bg-primary-foreground/20 rounded-xl flex items-center justify-center">
@@ -33,7 +33,7 @@ export const Sidebar = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-4">
+      <nav className="flex-1 py-4">
         <ul className="space-y-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
