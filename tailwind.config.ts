@@ -12,10 +12,10 @@ export default {
         "2xl": "1400px",
       },
     },
-    extend: {
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-      },
+extend: {
+		fontFamily: {
+			sans: ['Nunito', 'sans-serif'],
+		},
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
