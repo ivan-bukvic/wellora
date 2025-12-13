@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap');
 
 /* Wellora Design System - Calm Wellbeing Theme */
 
@@ -18,20 +18,20 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 20%;
 
-    /* Primary - Soft Teal/Turquoise */
-    --primary: 168 65% 55%;
-    --primary-foreground: 0 0% 100%;
-    --primary-light: 168 65% 92%;
-    --primary-dark: 168 65% 45%;
+    /* Primary - Sky Blue #7FC8F8 */
+    --primary: 201 90% 73%;
+    --primary-foreground: 222 47% 20%;
+    --primary-light: 201 90% 92%;
+    --primary-dark: 201 90% 60%;
 
     /* Secondary - Dark Slate Blue */
     --secondary: 225 30% 32%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Sky Blue Accent */
-    --accent: 201 90% 73%;
-    --accent-foreground: 222 47% 20%;
-    --accent-light: 201 90% 92%;
+    /* Accent */
+    --accent: 225 30% 32%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 225 30% 92%;
 
     /* Muted tones */
     --muted: 210 20% 96%;
@@ -44,21 +44,21 @@
     /* Borders & Inputs */
     --border: 214 20% 92%;
     --input: 214 20% 92%;
-    --ring: 168 65% 55%;
+    --ring: 201 90% 73%;
 
     --radius: 1rem;
 
-    /* Sidebar - Teal theme */
-    --sidebar: 168 65% 55%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-hover: 168 65% 50%;
+    /* Sidebar - Sky Blue theme */
+    --sidebar: 201 90% 73%;
+    --sidebar-foreground: 222 47% 20%;
+    --sidebar-hover: 201 90% 68%;
     --sidebar-active: 0 0% 100%;
-    --sidebar-active-foreground: 168 65% 45%;
+    --sidebar-active-foreground: 222 47% 20%;
 
     /* Chart Colors */
-    --chart-primary: 168 65% 55%;
-    --chart-secondary: 201 90% 73%;
-    --chart-tertiary: 225 30% 32%;
+    --chart-primary: 201 90% 73%;
+    --chart-secondary: 225 30% 32%;
+    --chart-tertiary: 142 70% 45%;
     --chart-muted: 210 20% 85%;
 
     /* Success & Progress */
@@ -78,7 +78,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Nunito', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -120,12 +120,12 @@
     content: '';
     position: absolute;
     right: 0;
-    top: -24px;
-    width: 24px;
-    height: 24px;
+    top: -20px;
+    width: 20px;
+    height: 20px;
     background: transparent;
-    border-bottom-right-radius: 24px;
-    box-shadow: 6px 6px 0 6px hsl(var(--background));
+    box-shadow: 10px 10px 0 10px hsl(var(--background));
+    border-bottom-right-radius: 20px;
     z-index: 2;
   }
 
@@ -134,13 +134,13 @@
     content: '';
     position: absolute;
     right: 0;
-    bottom: -24px;
-    width: 24px;
-    height: 24px;
+    bottom: -20px;
+    width: 20px;
+    height: 20px;
     background: transparent;
-    border-top-right-radius: 24px;
+    box-shadow: 10px -10px 0 10px hsl(var(--background));
+    border-top-right-radius: 20px;
     z-index: 2;
-    box-shadow: 5px -5px 0 5px hsl(var(--background));
   }
 
   /* Progress Ring */
