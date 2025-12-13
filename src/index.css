@@ -98,8 +98,10 @@
 
   /* Sidebar Navigation Item with Rounded Connection */
   .nav-item {
-    @apply relative flex items-center gap-3 px-4 py-3 rounded-l-2xl text-sidebar-foreground/80 transition-all duration-200 cursor-pointer;
-    margin-left: 12px;
+    @apply relative flex items-center gap-3 px-4 py-3 text-sidebar-foreground/80 transition-all duration-200 cursor-pointer;
+    margin-left: 16px;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
   }
 
   .nav-item:hover {
@@ -120,13 +122,12 @@
     content: '';
     position: absolute;
     right: 0;
-    top: -20px;
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    box-shadow: 10px 10px 0 10px hsl(var(--background));
-    border-bottom-right-radius: 20px;
-    z-index: 2;
+    top: -30px;
+    width: 30px;
+    height: 30px;
+    background: hsl(var(--primary));
+    border-bottom-left-radius: 30px;
+    z-index: 0;
   }
 
   /* Curved connection effect for active nav items - bottom curve */
@@ -134,13 +135,12 @@
     content: '';
     position: absolute;
     right: 0;
-    bottom: -20px;
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    box-shadow: 10px -10px 0 10px hsl(var(--background));
-    border-top-right-radius: 20px;
-    z-index: 2;
+    bottom: -30px;
+    width: 30px;
+    height: 30px;
+    background: hsl(var(--primary));
+    border-top-left-radius: 30px;
+    z-index: 0;
   }
 
   /* Progress Ring */
