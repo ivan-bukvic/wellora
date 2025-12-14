@@ -56,7 +56,7 @@ const MenuItemWrapper = ({ icon: Icon, label, path, isActive }: MenuItemWrapperP
         "flex items-center gap-3 h-[52px] w-full pl-4 transition-all duration-200 rounded-[20px]",
         isActive 
           ? "bg-background text-foreground font-medium !rounded-tl-[20px] !rounded-bl-[20px] !rounded-tr-none !rounded-br-none" 
-          : "text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+          : "text-white/90 hover:text-white hover:bg-white/10"
       )}
     >
       <Icon className="w-5 h-5" />
