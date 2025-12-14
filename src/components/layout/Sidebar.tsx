@@ -32,7 +32,7 @@ export const Sidebar = () => {
           className="h-auto object-contain brightness-0 invert mb-3"
           style={{ width: '70px' }}
         />
-        <span className="text-2xl font-semibold text-white">Wellora</span>
+        <span className="text-3xl font-semibold text-white">Wellora</span>
       </div>
 
       {/* Navigation */}
