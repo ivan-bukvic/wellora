@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -19,8 +18,19 @@ const navItems = [
   { icon: Settings, label: 'Settings', path: '/settings' },
 ];
 
+// Spacer component that creates the rounded corner effect
+const RoundedSpacer = ({ position }: { position: 'top' | 'bottom' }) => (
+  <div 
+    className={cn(
+      "h-[30px] w-full bg-background",
+      position === 'top' ? "rounded-br-[30px]" : "rounded-tr-[30px]"
+    )}
+  />
+);
+
 export const Sidebar = () => {
   const location = useLocation();
+  const activeIndex = navItems.findIndex(item => item.path === location.pathname);
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col z-50">
@@ -34,32 +44,43 @@ export const Sidebar = () => {
 
       {/* Navigation */}
       <nav className="flex-1 py-4">
-        <ul className="space-y-2">
-          {navItems.map((item) => {
+        <div className="flex flex-col">
+          {navItems.map((item, index) => {
             const isActive = location.pathname === item.path;
+            const isBeforeActive = index === activeIndex - 1;
+            const isAfterActive = index === activeIndex + 1;
             const Icon = item.icon;
             
             return (
-              <li key={item.path} className="relative">
+              <div key={item.path} className="flex flex-col">
+                {/* Top spacer - show only when THIS item is active */}
+                {isActive && index > 0 && <RoundedSpacer position="top" />}
+                
+                {/* Menu Item */}
                 <NavLink
                   to={item.path}
                   className={cn(
-                    'nav-item',
-                    isActive && 'active'
+                    "flex items-center gap-3 h-[52px] pl-6 text-primary-foreground/80 transition-all duration-200",
+                    isActive 
+                      ? "bg-background text-foreground font-medium rounded-l-2xl" 
+                      : "hover:text-primary-foreground"
                   )}
                 >
                   <Icon className="w-5 h-5" />
                   <span>{item.label}</span>
                 </NavLink>
-              </li>
+                
+                {/* Bottom spacer - show only when THIS item is active */}
+                {isActive && index < navItems.length - 1 && <RoundedSpacer position="bottom" />}
+              </div>
             );
           })}
-        </ul>
+        </div>
       </nav>
 
       {/* Logout */}
       <div className="px-4 pb-8">
-        <button className="nav-item w-full text-primary-foreground/70 hover:text-primary-foreground">
+        <button className="flex items-center gap-3 px-4 py-3 w-full text-primary-foreground/70 hover:text-primary-foreground transition-colors">
           <LogOut className="w-5 h-5" />
           <span>Log Out</span>
         </button>
