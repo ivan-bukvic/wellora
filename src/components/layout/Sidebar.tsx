@@ -29,7 +29,7 @@ export const Sidebar = () => {
         <img 
           src={WelloraLogo} 
           alt="Wellora logo" 
-          className="w-9 h-9 object-contain bg-primary rounded-lg"
+          className="w-9 h-9 object-contain"
         />
         <span className="text-2xl font-semibold text-white">Wellora</span>
       </div>
