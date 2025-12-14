@@ -25,14 +25,12 @@ export const Sidebar = () => {
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col z-50">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-8 mb-6">
-        <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-          <img 
-            src={WelloraLogo} 
-            alt="Wellora logo" 
-            className="w-7 h-7 object-contain"
-          />
-        </div>
+      <div className="flex flex-col items-center px-6 pt-8 pb-6 mb-6">
+        <img 
+          src={WelloraLogo} 
+          alt="Wellora logo" 
+          className="w-9 h-auto object-contain brightness-0 invert mb-3"
+        />
         <span className="text-2xl font-semibold text-white">Wellora</span>
       </div>
 
