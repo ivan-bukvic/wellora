@@ -96,7 +96,53 @@
     @apply shadow-md;
   }
 
-  /* Sidebar styles moved to component */
+  /* Sidebar Navigation Item with Rounded Connection */
+  .nav-item {
+    @apply relative flex items-center gap-3 px-4 py-3 text-sidebar-foreground/80 transition-all duration-200 cursor-pointer;
+    margin-left: 16px;
+    margin-right: 4px;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+  }
+
+  .nav-item:hover {
+    @apply text-sidebar-foreground;
+  }
+
+  .nav-item.active {
+    @apply bg-background text-sidebar-active-foreground font-medium;
+    margin-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Curved connection effect for active nav items - top curve */
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -30px;
+    width: 30px;
+    height: 30px;
+    background: hsl(var(--primary));
+    border-bottom-left-radius: 30px;
+    z-index: 0;
+  }
+
+  /* Curved connection effect for active nav items - bottom curve */
+  .nav-item.active::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -30px;
+    width: 30px;
+    height: 30px;
+    background: hsl(var(--primary));
+    border-top-left-radius: 30px;
+    z-index: 0;
+  }
 
   /* Progress Ring */
   .progress-ring {
