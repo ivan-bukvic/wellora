@@ -9,7 +9,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import WelloraLogo from '@/assets/wellora-logo.svg';
+import WelloraLogo from '@/assets/wellora-logo.png';
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
@@ -29,7 +29,7 @@ export const Sidebar = () => {
         <img 
           src={WelloraLogo} 
           alt="Wellora logo" 
-          className="w-9 h-9 brightness-0 invert"
+          className="w-9 h-9 object-contain"
         />
         <span className="text-2xl font-semibold text-white">Wellora</span>
       </div>
