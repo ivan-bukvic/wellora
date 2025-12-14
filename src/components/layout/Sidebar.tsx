@@ -29,7 +29,8 @@ export const Sidebar = () => {
         <img 
           src={WelloraLogo} 
           alt="Wellora logo" 
-          className="w-9 h-auto object-contain brightness-0 invert mb-3"
+          className="h-auto object-contain brightness-0 invert mb-3"
+          style={{ width: '70px' }}
         />
         <span className="text-2xl font-semibold text-white">Wellora</span>
       </div>
