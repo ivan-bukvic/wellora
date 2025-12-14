@@ -31,7 +31,7 @@ export const Sidebar = () => {
           alt="Wellora logo" 
           className="w-9 h-9 brightness-0 invert"
         />
-        <span className="text-xl font-semibold text-white lowercase">wellora</span>
+        <span className="text-2xl font-semibold text-white">Wellora</span>
       </div>
 
       {/* Navigation */}
