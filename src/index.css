@@ -126,8 +126,8 @@
     top: -30px;
     width: 30px;
     height: 30px;
-    background: hsl(var(--background));
-    border-bottom-right-radius: 30px;
+    background: hsl(var(--primary));
+    box-shadow: 0 15px 0 0 hsl(var(--background));
     z-index: 2;
   }
 
@@ -139,8 +139,8 @@
     bottom: -30px;
     width: 30px;
     height: 30px;
-    background: hsl(var(--background));
-    border-top-right-radius: 30px;
+    background: hsl(var(--primary));
+    box-shadow: 0 -15px 0 0 hsl(var(--background));
     z-index: 2;
   }
 
