@@ -6,10 +6,10 @@ import {
   Calendar, 
   User, 
   Settings, 
-  LogOut,
-  Heart
+  LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import WelloraLogo from '@/assets/wellora-logo.svg';
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
@@ -25,11 +25,13 @@ export const Sidebar = () => {
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col z-50">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-8">
-        <div className="w-10 h-10 bg-primary-foreground/20 rounded-xl flex items-center justify-center">
-          <Heart className="w-6 h-6 text-primary-foreground" />
-        </div>
-        <span className="text-2xl font-semibold text-primary-foreground">Wellora</span>
+      <div className="flex items-center gap-3 px-6 py-8 mb-6">
+        <img 
+          src={WelloraLogo} 
+          alt="Wellora logo" 
+          className="w-9 h-9 brightness-0 invert"
+        />
+        <span className="text-xl font-semibold text-white lowercase">wellora</span>
       </div>
 
       {/* Navigation */}
