@@ -126,9 +126,9 @@
     top: -30px;
     width: 30px;
     height: 30px;
-    background: hsl(var(--primary));
-    border-bottom-left-radius: 30px;
-    z-index: 0;
+    background: hsl(var(--background));
+    border-bottom-right-radius: 30px;
+    z-index: 2;
   }
 
   /* Curved connection effect for active nav items - bottom curve */
@@ -139,9 +139,9 @@
     bottom: -30px;
     width: 30px;
     height: 30px;
-    background: hsl(var(--primary));
-    border-top-left-radius: 30px;
-    z-index: 0;
+    background: hsl(var(--background));
+    border-top-right-radius: 30px;
+    z-index: 2;
   }
 
   /* Progress Ring */
