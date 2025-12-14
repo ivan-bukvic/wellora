@@ -33,16 +33,16 @@ const StatCard = ({ variant = 'default', period, value, unit, change, positive =
     <div className={`stat-card ${isPrimary ? 'primary' : ''} flex-1`}>
       <div className="flex items-center gap-2 mb-3">
         <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
-          isPrimary ? 'bg-primary-foreground/20' : 'bg-primary/10'
+          isPrimary ? 'bg-white/20' : 'bg-primary/10'
         }`}>
-          <Footprints className={`w-3.5 h-3.5 ${isPrimary ? 'text-primary-foreground' : 'text-primary'}`} />
+          <Footprints className={`w-3.5 h-3.5 ${isPrimary ? 'text-white' : 'text-primary'}`} />
         </div>
-        <span className={`text-sm font-medium ${isPrimary ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+        <span className={`text-sm font-medium ${isPrimary ? 'text-white/80' : 'text-muted-foreground'}`}>
           {period}
         </span>
         <span className={`ml-auto text-xs font-medium px-2 py-0.5 rounded-full ${
           isPrimary 
-            ? 'bg-primary-foreground/20 text-primary-foreground' 
+            ? 'bg-white/20 text-white' 
             : positive 
               ? 'bg-success-light text-success' 
               : 'bg-destructive/10 text-destructive'
@@ -53,10 +53,10 @@ const StatCard = ({ variant = 'default', period, value, unit, change, positive =
       
       <div className="flex items-end justify-between">
         <div>
-          <p className={`text-3xl font-bold ${isPrimary ? 'text-primary-foreground' : 'text-foreground'}`}>
+          <p className={`text-3xl font-bold ${isPrimary ? 'text-white' : 'text-foreground'}`}>
             {value}
           </p>
-          <p className={`text-sm ${isPrimary ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
+          <p className={`text-sm ${isPrimary ? 'text-white/70' : 'text-muted-foreground'}`}>
             {unit}
           </p>
         </div>

@@ -11,21 +11,21 @@ export const AIInsightCard = () => {
       <div className="relative flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-primary-foreground" />
+            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-medium text-primary-foreground/80">AI Insight</span>
+            <span className="text-sm font-medium text-white/80">AI Insight</span>
           </div>
           
-          <h3 className="text-xl font-semibold mb-2 text-primary-foreground">
+          <h3 className="text-xl font-semibold mb-2 text-white">
             You've been very consistent this week
           </h3>
-          <p className="text-primary-foreground/80 text-sm max-w-md">
+          <p className="text-white/80 text-sm max-w-md">
             Great balance between activity and rest. Your mindfulness sessions have improved your sleep quality by 15%.
           </p>
         </div>
         
-        <button className="flex items-center gap-2 px-5 py-3 bg-primary-foreground text-primary rounded-xl font-medium hover:bg-primary-foreground/90 transition-colors">
+        <button className="flex items-center gap-2 px-5 py-3 bg-white text-[#7FC8F8] rounded-xl font-medium hover:bg-white/90 transition-colors">
           <span>View Details</span>
           <ArrowRight className="w-4 h-4" />
         </button>

@@ -45,10 +45,10 @@ export const Sidebar = () => {
                   to={item.path}
                   className={cn(
                     'nav-item',
-                    isActive && 'active'
+                    isActive ? 'active bg-white text-[#7FC8F8]' : 'text-white'
                   )}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className={cn('w-5 h-5', isActive ? 'text-[#7FC8F8]' : 'text-white')} />
                   <span>{item.label}</span>
                 </NavLink>
               </li>
@@ -59,8 +59,8 @@ export const Sidebar = () => {
 
       {/* Logout */}
       <div className="px-4 pb-8">
-        <button className="nav-item w-full text-primary-foreground/70 hover:text-primary-foreground">
-          <LogOut className="w-5 h-5" />
+        <button className="nav-item w-full text-white/70 hover:text-white">
+          <LogOut className="w-5 h-5 text-white" />
           <span>Log Out</span>
         </button>
       </div>

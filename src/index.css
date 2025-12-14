@@ -98,7 +98,8 @@
 
   /* Sidebar Navigation Item with Rounded Connection */
   .nav-item {
-    @apply relative flex items-center gap-3 px-4 py-3 text-sidebar-foreground/80 transition-all duration-200 cursor-pointer;
+    @apply relative flex items-center gap-3 px-4 py-3 transition-all duration-200 cursor-pointer;
+    color: white;
     margin-left: 16px;
     margin-right: 4px;
     border-top-left-radius: 1.5rem;
@@ -106,11 +107,13 @@
   }
 
   .nav-item:hover {
-    @apply text-sidebar-foreground;
+    color: white;
   }
 
   .nav-item.active {
-    @apply bg-background text-sidebar-active-foreground font-medium;
+    @apply font-medium;
+    background-color: white;
+    color: #7FC8F8;
     margin-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
