@@ -46,11 +46,16 @@ export const Sidebar = () => {
           {/* Top Helper Nav Item */}
           <li 
             className={cn(
-              "h-14 bg-primary pointer-events-none",
-              activeIndex === 0 && "rounded-br-[40px]"
+              "h-14 pointer-events-none",
+              activeIndex === 0 ? "bg-white" : "bg-primary"
             )}
             aria-hidden="true"
-          />
+          >
+            <div className={cn(
+              "h-full w-full bg-primary",
+              activeIndex === 0 && "rounded-br-[40px]"
+            )} />
+          </li>
           
           {navItems.map((item, index) => {
             const isActive = location.pathname === item.path;
@@ -62,9 +67,8 @@ export const Sidebar = () => {
               <li 
                 key={item.path} 
                 className={cn(
-                  "relative bg-primary",
-                  isAboveActive && "rounded-br-[40px]",
-                  isBelowActive && "rounded-tr-[40px]"
+                  "relative",
+                  isActive ? "bg-white" : (isAboveActive || isBelowActive) ? "bg-white" : "bg-primary"
                 )}
               >
                 <NavLink
@@ -73,7 +77,9 @@ export const Sidebar = () => {
                     'flex items-center gap-4 px-6 py-4 transition-all duration-200',
                     isActive 
                       ? 'bg-white text-primary rounded-l-[30px]' 
-                      : 'text-white hover:bg-white/10'
+                      : 'bg-primary text-white hover:bg-primary-foreground/10',
+                    isAboveActive && "rounded-br-[40px]",
+                    isBelowActive && "rounded-tr-[40px]"
                   )}
                 >
                   <Icon className={cn('w-5 h-5', isActive ? 'text-primary' : 'text-white')} />
@@ -86,11 +92,16 @@ export const Sidebar = () => {
           {/* Bottom Helper Nav Item */}
           <li 
             className={cn(
-              "h-14 bg-primary pointer-events-none",
-              activeIndex === navItems.length - 1 && "rounded-tr-[40px]"
+              "h-14 pointer-events-none",
+              activeIndex === navItems.length - 1 ? "bg-white" : "bg-primary"
             )}
             aria-hidden="true"
-          />
+          >
+            <div className={cn(
+              "h-full w-full bg-primary",
+              activeIndex === navItems.length - 1 && "rounded-tr-[40px]"
+            )} />
+          </li>
         </ul>
       </nav>
 
