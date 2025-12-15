@@ -42,7 +42,7 @@ export const Sidebar = () => {
 
       {/* Navigation */}
       <nav className="flex-1">
-        <ul className="flex flex-col">
+        <ul className="flex flex-col pl-[10px]">
           {/* Top Helper Nav Item */}
           <li 
             className={cn(
@@ -68,7 +68,7 @@ export const Sidebar = () => {
                 key={item.path} 
                 className={cn(
                   "relative",
-                  isActive ? "bg-white" : (isAboveActive || isBelowActive) ? "bg-white" : "bg-primary"
+                  (isAboveActive || isBelowActive) ? "bg-white" : "bg-primary"
                 )}
               >
                 <NavLink
