@@ -74,9 +74,9 @@ export const Sidebar = () => {
                 <NavLink
                   to={item.path}
                   className={cn(
-                    'flex items-center gap-4 px-6 py-4 ml-[30px] rounded-l-[40px] transition-all duration-200',
+                    'flex items-center gap-4 px-6 py-4 transition-all duration-200',
                     isActive 
-                      ? 'bg-white text-primary' 
+                      ? 'bg-white text-primary ml-[30px] rounded-l-[40px]' 
                       : 'bg-primary text-white hover:bg-primary-foreground/10',
                     isAboveActive && "rounded-br-[40px]",
                     isBelowActive && "rounded-tr-[40px]"
