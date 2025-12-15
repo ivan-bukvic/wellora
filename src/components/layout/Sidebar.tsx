@@ -77,7 +77,7 @@ export const Sidebar = () => {
                     'flex items-center gap-4 py-4 pl-6 transition-colors duration-200',
                   isActive 
                       ? 'bg-background text-primary rounded-l-[40px]'
-                      : 'bg-primary text-white hover:bg-primary-foreground/10',
+                      : 'bg-primary text-white',
                     isAboveActive && "rounded-br-[40px]",
                     isBelowActive && "rounded-tr-[40px]"
                   )}
@@ -107,7 +107,7 @@ export const Sidebar = () => {
 
       {/* Logout */}
       <div className="pl-[30px] pb-8">
-        <button className="flex items-center gap-4 py-4 pl-6 w-full text-white/70 hover:text-white transition-colors">
+        <button className="flex items-center gap-4 py-4 pl-6 w-full text-white/70">
           <LogOut className="w-5 h-5 flex-shrink-0" />
           <span className="font-medium">Log Out</span>
         </button>
