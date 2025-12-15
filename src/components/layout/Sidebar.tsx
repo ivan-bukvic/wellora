@@ -47,7 +47,7 @@ export const Sidebar = () => {
           <li 
             className={cn(
               "h-14 pointer-events-none",
-              activeIndex === 0 ? "bg-white" : "bg-primary"
+              activeIndex === 0 ? "bg-background" : "bg-primary"
             )}
             aria-hidden="true"
           >
@@ -68,7 +68,7 @@ export const Sidebar = () => {
                 key={item.path} 
                 className={cn(
                   "relative",
-                  (isAboveActive || isBelowActive) ? "bg-white" : "bg-primary"
+                  (isAboveActive || isBelowActive) ? "bg-background" : "bg-primary"
                 )}
               >
                 <NavLink
@@ -76,7 +76,7 @@ export const Sidebar = () => {
                   className={cn(
                     'flex items-center justify-center gap-4 py-4 transition-all duration-200',
                   isActive 
-                      ? 'bg-white text-primary rounded-l-[40px]'
+                      ? 'bg-background text-primary rounded-l-[40px]'
                       : 'bg-primary text-white hover:bg-primary-foreground/10',
                     isAboveActive && "rounded-br-[40px]",
                     isBelowActive && "rounded-tr-[40px]"
@@ -93,7 +93,7 @@ export const Sidebar = () => {
           <li 
             className={cn(
               "h-14 pointer-events-none",
-              activeIndex === navItems.length - 1 ? "bg-white" : "bg-primary"
+              activeIndex === navItems.length - 1 ? "bg-background" : "bg-primary"
             )}
             aria-hidden="true"
           >
