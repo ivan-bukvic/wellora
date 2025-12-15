@@ -42,7 +42,7 @@ export const Sidebar = () => {
 
       {/* Navigation */}
       <nav className="flex-1">
-        <ul className="flex flex-col pl-[10px]">
+        <ul className="flex flex-col pl-[30px]">
           {/* Top Helper Nav Item */}
           <li 
             className={cn(
