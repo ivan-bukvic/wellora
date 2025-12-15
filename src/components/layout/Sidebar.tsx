@@ -75,8 +75,8 @@ export const Sidebar = () => {
                   to={item.path}
                   className={cn(
                     'flex items-center justify-center gap-4 py-4 transition-all duration-200',
-                    isActive 
-                      ? 'bg-white text-primary rounded-l-[30px]' 
+                  isActive 
+                      ? 'bg-white text-primary rounded-l-[40px]'
                       : 'bg-primary text-white hover:bg-primary-foreground/10',
                     isAboveActive && "rounded-br-[40px]",
                     isBelowActive && "rounded-tr-[40px]"
