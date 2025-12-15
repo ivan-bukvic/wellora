@@ -47,7 +47,7 @@ export const Sidebar = () => {
           <li 
             className={cn(
               "h-14 pointer-events-none",
-              activeIndex === 0 ? "bg-white" : "bg-primary"
+              activeIndex === 0 ? "bg-background" : "bg-transparent"
             )}
             aria-hidden="true"
           >
@@ -68,18 +68,18 @@ export const Sidebar = () => {
                 key={item.path} 
                 className={cn(
                   "relative",
-                  isActive ? "bg-white" : (isAboveActive || isBelowActive) ? "bg-white" : "bg-primary"
+                  isActive ? "bg-background" : (isAboveActive || isBelowActive) ? "bg-background" : "bg-transparent"
                 )}
               >
                 <NavLink
                   to={item.path}
                   className={cn(
-                    'flex items-center gap-4 px-6 py-4 transition-all duration-200',
+                    'flex items-center gap-4 ml-[30px] py-4 pr-6 transition-all duration-200',
                     isActive 
-                      ? 'bg-white text-primary rounded-l-[30px]' 
-                      : 'bg-primary text-white hover:bg-primary-foreground/10',
-                    isAboveActive && "rounded-br-[40px]",
-                    isBelowActive && "rounded-tr-[40px]"
+                      ? 'bg-background text-primary rounded-l-[30px]' 
+                      : 'bg-transparent text-white hover:bg-primary-foreground/10',
+                    isAboveActive && "bg-primary rounded-br-[40px]",
+                    isBelowActive && "bg-primary rounded-tr-[40px]"
                   )}
                 >
                   <Icon className={cn('w-5 h-5', isActive ? 'text-primary' : 'text-white')} />
@@ -93,7 +93,7 @@ export const Sidebar = () => {
           <li 
             className={cn(
               "h-14 pointer-events-none",
-              activeIndex === navItems.length - 1 ? "bg-white" : "bg-primary"
+              activeIndex === navItems.length - 1 ? "bg-background" : "bg-transparent"
             )}
             aria-hidden="true"
           >
@@ -106,8 +106,8 @@ export const Sidebar = () => {
       </nav>
 
       {/* Logout */}
-      <div className="px-4 pb-8">
-        <button className="flex items-center gap-4 px-6 py-4 w-full text-white/70 hover:text-white transition-colors">
+      <div className="pb-8">
+        <button className="flex items-center gap-4 ml-[30px] py-4 w-full text-white/70 hover:text-white transition-colors">
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Log Out</span>
         </button>
