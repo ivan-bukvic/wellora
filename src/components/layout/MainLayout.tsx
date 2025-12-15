@@ -25,12 +25,12 @@ export const MainLayout = ({ children, title }: MainLayoutProps) => {
               <input
                 type="text"
                 placeholder="Search"
-                className="w-72 pl-12 pr-4 py-3 bg-card rounded-2xl border border-border/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all"
+                className="w-96 pl-12 pr-4 py-3 bg-card rounded-[40px] border border-border/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all"
               />
             </div>
             
             {/* Notifications */}
-            <button className="relative p-3 bg-card rounded-2xl border border-border/50 hover:bg-muted transition-colors">
+            <button className="relative p-3 bg-card rounded-full border border-border/50 hover:bg-muted transition-colors">
               <Bell className="w-5 h-5 text-muted-foreground" />
               <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
             </button>
