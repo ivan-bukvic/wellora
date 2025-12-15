@@ -74,7 +74,7 @@ export const Sidebar = () => {
                 <NavLink
                   to={item.path}
                   className={cn(
-                    'flex items-center justify-center gap-4 py-4 transition-all duration-200',
+                    'flex items-center gap-4 py-4 pl-6 transition-all duration-200',
                   isActive 
                       ? 'bg-background text-primary rounded-l-[40px]'
                       : 'bg-primary text-white hover:bg-primary-foreground/10',
@@ -82,7 +82,7 @@ export const Sidebar = () => {
                     isBelowActive && "rounded-tr-[40px]"
                   )}
                 >
-                  <Icon className={cn('w-5 h-5', isActive ? 'text-primary' : 'text-white')} />
+                  <Icon className={cn('w-5 h-5 flex-shrink-0', isActive ? 'text-primary' : 'text-white')} />
                   <span className="font-medium">{item.label}</span>
                 </NavLink>
               </li>
@@ -107,8 +107,8 @@ export const Sidebar = () => {
 
       {/* Logout */}
       <div className="px-4 pb-8">
-        <button className="flex items-center justify-center gap-4 py-4 w-full text-white/70 hover:text-white transition-colors">
-          <LogOut className="w-5 h-5" />
+        <button className="flex items-center gap-4 py-4 pl-6 w-full text-white/70 hover:text-white transition-colors">
+          <LogOut className="w-5 h-5 flex-shrink-0" />
           <span className="font-medium">Log Out</span>
         </button>
       </div>
