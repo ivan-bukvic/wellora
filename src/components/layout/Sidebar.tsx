@@ -106,7 +106,7 @@ export const Sidebar = () => {
       </nav>
 
       {/* Logout */}
-      <div className="px-4 pb-8">
+      <div className="pl-[30px] pb-8">
         <button className="flex items-center gap-4 py-4 pl-6 w-full text-white/70 hover:text-white transition-colors">
           <LogOut className="w-5 h-5 flex-shrink-0" />
           <span className="font-medium">Log Out</span>
