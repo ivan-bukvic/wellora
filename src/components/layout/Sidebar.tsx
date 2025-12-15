@@ -20,12 +20,6 @@ const navItems = [
 
 export const Sidebar = () => {
   const location = useLocation();
-  
-  const getActiveIndex = () => {
-    return navItems.findIndex(item => item.path === location.pathname);
-  };
-  
-  const activeIndex = getActiveIndex();
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col z-50">
@@ -41,45 +35,21 @@ export const Sidebar = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1">
+      <nav className="flex-1 pl-3">
         <ul className="flex flex-col">
-          {/* Top Helper Nav Item */}
-          <li 
-            className={cn(
-              "h-14 pointer-events-none",
-              activeIndex === 0 ? "bg-white" : "bg-primary"
-            )}
-            aria-hidden="true"
-          >
-            <div className={cn(
-              "h-full w-full bg-primary",
-              activeIndex === 0 && "rounded-br-[40px]"
-            )} />
-          </li>
-          
-          {navItems.map((item, index) => {
+          {navItems.map((item) => {
             const isActive = location.pathname === item.path;
-            const isAboveActive = activeIndex !== -1 && index === activeIndex - 1;
-            const isBelowActive = activeIndex !== -1 && index === activeIndex + 1;
             const Icon = item.icon;
             
             return (
-              <li 
-                key={item.path} 
-                className={cn(
-                  "relative",
-                  isActive ? "bg-white" : (isAboveActive || isBelowActive) ? "bg-white" : "bg-primary"
-                )}
-              >
+              <li key={item.path}>
                 <NavLink
                   to={item.path}
                   className={cn(
-                    'flex items-center justify-center gap-4 py-4 transition-all duration-200',
+                    'flex items-center gap-4 h-[52px] pl-4 transition-all duration-200',
                     isActive 
-                      ? 'bg-white text-primary rounded-l-[30px]' 
-                      : 'bg-primary text-white hover:bg-primary-foreground/10',
-                    isAboveActive && "rounded-br-[40px]",
-                    isBelowActive && "rounded-tr-[40px]"
+                      ? 'bg-white text-primary rounded-tl-[30px] rounded-bl-[30px] rounded-tr-none rounded-br-none' 
+                      : 'bg-transparent text-white hover:bg-white/10'
                   )}
                 >
                   <Icon className={cn('w-5 h-5', isActive ? 'text-primary' : 'text-white')} />
@@ -88,26 +58,12 @@ export const Sidebar = () => {
               </li>
             );
           })}
-          
-          {/* Bottom Helper Nav Item */}
-          <li 
-            className={cn(
-              "h-14 pointer-events-none",
-              activeIndex === navItems.length - 1 ? "bg-white" : "bg-primary"
-            )}
-            aria-hidden="true"
-          >
-            <div className={cn(
-              "h-full w-full bg-primary",
-              activeIndex === navItems.length - 1 && "rounded-tr-[40px]"
-            )} />
-          </li>
         </ul>
       </nav>
 
       {/* Logout */}
-      <div className="px-4 pb-8">
-        <button className="flex items-center justify-center gap-4 py-4 w-full text-white/70 hover:text-white transition-colors">
+      <div className="pl-3 pb-8">
+        <button className="flex items-center gap-4 h-[52px] pl-4 w-full text-white/70 hover:text-white transition-colors">
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Log Out</span>
         </button>
