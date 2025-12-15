@@ -46,13 +46,13 @@ export const Sidebar = () => {
           {/* Top Helper Nav Item */}
           <li 
             className={cn(
-              "h-14 pointer-events-none transition-colors duration-200",
+              "h-14 pointer-events-none transition-colors duration-75",
               activeIndex === 0 ? "bg-background" : "bg-primary"
             )}
             aria-hidden="true"
           >
             <div className={cn(
-              "h-full w-full bg-primary transition-all duration-200",
+              "h-full w-full bg-primary transition-colors duration-75",
               activeIndex === 0 && "rounded-br-[40px]"
             )} />
           </li>
@@ -67,14 +67,14 @@ export const Sidebar = () => {
               <li 
                 key={item.path} 
                 className={cn(
-                  "relative transition-colors duration-200",
+                  "relative transition-colors duration-75",
                   (isAboveActive || isBelowActive) ? "bg-background" : "bg-primary"
                 )}
               >
                 <NavLink
                   to={item.path}
                   className={cn(
-                    'flex items-center gap-4 py-4 pl-6 transition-colors duration-200',
+                    'flex items-center gap-4 py-4 pl-6 transition-colors duration-75',
                   isActive 
                       ? 'bg-background text-primary rounded-l-[40px]'
                       : 'bg-primary text-white',
@@ -82,7 +82,7 @@ export const Sidebar = () => {
                     isBelowActive && "rounded-tr-[40px]"
                   )}
                 >
-                  <Icon className={cn('w-5 h-5 flex-shrink-0 transition-colors duration-200', isActive ? 'text-primary' : 'text-white')} />
+                  <Icon className={cn('w-5 h-5 flex-shrink-0 transition-colors duration-75', isActive ? 'text-primary' : 'text-white')} />
                   <span className="font-medium">{item.label}</span>
                 </NavLink>
               </li>
@@ -92,13 +92,13 @@ export const Sidebar = () => {
           {/* Bottom Helper Nav Item */}
           <li 
             className={cn(
-              "h-14 pointer-events-none transition-colors duration-200",
+              "h-14 pointer-events-none transition-colors duration-75",
               activeIndex === navItems.length - 1 ? "bg-background" : "bg-primary"
             )}
             aria-hidden="true"
           >
             <div className={cn(
-              "h-full w-full bg-primary transition-all duration-200",
+              "h-full w-full bg-primary transition-colors duration-75",
               activeIndex === navItems.length - 1 && "rounded-tr-[40px]"
             )} />
           </li>
