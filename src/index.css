@@ -89,7 +89,7 @@
 @layer components {
   /* Wellora Card Styles */
   .wellora-card {
-    @apply bg-card rounded-2xl p-6 shadow-sm border border-border/50 transition-all duration-300;
+    @apply bg-card rounded-3xl p-6 shadow-sm border border-border/50 transition-all duration-300;
   }
 
   .wellora-card:hover {
@@ -158,7 +158,7 @@
 
   /* Stat Card */
   .stat-card {
-    @apply bg-card rounded-2xl p-5 border border-border/30 transition-all duration-300;
+    @apply bg-card rounded-3xl p-5 border border-border/30 transition-all duration-300;
   }
 
   .stat-card.primary {
@@ -167,17 +167,17 @@
 
   /* AI Insight Card */
   .ai-insight-card {
-    @apply bg-gradient-to-r from-primary to-primary-dark text-primary-foreground rounded-2xl p-6 shadow-lg;
+    @apply bg-gradient-to-r from-primary to-primary-dark text-primary-foreground rounded-3xl p-6 shadow-lg;
   }
 
   /* Chart Container */
   .chart-container {
-    @apply bg-card rounded-2xl p-6 border border-border/30;
+    @apply bg-card rounded-3xl p-6 border border-border/30;
   }
 
   /* Achievement Badge */
   .achievement-badge {
-    @apply flex items-center gap-3 p-4 bg-muted/50 rounded-xl transition-all duration-200;
+    @apply flex items-center gap-3 p-4 bg-muted/50 rounded-2xl transition-all duration-200;
   }
 
   .achievement-badge:hover {
