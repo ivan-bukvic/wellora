@@ -18,7 +18,7 @@ const Auth = () => {
 
   return (
     <div 
-      className="min-h-screen w-full flex items-center justify-start pl-[10%]"
+      className="min-h-screen w-full flex items-center justify-start pl-[15%]"
       style={{
         backgroundImage: `url(${authBackground})`,
         backgroundSize: 'cover',
@@ -29,22 +29,21 @@ const Auth = () => {
       <div 
         className="w-[460px] p-10 rounded-[40px]"
         style={{
-          background: 'rgba(255, 255, 255, 0.18)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
+          background: 'rgba(255, 255, 255, 0.28)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          boxShadow: 'inset 0 1px 12px rgba(255, 255, 255, 0.35), 0 8px 30px -6px rgba(0, 0, 0, 0.08)',
+          border: '1px solid rgba(255, 255, 255, 0.25)',
         }}
       >
-        {/* Logo Header */}
-        <div className="flex items-center gap-3 mb-10">
+        {/* Logo Header - Centered */}
+        <div className="flex justify-center mb-10">
           <img 
             src={WelloraLogo} 
             alt="Wellora logo" 
             className="h-auto object-contain brightness-0 invert"
-            style={{ width: '50px' }}
+            style={{ width: '60px' }}
           />
-          <span className="text-2xl font-semibold text-white">Wellora</span>
         </div>
 
         {/* Title */}
@@ -61,7 +60,11 @@ const Auth = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Full Name"
-              className="w-full bg-transparent border-0 border-b border-white/40 text-white placeholder:text-white/60 py-3 px-0 focus:outline-none focus:border-white/70 transition-colors"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors"
+              style={{ 
+                borderColor: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(255, 255, 255, 0.9)',
+              }}
             />
           </div>
 
@@ -72,7 +75,11 @@ const Auth = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email Address"
-              className="w-full bg-transparent border-0 border-b border-white/40 text-white placeholder:text-white/60 py-3 px-0 focus:outline-none focus:border-white/70 transition-colors"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors"
+              style={{ 
+                borderColor: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(255, 255, 255, 0.9)',
+              }}
             />
           </div>
 
@@ -83,12 +90,17 @@ const Auth = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full bg-transparent border-0 border-b border-white/40 text-white placeholder:text-white/60 py-3 px-0 pr-10 focus:outline-none focus:border-white/70 transition-colors"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 pr-10 focus:outline-none transition-colors"
+              style={{ 
+                borderColor: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(255, 255, 255, 0.9)',
+              }}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors"
+              className="absolute right-0 top-1/2 -translate-y-1/2 hover:opacity-80 transition-opacity"
+              style={{ color: 'rgba(255, 255, 255, 0.7)' }}
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -104,9 +116,9 @@ const Auth = () => {
         </form>
 
         {/* Footer */}
-        <p className="text-center text-white/80 mt-8 text-sm">
+        <p className="text-center mt-8 text-sm" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
           Already have an account?{' '}
-          <Link to="/auth" className="text-white underline underline-offset-2 hover:text-white/90">
+          <Link to="/auth" className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium">
             Login here
           </Link>
         </p>
