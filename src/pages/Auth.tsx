@@ -29,7 +29,7 @@ const Auth = () => {
       <div 
         className="w-[460px] p-10 rounded-[40px]"
         style={{
-          background: 'rgba(255, 255, 255, 0.28)',
+          background: 'rgba(255, 255, 255, 0.18)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           boxShadow: 'inset 0 1px 12px rgba(255, 255, 255, 0.35), 0 8px 30px -6px rgba(0, 0, 0, 0.08)',
