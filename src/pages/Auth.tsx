@@ -63,7 +63,7 @@ const Auth = () => {
               className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
-                color: 'rgba(255, 255, 255, 0.9)',
+                color: '#ffffff',
               }}
             />
           </div>
@@ -78,7 +78,7 @@ const Auth = () => {
               className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
-                color: 'rgba(255, 255, 255, 0.9)',
+                color: '#ffffff',
               }}
             />
           </div>
@@ -93,7 +93,7 @@ const Auth = () => {
               className="w-full bg-transparent border-0 border-b py-3 px-0 pr-10 focus:outline-none transition-colors"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
-                color: 'rgba(255, 255, 255, 0.9)',
+                color: '#ffffff',
               }}
             />
             <button
