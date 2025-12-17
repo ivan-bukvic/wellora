@@ -195,6 +195,14 @@
 }
 
 @layer utilities {
+  /* White placeholder text */
+  .placeholder-white::placeholder {
+    color: #ffffff;
+    opacity: 1;
+  }
+}
+
+@layer utilities {
   /* Fade in animation */
   .animate-fade-in {
     animation: fadeIn 0.5s ease-out forwards;

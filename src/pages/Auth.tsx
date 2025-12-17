@@ -60,7 +60,7 @@ const Auth = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Full Name"
-              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
                 color: '#ffffff',
@@ -75,7 +75,7 @@ const Auth = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email Address"
-              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
                 color: '#ffffff',
@@ -90,7 +90,7 @@ const Auth = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full bg-transparent border-0 border-b py-3 px-0 pr-10 focus:outline-none transition-colors"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 pr-10 focus:outline-none transition-colors placeholder-white"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
                 color: '#ffffff',
