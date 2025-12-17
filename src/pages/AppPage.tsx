@@ -9,7 +9,10 @@ import {
   Bell,
   Search
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/integrations/supabase/client';
+import { useDemoMode } from '@/hooks/useDemoMode';
 import WelloraLogo from '@/assets/wellora-logo.png';
 
 // Import section content components
@@ -38,9 +41,16 @@ const sectionTitles: Record<Section, string> = {
 };
 
 const AppPage = () => {
+  const navigate = useNavigate();
+  const { demoUserName } = useDemoMode();
   const [activeSection, setActiveSection] = useState<Section>('dashboard');
 
   const activeIndex = navItems.findIndex(item => item.section === activeSection);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/auth');
+  };
 
   const renderContent = () => {
     switch (activeSection) {
@@ -57,6 +67,11 @@ const AppPage = () => {
       default:
         return <DashboardContent />;
     }
+  };
+
+  // Get initials from user name
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
   return (
@@ -141,7 +156,10 @@ const AppPage = () => {
 
         {/* Logout */}
         <div className="pl-[30px] pb-8">
-          <button className="flex items-center gap-4 py-4 pl-6 w-full text-white/70">
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-4 py-4 pl-6 w-full text-white/70 hover:text-white transition-colors"
+          >
             <LogOut className="w-5 h-5 flex-shrink-0" />
             <span className="font-medium">Log Out</span>
           </button>
@@ -174,9 +192,9 @@ const AppPage = () => {
             {/* User */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-accent-foreground">JD</span>
+                <span className="text-sm font-medium text-accent-foreground">{getInitials(demoUserName)}</span>
               </div>
-              <span className="text-sm font-medium text-foreground">Jane Doe</span>
+              <span className="text-sm font-medium text-foreground">{demoUserName}</span>
             </div>
           </div>
         </header>

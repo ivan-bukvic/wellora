@@ -1,6 +1,14 @@
 import { Sparkles, ArrowRight } from 'lucide-react';
+import { useDemoMode } from '@/hooks/useDemoMode';
+import { getRandomInsight } from '@/data/demoData';
 
 export const AIInsightCard = () => {
+  const { isDemoUser } = useDemoMode();
+  const insight = isDemoUser ? getRandomInsight() : {
+    title: "You've been very consistent this week",
+    description: "Great balance between activity and rest. Your mindfulness sessions have improved your sleep quality by 15%."
+  };
+
   return (
     <div className="ai-insight-card relative overflow-hidden animate-fade-in-up">
       {/* Background Pattern */}
@@ -18,10 +26,10 @@ export const AIInsightCard = () => {
           </div>
           
           <h3 className="text-xl font-semibold mb-2 text-white">
-            You've been very consistent this week
+            {insight.title}
           </h3>
           <p className="text-white/80 text-sm max-w-md">
-            Great balance between activity and rest. Your mindfulness sessions have improved your sleep quality by 15%.
+            {insight.description}
           </p>
         </div>
         
