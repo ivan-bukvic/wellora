@@ -48,7 +48,7 @@ const Auth = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-semibold text-white text-center mb-10">
+        <h1 className="text-3xl font-semibold text-white text-center mb-10 -mt-[15px]">
           Sign Up
         </h1>
 
