@@ -34,7 +34,7 @@ const Auth = () => {
           WebkitBackdropFilter: 'blur(24px)',
           boxShadow: 'inset 0 1px 12px rgba(255, 255, 255, 0.35), 0 8px 30px -6px rgba(0, 0, 0, 0.08)',
           border: '1px solid rgba(255, 255, 255, 0.25)',
-          transform: 'translate(200px, -100px)',
+          transform: 'translate(200px, -50px)',
         }}
       >
         {/* Logo Header - Centered */}
@@ -43,7 +43,7 @@ const Auth = () => {
             src={WelloraLogo} 
             alt="Wellora logo" 
             className="h-auto object-contain brightness-0 invert"
-            style={{ width: '80px' }}
+            style={{ width: '120px' }}
           />
         </div>
 
