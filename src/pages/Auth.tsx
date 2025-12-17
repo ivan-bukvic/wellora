@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import authBackground from '@/assets/auth-background.jpg';
 import WelloraLogo from '@/assets/wellora-logo.png';
 
+type AuthMode = 'signup' | 'login';
+
 const Auth = () => {
   const navigate = useNavigate();
+  const [authMode, setAuthMode] = useState<AuthMode>('signup');
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,7 +21,7 @@ const Auth = () => {
     e.preventDefault();
 
     // Validation
-    if (!fullName.trim()) {
+    if (authMode === 'signup' && !fullName.trim()) {
       toast.error('Please enter your full name');
       return;
     }
@@ -34,36 +37,61 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/app`,
-          data: {
-            name: fullName.trim(),
+      if (authMode === 'signup') {
+        const { error } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/app`,
+            data: {
+              name: fullName.trim(),
+            },
           },
-        },
-      });
-
-      if (error) {
-        toast.error('Signup failed', {
-          description: error.message || 'Please check your details and try again',
         });
-        return;
+
+        if (error) {
+          toast.error('Signup failed', {
+            description: error.message || 'Please check your details and try again',
+          });
+          return;
+        }
+
+        toast.success('Welcome to Wellora', {
+          description: 'Your account has been created',
+        });
+        navigate('/app');
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+
+        if (error) {
+          toast.error('Login failed', {
+            description: error.message || 'Please check your credentials and try again',
+          });
+          return;
+        }
+
+        toast.success('Welcome back!', {
+          description: 'You have been logged in',
+        });
+        navigate('/app');
       }
-
-      toast.success('Welcome to Wellora', {
-        description: 'Your account has been created',
-      });
-
-      navigate('/app');
     } catch (err) {
-      toast.error('Signup failed', {
+      toast.error(authMode === 'signup' ? 'Signup failed' : 'Login failed', {
         description: 'Please check your details and try again',
       });
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const toggleAuthMode = () => {
+    setAuthMode(authMode === 'signup' ? 'login' : 'signup');
+    setFullName('');
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -99,25 +127,27 @@ const Auth = () => {
 
         {/* Title */}
         <h1 className="text-3xl font-semibold text-white text-center mb-10 -mt-[15px]">
-          Sign Up
+          {authMode === 'signup' ? 'Sign Up' : 'Log In'}
         </h1>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Full Name */}
-          <div className="relative">
-            <input
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Full Name"
-              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
-              style={{ 
-                borderColor: 'rgba(255, 255, 255, 0.6)',
-                color: '#ffffff',
-              }}
-            />
-          </div>
+          {/* Full Name - Only for signup */}
+          {authMode === 'signup' && (
+            <div className="relative">
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Full Name"
+                className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
+                style={{ 
+                  borderColor: 'rgba(255, 255, 255, 0.6)',
+                  color: '#ffffff',
+                }}
+              />
+            </div>
+          )}
 
           {/* Email Address */}
           <div className="relative">
@@ -163,16 +193,36 @@ const Auth = () => {
             disabled={isLoading}
             className="w-full bg-white text-primary font-semibold py-4 rounded-full hover:bg-white/90 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Creating account...' : 'Sign Up'}
+            {isLoading 
+              ? (authMode === 'signup' ? 'Creating account...' : 'Logging in...') 
+              : (authMode === 'signup' ? 'Sign Up' : 'Log In')
+            }
           </button>
         </form>
 
         {/* Footer */}
         <p className="text-center mt-8 text-sm" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
-          Already have an account?{' '}
-          <Link to="/auth" className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium">
-            Login here
-          </Link>
+          {authMode === 'signup' ? (
+            <>
+              Already have an account?{' '}
+              <button 
+                onClick={toggleAuthMode}
+                className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium"
+              >
+                Login here
+              </button>
+            </>
+          ) : (
+            <>
+              Don't have an account?{' '}
+              <button 
+                onClick={toggleAuthMode}
+                className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium"
+              >
+                Sign up
+              </button>
+            </>
+          )}
         </p>
       </div>
     </div>
