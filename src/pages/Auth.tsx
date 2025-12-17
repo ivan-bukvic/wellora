@@ -42,7 +42,7 @@ const Auth = () => {
             src={WelloraLogo} 
             alt="Wellora logo" 
             className="h-auto object-contain brightness-0 invert"
-            style={{ width: '60px' }}
+            style={{ width: '80px' }}
           />
         </div>
 
