@@ -1,19 +1,69 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 import authBackground from '@/assets/auth-background.jpg';
 import WelloraLogo from '@/assets/wellora-logo.png';
 
 const Auth = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement signup logic with Supabase
-    console.log('Sign up:', { fullName, email, password });
+
+    // Validation
+    if (!fullName.trim()) {
+      toast.error('Please enter your full name');
+      return;
+    }
+    if (!email.trim()) {
+      toast.error('Please enter your email address');
+      return;
+    }
+    if (!password.trim()) {
+      toast.error('Please enter a password');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/app`,
+          data: {
+            name: fullName.trim(),
+          },
+        },
+      });
+
+      if (error) {
+        toast.error('Signup failed', {
+          description: error.message || 'Please check your details and try again',
+        });
+        return;
+      }
+
+      toast.success('Welcome to Wellora', {
+        description: 'Your account has been created',
+      });
+
+      navigate('/app');
+    } catch (err) {
+      toast.error('Signup failed', {
+        description: 'Please check your details and try again',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -110,9 +160,10 @@ const Auth = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-white text-primary font-semibold py-4 rounded-full hover:bg-white/90 transition-colors mt-4"
+            disabled={isLoading}
+            className="w-full bg-white text-primary font-semibold py-4 rounded-full hover:bg-white/90 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sign Up
+            {isLoading ? 'Creating account...' : 'Sign Up'}
           </button>
         </form>
 
