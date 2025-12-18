@@ -1,97 +1,131 @@
-import { TrendingUp, Footprints } from 'lucide-react';
+import { Sparkles, Footprints, Moon, Brain } from 'lucide-react';
+import { useAIInsights } from '@/hooks/useAIInsights';
+import { useDemoMode } from '@/hooks/useDemoMode';
 
-interface StatCardProps {
-  variant?: 'primary' | 'default';
-  period: string;
-  value: string;
-  unit: string;
-  change: string;
-  positive?: boolean;
-}
+// Soft circular progress indicator (no numbers)
+const SoftProgressRing = ({ progress }: { progress: number }) => {
+  const radius = 28;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (progress / 100) * circumference;
 
-const MiniChart = ({ variant }: { variant: 'primary' | 'default' }) => {
-  const color = variant === 'primary' ? 'rgba(255,255,255,0.5)' : 'hsl(var(--primary))';
-  
   return (
-    <svg width="80" height="40" viewBox="0 0 80 40" fill="none" className="ml-auto">
-      <path
-        d="M0 35 L10 30 L20 32 L30 25 L40 28 L50 20 L60 15 L70 10 L80 5"
-        stroke={color}
-        strokeWidth="2"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-};
-
-const StatCard = ({ variant = 'default', period, value, unit, change, positive = true }: StatCardProps) => {
-  const isPrimary = variant === 'primary';
-  
-  return (
-    <div className={`stat-card ${isPrimary ? 'primary' : ''} flex-1`}>
-      <div className="flex items-center gap-2 mb-3">
-        <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
-          isPrimary ? 'bg-white/20' : 'bg-primary/10'
-        }`}>
-          <Footprints className={`w-3.5 h-3.5 ${isPrimary ? 'text-white' : 'text-primary'}`} />
-        </div>
-        <span className={`text-sm font-medium ${isPrimary ? 'text-white/80' : 'text-muted-foreground'}`}>
-          {period}
-        </span>
-        <span className={`ml-auto text-xs font-medium px-2 py-0.5 rounded-full ${
-          isPrimary 
-            ? 'bg-white/20 text-white' 
-            : positive 
-              ? 'bg-success-light text-success' 
-              : 'bg-destructive/10 text-destructive'
-        }`}>
-          {change}
-        </span>
-      </div>
-      
-      <div className="flex items-end justify-between">
-        <div>
-          <p className={`text-3xl font-bold ${isPrimary ? 'text-white' : 'text-foreground'}`}>
-            {value}
-          </p>
-          <p className={`text-sm ${isPrimary ? 'text-white/70' : 'text-muted-foreground'}`}>
-            {unit}
-          </p>
-        </div>
-        <MiniChart variant={variant} />
+    <div className="relative w-16 h-16 flex-shrink-0">
+      <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+        {/* Background ring */}
+        <circle
+          cx="32"
+          cy="32"
+          r={radius}
+          fill="none"
+          stroke="hsl(var(--muted))"
+          strokeWidth="4"
+        />
+        {/* Progress ring */}
+        <circle
+          cx="32"
+          cy="32"
+          r={radius}
+          fill="none"
+          stroke="hsl(var(--primary) / 0.6)"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          className="transition-all duration-700 ease-out"
+        />
+      </svg>
+      {/* Center dot */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-2 h-2 rounded-full bg-primary/40" />
       </div>
     </div>
   );
 };
 
+// Activity icons row for balance visualization
+const BalanceIcons = () => {
+  const activities = [
+    { icon: Footprints, label: 'Movement', active: true },
+    { icon: Moon, label: 'Rest', active: true },
+    { icon: Brain, label: 'Mindfulness', active: true },
+  ];
+
+  return (
+    <div className="flex items-center gap-3">
+      {activities.map(({ icon: Icon, label, active }) => (
+        <div 
+          key={label}
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full ${
+            active ? 'bg-primary/10' : 'bg-muted'
+          }`}
+        >
+          <Icon className={`w-3.5 h-3.5 ${active ? 'text-primary' : 'text-muted-foreground'}`} />
+          <span className={`text-xs font-medium ${active ? 'text-primary' : 'text-muted-foreground'}`}>
+            {label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Consistency card
+const ConsistencyCard = () => {
+  const { isDemoUser } = useDemoMode();
+  // For demo, show ~75% consistency. Real users would calculate from actual data.
+  const consistencyLevel = isDemoUser ? 75 : 65;
+
+  return (
+    <div className="flex-1 p-5 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/10">
+      <div className="flex items-start gap-4">
+        <SoftProgressRing progress={consistencyLevel} />
+        <div className="flex-1 min-w-0">
+          <h4 className="text-sm font-medium text-muted-foreground mb-1">Weekly Consistency</h4>
+          <p className="text-base font-medium text-foreground leading-snug">
+            You stayed consistent on most days this week
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Balance card
+const BalanceCard = () => {
+  return (
+    <div className="flex-1 p-5 rounded-2xl bg-muted/50 border border-border">
+      <h4 className="text-sm font-medium text-muted-foreground mb-3">Routine Balance</h4>
+      <p className="text-base font-medium text-foreground leading-snug mb-4">
+        Good balance between movement, rest, and mindfulness
+      </p>
+      <BalanceIcons />
+    </div>
+  );
+};
+
 export const TotalActivityCard = () => {
+  const { currentMicroCopy } = useAIInsights();
+
   return (
     <div className="wellora-card animate-fade-in-up stagger-1">
       <div className="flex items-center gap-2 mb-5">
-        <Footprints className="w-5 h-5 text-primary" />
-        <h3 className="text-lg font-semibold text-foreground">Total Activity</h3>
+        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+          <Sparkles className="w-4 h-4 text-primary" />
+        </div>
+        <h3 className="text-lg font-semibold text-foreground">Your Week at a Glance</h3>
       </div>
       
-      <div className="flex gap-4">
-        <StatCard
-          variant="primary"
-          period="This Month"
-          value="56"
-          unit="activities"
-          change="+7.0"
-          positive
-        />
-        <StatCard
-          variant="default"
-          period="This Week"
-          value="19"
-          unit="activities"
-          change="+2.8"
-          positive
-        />
+      <div className="flex flex-col sm:flex-row gap-4">
+        <ConsistencyCard />
+        <BalanceCard />
       </div>
+
+      {/* Optional AI micro-copy */}
+      {currentMicroCopy && (
+        <p className="mt-4 text-sm text-muted-foreground italic pl-1 border-l-2 border-primary/20">
+          {currentMicroCopy}
+        </p>
+      )}
     </div>
   );
 };
