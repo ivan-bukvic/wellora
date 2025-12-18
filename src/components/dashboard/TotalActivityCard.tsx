@@ -76,7 +76,7 @@ const ConsistencyCard = () => {
   const consistencyLevel = isDemoUser ? 75 : 65;
 
   return (
-    <div className="flex-1 p-5 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/10">
+    <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
       <div className="flex items-start gap-4">
         <SoftProgressRing progress={consistencyLevel} />
         <div className="flex-1 min-w-0">
@@ -93,7 +93,7 @@ const ConsistencyCard = () => {
 // Balance card
 const BalanceCard = () => {
   return (
-    <div className="flex-1 p-5 rounded-2xl bg-muted/50 border border-border">
+    <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
       <h4 className="text-sm font-medium text-muted-foreground mb-3">Routine Balance</h4>
       <p className="text-base font-medium text-foreground leading-snug mb-4">
         Good balance between movement, rest, and mindfulness
@@ -122,7 +122,7 @@ export const TotalActivityCard = () => {
 
       {/* Optional AI micro-copy */}
       {currentMicroCopy && (
-        <p className="mt-4 text-sm text-muted-foreground italic pl-1 border-l-2 border-primary/20">
+        <p className="mt-4 text-xs text-muted-foreground/70 italic pl-2 border-l border-border">
           {currentMicroCopy}
         </p>
       )}
