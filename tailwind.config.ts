@@ -74,6 +74,11 @@ extend: {
           DEFAULT: "hsl(var(--warning))",
           light: "hsl(var(--warning-light))",
         },
+        warm: {
+          DEFAULT: "hsl(var(--warm))",
+          light: "hsl(var(--warm-light))",
+          muted: "hsl(var(--warm-muted))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

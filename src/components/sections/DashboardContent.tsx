@@ -1,7 +1,7 @@
 import { AIInsightCard } from '@/components/dashboard/AIInsightCard';
 import { TotalActivityCard } from '@/components/dashboard/TotalActivityCard';
-import { ActivityDurationChart } from '@/components/dashboard/ActivityDurationChart';
-import { ActivityFrequencyChart } from '@/components/dashboard/ActivityFrequencyChart';
+import { WeeklyRhythmChart } from '@/components/dashboard/WeeklyRhythmChart';
+import { ChartInsightCard } from '@/components/dashboard/ChartInsightCard';
 import { ProgressChart } from '@/components/dashboard/ProgressChart';
 import { AchievementsCard } from '@/components/dashboard/AchievementsCard';
 import { MonthlyGoalsCard } from '@/components/dashboard/MonthlyGoalsCard';
@@ -14,13 +14,13 @@ const DashboardContent = () => {
         {/* AI Insight Card */}
         <AIInsightCard />
         
-        {/* Total Activity Stats */}
+        {/* Your Week at a Glance */}
         <TotalActivityCard />
         
-        {/* Charts Row */}
-        <div className="grid grid-cols-2 gap-6">
-          <ActivityDurationChart />
-          <ActivityFrequencyChart />
+        {/* Bottom Section - Visual Chart + Companion Card */}
+        <div className="flex gap-6">
+          <WeeklyRhythmChart />
+          <ChartInsightCard />
         </div>
       </div>
       

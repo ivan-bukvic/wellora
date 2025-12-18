@@ -68,6 +68,11 @@
     /* Warning */
     --warning: 38 92% 50%;
     --warning-light: 38 92% 92%;
+
+    /* Warm Accent - #FFDD95 */
+    --warm: 43 100% 79%;
+    --warm-light: 43 100% 92%;
+    --warm-muted: 43 60% 75%;
   }
 }
 

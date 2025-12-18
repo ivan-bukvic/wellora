@@ -1,4 +1,4 @@
-import { Target, Moon, Droplets, Flame, Footprints } from 'lucide-react';
+import { Target, Moon, Droplets, Brain, Footprints } from 'lucide-react';
 
 const goals = [
   {
@@ -18,12 +18,12 @@ const goals = [
     color: 'bg-accent',
   },
   {
-    icon: Flame,
+    icon: Brain,
     label: 'Mindfulness',
     current: 7,
     target: 10,
     unit: 'hrs',
-    color: 'bg-warning',
+    color: 'bg-warm',
   },
   {
     icon: Footprints,
