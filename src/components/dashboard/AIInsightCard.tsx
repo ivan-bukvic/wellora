@@ -1,16 +1,15 @@
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { getRandomInsight } from '@/data/demoData';
-
 export const AIInsightCard = () => {
-  const { isDemoUser } = useDemoMode();
+  const {
+    isDemoUser
+  } = useDemoMode();
   const insight = isDemoUser ? getRandomInsight() : {
     title: "You've been very consistent this week",
     description: "Great balance between activity and rest. Your mindfulness sessions have improved your sleep quality by 15%."
   };
-
-  return (
-    <div className="ai-insight-card relative overflow-hidden animate-fade-in-up">
+  return <div className="ai-insight-card relative overflow-hidden animate-fade-in-up">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary-foreground rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
@@ -41,12 +40,7 @@ export const AIInsightCard = () => {
       
       {/* Decorative Illustration */}
       <div className="absolute right-32 top-1/2 -translate-y-1/2 opacity-20">
-        <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-          <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="2" strokeDasharray="8 8" />
-          <circle cx="60" cy="60" r="30" stroke="currentColor" strokeWidth="2" />
-          <circle cx="60" cy="60" r="10" fill="currentColor" />
-        </svg>
+        
       </div>
-    </div>
-  );
+    </div>;
 };
