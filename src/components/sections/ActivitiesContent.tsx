@@ -1,6 +1,7 @@
 import { Footprints, Moon, StretchHorizontal, Droplets, Brain, Plus, Check, Clock } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
+import { ActivityDurationChart } from '@/components/dashboard/ActivityDurationChart';
 
 const activities = [
   { icon: Footprints, name: 'Walking', description: 'Track your daily steps', color: 'bg-primary' },
@@ -79,6 +80,14 @@ const ActivitiesContent = () => {
           );
         })}
       </div>
+
+      {/* Activity Duration Chart */}
+      {isDemoUser && (
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Activity Duration</h2>
+          <ActivityDurationChart />
+        </div>
+      )}
 
       {/* Recent Activity Log - Only for demo user */}
       {isDemoUser && activityLogs.length > 0 && (
