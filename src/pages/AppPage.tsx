@@ -75,7 +75,7 @@ const AppPage = () => {
   };
 
   return (
-    <div className="h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-background">
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col z-50">
         {/* Logo */}
@@ -167,7 +167,7 @@ const AppPage = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="ml-64 h-screen overflow-auto">
+      <main className="ml-64 min-h-screen">
         {/* Header */}
         <header className="flex items-center justify-between px-8 py-6">
           <h1 className="text-2xl font-semibold text-foreground">{sectionTitles[activeSection]}</h1>
