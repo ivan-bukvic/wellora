@@ -8,7 +8,7 @@ import { MonthlyGoalsCard } from '@/components/dashboard/MonthlyGoalsCard';
 
 const DashboardContent = () => {
   return (
-    <div className="grid grid-cols-12 gap-6">
+    <div className="grid grid-cols-12 gap-6 items-start">
       {/* Left Column - Main Content */}
       <div className="col-span-8 space-y-6">
         {/* AI Insight Card */}
