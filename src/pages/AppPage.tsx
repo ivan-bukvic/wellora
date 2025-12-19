@@ -75,9 +75,9 @@ const AppPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-[100dvh] bg-background overflow-hidden flex">
       {/* Sidebar */}
-      <aside className="fixed left-0 top-0 h-screen w-64 bg-primary flex flex-col z-50">
+      <aside className="w-64 h-full bg-primary flex flex-col shrink-0 relative z-50">
         {/* Logo */}
         <div className="flex flex-col items-center px-6 pt-8 pb-6 mb-6">
           <img 
@@ -167,9 +167,9 @@ const AppPage = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="ml-64 min-h-screen">
+      <main className="flex-1 min-w-0 h-full flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-between px-8 py-6">
+        <header className="flex items-center justify-between px-8 py-[22px] shrink-0">
           <h1 className="text-2xl font-semibold text-foreground">{sectionTitles[activeSection]}</h1>
           
           <div className="flex items-center gap-6">
@@ -200,7 +200,7 @@ const AppPage = () => {
         </header>
         
         {/* Section Content */}
-        <div className="px-8 pb-8">
+        <div className="flex-1 min-h-0 overflow-y-auto px-8 pb-[30px]">
           {renderContent()}
         </div>
       </main>
