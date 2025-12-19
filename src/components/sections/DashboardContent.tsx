@@ -2,7 +2,7 @@ import { AIInsightCard } from '@/components/dashboard/AIInsightCard';
 import { TotalActivityCard } from '@/components/dashboard/TotalActivityCard';
 import { WeeklyRhythmChart } from '@/components/dashboard/WeeklyRhythmChart';
 import { ChartInsightCard } from '@/components/dashboard/ChartInsightCard';
-import { MonthlyDirectionCard } from '@/components/dashboard/MonthlyDirectionCard';
+import { WeeklyRhythmStrips } from '@/components/dashboard/WeeklyRhythmStrips';
 import { RecentPatternsCard } from '@/components/dashboard/RecentPatternsCard';
 import { MonthlyGoalsCard } from '@/components/dashboard/MonthlyGoalsCard';
 
@@ -24,9 +24,9 @@ const DashboardContent = () => {
         </div>
       </div>
       
-      {/* Right Column - Direction & Patterns */}
+      {/* Right Column - Rhythm & Patterns */}
       <div className="col-span-4 space-y-4">
-        <MonthlyDirectionCard />
+        <WeeklyRhythmStrips />
         <RecentPatternsCard />
         <MonthlyGoalsCard />
       </div>

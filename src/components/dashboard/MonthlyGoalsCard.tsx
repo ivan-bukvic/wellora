@@ -7,7 +7,7 @@ const goals = [
     current: 47,
     target: 240,
     unit: 'hrs',
-    color: 'bg-secondary',
+    color: 'bg-activity-sleep',
   },
   {
     icon: Droplets,
@@ -15,7 +15,7 @@ const goals = [
     current: 108,
     target: 180,
     unit: 'L',
-    color: 'bg-accent',
+    color: 'bg-activity-hydration',
   },
   {
     icon: Brain,
@@ -23,7 +23,7 @@ const goals = [
     current: 7,
     target: 10,
     unit: 'hrs',
-    color: 'bg-warm',
+    color: 'bg-activity-mindfulness',
   },
   {
     icon: Footprints,
@@ -31,7 +31,7 @@ const goals = [
     current: 5600,
     target: 10000,
     unit: '/Day',
-    color: 'bg-primary',
+    color: 'bg-activity-walking',
   },
 ];
 

@@ -69,10 +69,22 @@
     --warning: 38 92% 50%;
     --warning-light: 38 92% 92%;
 
-    /* Warm Accent - #FFDD95 */
+    /* Warm Accent - #FFDD95 (Mindfulness) */
     --warm: 43 100% 79%;
     --warm-light: 43 100% 92%;
     --warm-muted: 43 60% 75%;
+
+    /* Activity Colors */
+    --activity-hydration: 201 90% 73%;
+    --activity-hydration-muted: 201 60% 90%;
+    --activity-mindfulness: 43 100% 79%;
+    --activity-mindfulness-muted: 43 60% 92%;
+    --activity-walking: 80 29% 75%;
+    --activity-walking-muted: 80 20% 92%;
+    --activity-sleep: 270 70% 81%;
+    --activity-sleep-muted: 270 40% 92%;
+    --activity-stretching: 32 100% 51%;
+    --activity-stretching-muted: 32 60% 90%;
   }
 }
 

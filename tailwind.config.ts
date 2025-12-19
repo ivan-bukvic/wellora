@@ -79,6 +79,18 @@ extend: {
           light: "hsl(var(--warm-light))",
           muted: "hsl(var(--warm-muted))",
         },
+        activity: {
+          hydration: "hsl(var(--activity-hydration))",
+          "hydration-muted": "hsl(var(--activity-hydration-muted))",
+          mindfulness: "hsl(var(--activity-mindfulness))",
+          "mindfulness-muted": "hsl(var(--activity-mindfulness-muted))",
+          walking: "hsl(var(--activity-walking))",
+          "walking-muted": "hsl(var(--activity-walking-muted))",
+          sleep: "hsl(var(--activity-sleep))",
+          "sleep-muted": "hsl(var(--activity-sleep-muted))",
+          stretching: "hsl(var(--activity-stretching))",
+          "stretching-muted": "hsl(var(--activity-stretching-muted))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
