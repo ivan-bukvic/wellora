@@ -1,4 +1,4 @@
-import { Moon, Droplets, Sparkles } from 'lucide-react';
+import { Moon, Droplets, Brain } from 'lucide-react';
 
 const patterns = [
   {
@@ -10,7 +10,7 @@ const patterns = [
     text: 'Hydration improved slightly.',
   },
   {
-    icon: Sparkles,
+    icon: Brain,
     text: 'Mindfulness stayed light but regular.',
   },
 ];
