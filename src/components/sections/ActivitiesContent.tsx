@@ -18,12 +18,12 @@ const iconMap: Record<string, typeof Footprints> = {
   Mindfulness: Brain,
 };
 
-const activityColors: Record<string, { bg: string; bgMuted: string; text: string }> = {
-  Walking: { bg: 'bg-activity-walking', bgMuted: 'bg-activity-walking-muted', text: 'text-activity-walking' },
-  Sleeping: { bg: 'bg-activity-sleep', bgMuted: 'bg-activity-sleep-muted', text: 'text-activity-sleep' },
-  Stretching: { bg: 'bg-activity-stretching', bgMuted: 'bg-activity-stretching-muted', text: 'text-activity-stretching' },
-  Hydration: { bg: 'bg-activity-hydration', bgMuted: 'bg-activity-hydration-muted', text: 'text-activity-hydration' },
-  Mindfulness: { bg: 'bg-activity-mindfulness', bgMuted: 'bg-activity-mindfulness-muted', text: 'text-activity-mindfulness' },
+const activityColors: Record<string, { bg: string; bgMuted: string; bgSoft: string; text: string }> = {
+  Walking: { bg: 'bg-activity-walking', bgMuted: 'bg-activity-walking-muted', bgSoft: 'bg-activity-walking/25', text: 'text-activity-walking' },
+  Sleeping: { bg: 'bg-activity-sleep', bgMuted: 'bg-activity-sleep-muted', bgSoft: 'bg-activity-sleep/25', text: 'text-activity-sleep' },
+  Stretching: { bg: 'bg-activity-stretching', bgMuted: 'bg-activity-stretching-muted', bgSoft: 'bg-activity-stretching/25', text: 'text-activity-stretching' },
+  Hydration: { bg: 'bg-activity-hydration', bgMuted: 'bg-activity-hydration-muted', bgSoft: 'bg-activity-hydration/25', text: 'text-activity-hydration' },
+  Mindfulness: { bg: 'bg-activity-mindfulness', bgMuted: 'bg-activity-mindfulness-muted', bgSoft: 'bg-activity-mindfulness/25', text: 'text-activity-mindfulness' },
 };
 
 const ActivitiesContent = () => {
@@ -121,8 +121,8 @@ const ActivitiesContent = () => {
                             key={activity.name}
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                               activity.completed 
-                                ? `${colors.bgMuted} ${colors.text}` 
-                                : `${colors.bgMuted} ${colors.text} opacity-50`
+                                ? `${colors.bgSoft} ${colors.text}` 
+                                : `${colors.bgSoft} ${colors.text} opacity-50`
                             }`}
                             title={`${activity.name}: ${activity.completed ? activity.duration : 'Not completed'}`}
                           >
