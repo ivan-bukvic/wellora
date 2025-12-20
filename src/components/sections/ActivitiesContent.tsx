@@ -2,7 +2,7 @@ import { Footprints, Moon, Droplets, Brain, Check, Clock, LucideProps } from 'lu
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
 import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
-import DayInMotionVisual from './DayInMotionVisual';
+import DailyFlowTimeline from './DailyFlowTimeline';
 
 const activities = [
   { icon: Footprints, name: 'Walking', description: 'Track your daily steps', color: 'bg-activity-walking' },
@@ -101,11 +101,11 @@ const ActivitiesContent = () => {
               </div>
             </div>
             
-            {/* Right Column - Day in Motion Visual */}
+            {/* Right Column - Daily Flow Timeline */}
             <div className="col-span-1">
               <h2 className="text-lg font-semibold text-foreground mb-4 opacity-0">Placeholder</h2>
               <div className="wellora-card p-0 h-[calc(100%-2rem)] overflow-hidden border-border/40">
-                <DayInMotionVisual />
+                <DailyFlowTimeline />
               </div>
             </div>
           </div>
