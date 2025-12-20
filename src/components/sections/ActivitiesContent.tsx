@@ -1,13 +1,13 @@
 import { Footprints, Moon, Droplets, Brain, Check, Clock, LucideProps } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
-import StretchingIcon from '@/components/icons/StretchingIcon';
+import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
 import DailyFlowTimeline from './DailyFlowTimeline';
 
 const activities = [
   { icon: Footprints, name: 'Walking', description: 'Track your daily steps', color: 'bg-activity-walking' },
   { icon: Moon, name: 'Sleeping', description: 'Monitor your sleep quality', color: 'bg-activity-sleep' },
-  { icon: StretchingIcon, name: 'Stretching', description: 'Keep your body flexible', color: 'bg-activity-stretching' },
+  { icon: YogaMoonIcon, name: 'Stretching', description: 'Keep your body flexible', color: 'bg-activity-stretching' },
   { icon: Droplets, name: 'Hydration', description: 'Stay hydrated throughout the day', color: 'bg-activity-hydration' },
   { icon: Brain, name: 'Mindfulness', description: 'Practice mental wellness', color: 'bg-activity-mindfulness' },
 ];
@@ -15,7 +15,7 @@ const activities = [
 const iconMap: Record<string, React.ComponentType<LucideProps>> = {
   Walking: Footprints,
   Sleeping: Moon,
-  Stretching: StretchingIcon,
+  Stretching: YogaMoonIcon,
   Hydration: Droplets,
   Mindfulness: Brain,
 };
