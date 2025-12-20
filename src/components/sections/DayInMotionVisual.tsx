@@ -1,187 +1,147 @@
 const DayInMotionVisual = () => {
   return (
-    <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden bg-gradient-to-br from-primary/5 via-muted/20 to-primary/3">
+    <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden bg-gradient-to-br from-muted/30 via-background to-muted/20">
       <svg
         className="absolute inset-0 w-full h-full"
         viewBox="0 0 400 300"
         preserveAspectRatio="xMidYMid slice"
         fill="none"
       >
-        {/* === ORIENTATION LAYER: Subtle street-like contours === */}
+        {/* === ORGANIC STREET LAYER: Irregular, city-inspired topology === */}
         
-        {/* Horizontal pathway hints */}
+        {/* Primary meandering street - gentle S-curve */}
         <path
-          d="M 0 80 Q 60 78, 120 82 T 200 78 T 280 84 T 400 80"
-          stroke="hsl(201 30% 85%)"
-          strokeWidth="8"
+          d="M -20 95 Q 45 88, 95 102 Q 150 118, 195 98 Q 255 72, 320 88 Q 380 102, 440 78"
+          stroke="hsl(210 15% 88%)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.35"
+        />
+        
+        {/* Secondary winding path - crosses at angle */}
+        <path
+          d="M 35 -10 Q 52 45, 68 95 Q 78 135, 62 175 Q 48 218, 72 265 Q 88 298, 95 340"
+          stroke="hsl(210 12% 89%)"
+          strokeWidth="5"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.28"
+        />
+        
+        {/* Tertiary curved street */}
+        <path
+          d="M -15 185 Q 55 172, 115 195 Q 168 215, 225 188 Q 278 162, 340 182 Q 395 198, 440 175"
+          stroke="hsl(210 10% 90%)"
+          strokeWidth="4.5"
           strokeLinecap="round"
           fill="none"
           opacity="0.25"
         />
-        <path
-          d="M 0 160 Q 80 158, 150 164 T 250 156 T 350 162 T 400 158"
-          stroke="hsl(201 25% 88%)"
-          strokeWidth="10"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.2"
-        />
-        <path
-          d="M 0 230 Q 50 232, 100 228 T 200 234 T 320 226 T 400 230"
-          stroke="hsl(201 20% 90%)"
-          strokeWidth="6"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.18"
-        />
         
-        {/* Vertical pathway hints */}
+        {/* Diagonal connector - shallow angle */}
         <path
-          d="M 80 0 Q 78 50, 84 100 T 78 180 T 82 260 T 80 300"
-          stroke="hsl(201 25% 87%)"
-          strokeWidth="7"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.18"
-        />
-        <path
-          d="M 200 0 Q 198 60, 204 120 T 196 200 T 202 280 T 200 300"
-          stroke="hsl(201 20% 89%)"
-          strokeWidth="9"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.15"
-        />
-        <path
-          d="M 320 0 Q 318 40, 324 90 T 316 160 T 322 240 T 320 300"
-          stroke="hsl(201 25% 86%)"
-          strokeWidth="6"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.17"
-        />
-        
-        {/* Soft block-like shapes at intersections */}
-        <rect 
-          x="65" y="145" width="30" height="30" rx="6"
-          fill="hsl(201 20% 92%)"
-          opacity="0.2"
-        />
-        <rect 
-          x="185" y="65" width="28" height="28" rx="5"
-          fill="hsl(201 15% 93%)"
-          opacity="0.15"
-        />
-        <rect 
-          x="305" y="145" width="32" height="32" rx="6"
-          fill="hsl(201 18% 91%)"
-          opacity="0.18"
-        />
-        <rect 
-          x="185" y="215" width="26" height="26" rx="5"
-          fill="hsl(201 15% 94%)"
-          opacity="0.12"
-        />
-        
-        {/* Curved intersection corners */}
-        <path
-          d="M 70 80 Q 80 80, 80 90"
-          stroke="hsl(201 22% 88%)"
-          strokeWidth="5"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.15"
-        />
-        <path
-          d="M 195 160 Q 200 160, 200 165"
-          stroke="hsl(201 20% 89%)"
-          strokeWidth="6"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.12"
-        />
-        <path
-          d="M 315 230 Q 320 230, 320 240"
-          stroke="hsl(201 18% 90%)"
+          d="M 125 -15 Q 148 42, 162 98 Q 175 148, 158 198 Q 142 252, 168 310"
+          stroke="hsl(210 12% 88%)"
           strokeWidth="4"
           strokeLinecap="round"
           fill="none"
-          opacity="0.14"
+          opacity="0.22"
+        />
+        
+        {/* Another organic diagonal */}
+        <path
+          d="M 285 -20 Q 268 55, 282 115 Q 298 178, 272 235 Q 252 285, 278 340"
+          stroke="hsl(210 10% 89%)"
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.2"
+        />
+        
+        {/* Small curved side street */}
+        <path
+          d="M -10 268 Q 48 252, 98 272 Q 142 288, 185 265"
+          stroke="hsl(210 8% 91%)"
+          strokeWidth="3.5"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.18"
+        />
+        
+        {/* Upper curved connector */}
+        <path
+          d="M 195 -10 Q 212 35, 198 78 Q 185 118, 215 155"
+          stroke="hsl(210 10% 90%)"
+          strokeWidth="3.5"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.2"
+        />
+        
+        {/* Soft curved alley */}
+        <path
+          d="M 350 120 Q 378 145, 365 182 Q 352 218, 385 255 Q 408 285, 420 320"
+          stroke="hsl(210 8% 91%)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.18"
+        />
+        
+        {/* Small organic path near bottom */}
+        <path
+          d="M 220 235 Q 258 248, 295 232 Q 328 218, 365 242"
+          stroke="hsl(210 10% 90%)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.15"
         />
 
-        {/* === PRIMARY MOTION PATH: Dominant directional curve === */}
+        {/* === PRIMARY MOTION PATH: Recorded, organic trace === */}
         
-        {/* Motion path glow/halo */}
-        <path
-          d="M 30 240 Q 80 200, 130 180 T 200 140 T 280 100 T 370 70"
-          stroke="hsl(201 90% 73%)"
-          strokeWidth="12"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.15"
-        />
+        {/* Motion path - subtle, organic, with faded ends */}
+        <defs>
+          <linearGradient id="pathFade" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(201 60% 65%)" stopOpacity="0.15" />
+            <stop offset="12%" stopColor="hsl(201 60% 60%)" stopOpacity="0.55" />
+            <stop offset="50%" stopColor="hsl(201 55% 58%)" stopOpacity="0.65" />
+            <stop offset="88%" stopColor="hsl(201 60% 60%)" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="hsl(201 60% 65%)" stopOpacity="0.12" />
+          </linearGradient>
+        </defs>
         
-        {/* Main motion path - thicker start, thinner end for progression */}
+        {/* Main recorded path - gentle organic curve */}
         <path
-          d="M 30 240 Q 80 200, 130 180 T 200 140 T 280 100 T 370 70"
-          stroke="hsl(201 90% 58%)"
-          strokeWidth="4"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.9"
-        />
-        
-        {/* Motion path inner highlight */}
-        <path
-          d="M 35 235 Q 85 198, 132 178 T 200 142 T 278 102 T 365 75"
-          stroke="hsl(201 90% 70%)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.5"
-        />
-        
-        {/* Direction indicator - small arrow/chevron at end */}
-        <path
-          d="M 358 78 L 370 70 L 362 82"
-          stroke="hsl(201 90% 58%)"
+          d="M 42 248 Q 68 225, 95 208 Q 135 182, 168 168 Q 212 150, 248 138 Q 298 122, 345 98 Q 372 85, 388 72"
+          stroke="url(#pathFade)"
           strokeWidth="2.5"
           strokeLinecap="round"
-          strokeLinejoin="round"
           fill="none"
-          opacity="0.7"
         />
 
-        {/* === ACTIVITY NODES: Anchored at intersections === */}
+        {/* === ACTIVITY NODES: Small, soft, natural placement === */}
         
-        {/* Node 1 - Start point (Walking - soft green) */}
-        <circle cx="30" cy="240" r="10" fill="hsl(80 25% 80%)" opacity="0.3" />
-        <circle cx="30" cy="240" r="6" fill="hsl(80 30% 70%)" opacity="0.5" />
-        <circle cx="30" cy="240" r="3" fill="hsl(80 35% 60%)" opacity="0.8" />
+        {/* Node 1 - Start area (Walking - muted green) */}
+        <circle cx="52" cy="238" r="5" fill="hsl(90 18% 82%)" opacity="0.4" />
+        <circle cx="52" cy="238" r="2.5" fill="hsl(90 22% 72%)" opacity="0.6" />
         
-        {/* Node 2 - Near first intersection (Hydration - primary blue) */}
-        <circle cx="80" cy="200" r="8" fill="hsl(201 70% 80%)" opacity="0.25" />
-        <circle cx="80" cy="200" r="5" fill="hsl(201 80% 70%)" opacity="0.5" />
-        <circle cx="80" cy="200" r="2.5" fill="hsl(201 90% 58%)" opacity="0.8" />
+        {/* Node 2 - Early path (Hydration - muted blue) */}
+        <circle cx="112" cy="195" r="4.5" fill="hsl(201 35% 82%)" opacity="0.35" />
+        <circle cx="112" cy="195" r="2" fill="hsl(201 40% 70%)" opacity="0.55" />
         
-        {/* Node 3 - Mid intersection (Sleep - lavender) */}
-        <circle cx="165" cy="155" r="9" fill="hsl(270 50% 85%)" opacity="0.25" />
-        <circle cx="165" cy="155" r="5.5" fill="hsl(270 55% 78%)" opacity="0.45" />
-        <circle cx="165" cy="155" r="3" fill="hsl(270 60% 70%)" opacity="0.7" />
+        {/* Node 3 - Mid intersection (Sleep - muted lavender) */}
+        <circle cx="185" cy="160" r="5" fill="hsl(270 25% 85%)" opacity="0.35" />
+        <circle cx="185" cy="160" r="2.5" fill="hsl(270 30% 75%)" opacity="0.5" />
         
-        {/* Node 4 - Upper intersection (Stretching - orange) */}
-        <circle cx="240" cy="120" r="7" fill="hsl(32 60% 78%)" opacity="0.25" />
-        <circle cx="240" cy="120" r="4" fill="hsl(32 65% 68%)" opacity="0.5" />
-        <circle cx="240" cy="120" r="2" fill="hsl(32 70% 58%)" opacity="0.75" />
+        {/* Node 4 - Upper section (Stretching - muted warm) */}
+        <circle cx="275" cy="128" r="4" fill="hsl(35 35% 82%)" opacity="0.35" />
+        <circle cx="275" cy="128" r="2" fill="hsl(35 40% 72%)" opacity="0.5" />
         
-        {/* Node 5 - Near end (Mindfulness - soft yellow) */}
-        <circle cx="320" cy="85" r="8" fill="hsl(43 60% 85%)" opacity="0.25" />
-        <circle cx="320" cy="85" r="5" fill="hsl(43 65% 78%)" opacity="0.45" />
-        <circle cx="320" cy="85" r="2.5" fill="hsl(43 70% 70%)" opacity="0.7" />
-        
-        {/* End point marker */}
-        <circle cx="370" cy="70" r="6" fill="hsl(201 90% 73%)" opacity="0.3" />
-        <circle cx="370" cy="70" r="3.5" fill="hsl(201 90% 58%)" opacity="0.7" />
+        {/* Node 5 - Near end (Mindfulness - muted yellow) */}
+        <circle cx="358" cy="88" r="4.5" fill="hsl(48 30% 85%)" opacity="0.3" />
+        <circle cx="358" cy="88" r="2" fill="hsl(48 35% 75%)" opacity="0.45" />
       </svg>
       
       {/* Text overlay */}
