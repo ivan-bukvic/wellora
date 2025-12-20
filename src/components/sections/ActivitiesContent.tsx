@@ -3,7 +3,7 @@ import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
 import { ActivityMixDonut } from '@/components/dashboard/ActivityMixDonut';
 
-// Activity definitions with consistent colors - Order: Walking, Sleeping, Stretching, Hydration, Mindfulness
+// Activity definitions with consistent colors
 const activities = [
   { 
     icon: Footprints, 
@@ -38,8 +38,7 @@ const activities = [
     name: 'Mindfulness', 
     description: 'Practice mental wellness', 
     colorClass: 'bg-activity-mindfulness',
-    iconColorClass: 'text-foreground/80',
-    fullWidth: true
+    iconColorClass: 'text-foreground/80'
   },
 ];
 
@@ -66,111 +65,100 @@ const ActivitiesContent = () => {
 
   return (
     <div className="animate-fade-in-up">
-      <p className="text-muted-foreground mb-6">Track and log your daily wellness activities</p>
+      <p className="text-muted-foreground mb-8">Track and log your daily wellness activities</p>
       
-      {/* TOP SECTION: 50/50 Split Layout */}
+      {/* A) Today's Routine - PRIMARY SECTION */}
       {isDemoUser && (
-        <div className="grid grid-cols-2 gap-6 mb-8">
-          {/* LEFT: Today's Routine */}
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-4">Today's Routine</h2>
-            <div className="space-y-3">
-              {todayRoutine.map((item) => {
-                const Icon = iconMap[item.name];
-                const colors = colorMap[item.name];
-                
-                return (
-                  <div 
-                    key={item.name} 
-                    className={`rounded-[20px] p-4 transition-all border ${
-                      item.completed 
-                        ? 'bg-success-light/30 border-success/15' 
-                        : 'bg-warm-light/20 border-warm/10'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 ${colors.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                        <Icon className={`w-5 h-5 ${colors.iconColor}`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground">{item.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {item.duration || item.progress}
-                        </p>
-                      </div>
-                      {item.completed ? (
-                        <div className="w-6 h-6 rounded-full bg-success/20 flex items-center justify-center flex-shrink-0">
-                          <Check className="w-3.5 h-3.5 text-success" />
-                        </div>
-                      ) : (
-                        <div className="w-2 h-2 rounded-full bg-warm/50 flex-shrink-0" />
-                      )}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Today's Routine</h2>
+          <div className="grid grid-cols-5 gap-4">
+            {todayRoutine.map((item) => {
+              const Icon = iconMap[item.name];
+              const colors = colorMap[item.name];
+              
+              return (
+                <div 
+                  key={item.name} 
+                  className={`wellora-card p-5 transition-all ${
+                    item.completed 
+                      ? 'bg-success-light/40 border-success/20' 
+                      : 'bg-warm-light/30 border-warm/20'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`w-10 h-10 ${colors.bg} rounded-xl flex items-center justify-center`}>
+                      <Icon className={`w-5 h-5 ${colors.iconColor}`} />
                     </div>
+                    {item.completed ? (
+                      <div className="w-6 h-6 rounded-full bg-success/20 flex items-center justify-center">
+                        <Check className="w-3.5 h-3.5 text-success" />
+                      </div>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-warm/20 flex items-center justify-center">
+                        <Clock className="w-3.5 h-3.5 text-warm" />
+                      </div>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* RIGHT: Activity Mix Chart */}
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-4">Activity Mix</h2>
-            <ActivityMixDonut />
+                  <p className="text-sm font-medium text-foreground">{item.name}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {item.duration || item.progress}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
 
-      {/* AVAILABLE ACTIVITIES - 2-column grid, Mindfulness spans both */}
+      {/* B) Activity Mix - Donut Chart */}
+      {isDemoUser && (
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Activity Mix</h2>
+          <ActivityMixDonut />
+        </div>
+      )}
+
+      {/* C) Available Activities - EXPLORATION SECTION */}
       <h2 className="text-lg font-semibold text-foreground mb-4">Available Activities</h2>
-      <div className="grid grid-cols-2 gap-4 mb-8">
+      <div className="grid grid-cols-3 gap-6 mb-8">
         {activities.map((activity) => {
           const Icon = activity.icon;
-          const isFullWidth = activity.fullWidth;
-          
           return (
-            <div 
-              key={activity.name} 
-              className={`wellora-card p-5 hover:shadow-soft-lg cursor-pointer transition-all ${
-                isFullWidth ? 'col-span-2' : ''
-              }`}
-            >
-              <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 ${activity.colorClass} rounded-2xl flex items-center justify-center flex-shrink-0`}>
-                  <Icon className={`w-6 h-6 ${activity.iconColorClass}`} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-base font-semibold text-foreground mb-1">{activity.name}</h3>
-                  <p className="text-sm text-muted-foreground">{activity.description}</p>
-                </div>
-                <button className="flex items-center gap-1.5 text-primary text-sm font-medium hover:underline flex-shrink-0 mt-1">
-                  <Plus className="w-4 h-4" />
-                  Log Activity
-                </button>
+            <div key={activity.name} className="wellora-card hover:shadow-soft-lg cursor-pointer transition-all">
+              <div className={`w-14 h-14 ${activity.colorClass} rounded-2xl flex items-center justify-center mb-4`}>
+                <Icon className={`w-7 h-7 ${activity.iconColorClass}`} />
               </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{activity.name}</h3>
+              <p className="text-sm text-muted-foreground">{activity.description}</p>
+              
+              <button className="mt-4 flex items-center gap-2 text-primary text-sm font-medium hover:underline">
+                <Plus className="w-4 h-4" />
+                Log Activity
+              </button>
             </div>
           );
         })}
       </div>
 
-      {/* RECENT ACTIVITY LOG - Subdued */}
+      {/* D) Recent Activity Log - SECONDARY / QUIET */}
       {isDemoUser && activityLogs.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-base font-medium text-muted-foreground mb-3">Recent Activity Log</h2>
-          <div className="rounded-2xl bg-muted/20 border border-border/20 p-4">
-            <div className="space-y-2">
-              {activityLogs.slice(0, 4).map((log) => {
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold text-muted-foreground mb-4">Recent Activity Log</h2>
+          <div className="wellora-card bg-muted/30 border-border/30">
+            <div className="space-y-3">
+              {activityLogs.slice(0, 5).map((log) => {
                 const completedCount = log.activities.filter(a => a.completed).length;
                 const date = new Date(log.date);
                 const isToday = new Date().toDateString() === date.toDateString();
                 
                 return (
-                  <div key={log.date} className="flex items-center justify-between py-2 border-b border-border/20 last:border-0">
-                    <div className="flex items-center gap-3">
+                  <div key={log.date} className="flex items-center justify-between py-2 border-b border-border/30 last:border-0">
+                    <div className="flex items-center gap-4">
                       <div className="text-sm">
                         <p className="font-medium text-muted-foreground">
                           {isToday ? 'Today' : date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                         </p>
-                        <p className="text-muted-foreground/60 text-xs">
+                        <p className="text-muted-foreground/70 text-xs">
                           {completedCount}/5 completed
                         </p>
                       </div>
@@ -182,15 +170,15 @@ const ActivitiesContent = () => {
                         return (
                           <div 
                             key={activity.name}
-                            className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                            className={`w-7 h-7 rounded-lg flex items-center justify-center ${
                               activity.completed 
-                                ? `${colors.bg}/50` 
-                                : 'bg-muted/40'
+                                ? `${colors.bg}/60` 
+                                : 'bg-muted/50'
                             }`}
                             title={`${activity.name}: ${activity.completed ? activity.duration : 'Not completed'}`}
                           >
-                            <ActivityIcon className={`w-3 h-3 ${
-                              activity.completed ? colors.iconColor : 'text-muted-foreground/40'
+                            <ActivityIcon className={`w-3.5 h-3.5 ${
+                              activity.completed ? colors.iconColor : 'text-muted-foreground/50'
                             }`} />
                           </div>
                         );
