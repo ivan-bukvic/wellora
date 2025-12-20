@@ -1,22 +1,29 @@
-import { Footprints, Moon, StretchHorizontal, Droplets, Brain, Plus, Check, Clock } from 'lucide-react';
+import { Footprints, Moon, PersonStanding, Droplets, Brain, Plus, Check, Clock } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
-import { ActivityDurationChart } from '@/components/dashboard/ActivityDurationChart';
 
 const activities = [
-  { icon: Footprints, name: 'Walking', description: 'Track your daily steps', color: 'bg-primary' },
-  { icon: Moon, name: 'Sleeping', description: 'Monitor your sleep quality', color: 'bg-secondary' },
-  { icon: StretchHorizontal, name: 'Stretching', description: 'Keep your body flexible', color: 'bg-accent' },
-  { icon: Droplets, name: 'Hydration', description: 'Stay hydrated throughout the day', color: 'bg-primary' },
-  { icon: Brain, name: 'Mindfulness', description: 'Practice mental wellness', color: 'bg-warning' },
+  { icon: Footprints, name: 'Walking', description: 'Track your daily steps', color: 'bg-activity-walking' },
+  { icon: Moon, name: 'Sleeping', description: 'Monitor your sleep quality', color: 'bg-activity-sleep' },
+  { icon: PersonStanding, name: 'Stretching', description: 'Keep your body flexible', color: 'bg-activity-stretching' },
+  { icon: Droplets, name: 'Hydration', description: 'Stay hydrated throughout the day', color: 'bg-activity-hydration' },
+  { icon: Brain, name: 'Mindfulness', description: 'Practice mental wellness', color: 'bg-activity-mindfulness' },
 ];
 
 const iconMap: Record<string, typeof Footprints> = {
   Walking: Footprints,
   Sleeping: Moon,
-  Stretching: StretchHorizontal,
+  Stretching: PersonStanding,
   Hydration: Droplets,
   Mindfulness: Brain,
+};
+
+const activityColors: Record<string, { bg: string; bgMuted: string; text: string }> = {
+  Walking: { bg: 'bg-activity-walking', bgMuted: 'bg-activity-walking-muted', text: 'text-activity-walking' },
+  Sleeping: { bg: 'bg-activity-sleep', bgMuted: 'bg-activity-sleep-muted', text: 'text-activity-sleep' },
+  Stretching: { bg: 'bg-activity-stretching', bgMuted: 'bg-activity-stretching-muted', text: 'text-activity-stretching' },
+  Hydration: { bg: 'bg-activity-hydration', bgMuted: 'bg-activity-hydration-muted', text: 'text-activity-hydration' },
+  Mindfulness: { bg: 'bg-activity-mindfulness', bgMuted: 'bg-activity-mindfulness-muted', text: 'text-activity-mindfulness' },
 };
 
 const ActivitiesContent = () => {
@@ -81,13 +88,6 @@ const ActivitiesContent = () => {
         })}
       </div>
 
-      {/* Activity Duration Chart */}
-      {isDemoUser && (
-        <div className="mt-8">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Activity Duration</h2>
-          <ActivityDurationChart />
-        </div>
-      )}
 
       {/* Recent Activity Log - Only for demo user */}
       {isDemoUser && activityLogs.length > 0 && (
@@ -115,11 +115,14 @@ const ActivitiesContent = () => {
                     <div className="flex gap-2">
                       {log.activities.map((activity) => {
                         const ActivityIcon = iconMap[activity.name];
+                        const colors = activityColors[activity.name];
                         return (
                           <div 
                             key={activity.name}
-                            className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                              activity.completed ? 'bg-success/20 text-success' : 'bg-muted text-muted-foreground'
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                              activity.completed 
+                                ? `${colors.bg} text-foreground` 
+                                : `${colors.bgMuted} ${colors.text} opacity-60`
                             }`}
                             title={`${activity.name}: ${activity.completed ? activity.duration : 'Not completed'}`}
                           >
