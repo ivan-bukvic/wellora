@@ -68,11 +68,30 @@ const ActivitiesContent = () => {
 
       {/* Activity Cards */}
       <h2 className="text-lg font-semibold text-foreground mb-4">Available Activities</h2>
-      <div className="grid grid-cols-3 gap-6">
-        {activities.map((activity) => {
+      <div className="grid grid-cols-6 gap-6">
+        {/* Row 1: Walking, Sleeping, Stretching - each spans 2 columns */}
+        {activities.slice(0, 3).map((activity) => {
           const Icon = activity.icon;
           return (
-            <div key={activity.name} className="wellora-card hover:shadow-soft-lg cursor-pointer transition-all">
+            <div key={activity.name} className="col-span-2 wellora-card hover:shadow-soft-lg cursor-pointer transition-all">
+              <div className={`w-14 h-14 ${activity.color} rounded-2xl flex items-center justify-center mb-4`}>
+                <Icon className="w-7 h-7 text-primary-foreground" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{activity.name}</h3>
+              <p className="text-sm text-muted-foreground">{activity.description}</p>
+              
+              <button className="mt-4 flex items-center gap-2 text-primary text-sm font-medium hover:underline">
+                <Plus className="w-4 h-4" />
+                Log Activity
+              </button>
+            </div>
+          );
+        })}
+        {/* Row 2: Hydration, Mindfulness - each spans 3 columns for equal width full-row coverage */}
+        {activities.slice(3, 5).map((activity) => {
+          const Icon = activity.icon;
+          return (
+            <div key={activity.name} className="col-span-3 wellora-card hover:shadow-soft-lg cursor-pointer transition-all">
               <div className={`w-14 h-14 ${activity.color} rounded-2xl flex items-center justify-center mb-4`}>
                 <Icon className="w-7 h-7 text-primary-foreground" />
               </div>
