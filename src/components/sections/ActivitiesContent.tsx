@@ -2,6 +2,7 @@ import { Footprints, Moon, Droplets, Brain, Check, Clock, LucideProps } from 'lu
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
 import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
+import DayInMotionVisual from './DayInMotionVisual';
 
 const activities = [
   { icon: Footprints, name: 'Walking', description: 'Track your daily steps', color: 'bg-activity-walking' },
@@ -100,31 +101,11 @@ const ActivitiesContent = () => {
               </div>
             </div>
             
-            {/* Right Column - Reserved Visual Container (Map Placeholder) */}
+            {/* Right Column - Day in Motion Visual */}
             <div className="col-span-1">
               <h2 className="text-lg font-semibold text-foreground mb-4 opacity-0">Placeholder</h2>
-              <div className="wellora-card p-5 h-[calc(100%-2rem)] bg-gradient-to-br from-muted/30 via-card to-primary-light/10 border-dashed border-border/60">
-                <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                  <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                    <svg 
-                      className="w-8 h-8 text-primary/60" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={1.5} 
-                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" 
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="text-base font-semibold text-foreground mb-2">Your Day in Motion</h3>
-                  <p className="text-sm text-muted-foreground max-w-[200px]">
-                    A visual snapshot of today's activity
-                  </p>
-                </div>
+              <div className="wellora-card p-0 h-[calc(100%-2rem)] overflow-hidden border-border/40">
+                <DayInMotionVisual />
               </div>
             </div>
           </div>
