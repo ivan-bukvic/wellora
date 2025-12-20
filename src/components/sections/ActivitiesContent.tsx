@@ -121,8 +121,8 @@ const ActivitiesContent = () => {
                             key={activity.name}
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                               activity.completed 
-                                ? `${colors.bg} text-foreground` 
-                                : `${colors.bgMuted} ${colors.text} opacity-60`
+                                ? `${colors.bgMuted} ${colors.text}` 
+                                : `${colors.bgMuted} ${colors.text} opacity-50`
                             }`}
                             title={`${activity.name}: ${activity.completed ? activity.duration : 'Not completed'}`}
                           >
