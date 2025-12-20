@@ -19,12 +19,12 @@ const iconMap: Record<string, React.ComponentType<LucideProps>> = {
   Mindfulness: Brain,
 };
 
-const activityColors: Record<string, { bg: string; bgMuted: string; bgSoft: string; text: string }> = {
-  Walking: { bg: 'bg-activity-walking', bgMuted: 'bg-activity-walking-muted', bgSoft: 'bg-activity-walking/25', text: 'text-activity-walking' },
-  Sleeping: { bg: 'bg-activity-sleep', bgMuted: 'bg-activity-sleep-muted', bgSoft: 'bg-activity-sleep/25', text: 'text-activity-sleep' },
-  Stretching: { bg: 'bg-activity-stretching', bgMuted: 'bg-activity-stretching-muted', bgSoft: 'bg-activity-stretching/25', text: 'text-activity-stretching' },
-  Hydration: { bg: 'bg-activity-hydration', bgMuted: 'bg-activity-hydration-muted', bgSoft: 'bg-activity-hydration/25', text: 'text-activity-hydration' },
-  Mindfulness: { bg: 'bg-activity-mindfulness', bgMuted: 'bg-activity-mindfulness-muted', bgSoft: 'bg-activity-mindfulness/25', text: 'text-activity-mindfulness' },
+const activityColors: Record<string, { bg: string; bgMuted: string; bgActive: string; bgInactive: string; text: string; textMuted: string }> = {
+  Walking: { bg: 'bg-activity-walking', bgMuted: 'bg-activity-walking-muted', bgActive: 'bg-activity-walking/20', bgInactive: 'bg-muted/40', text: 'text-activity-walking', textMuted: 'text-muted-foreground/60' },
+  Sleeping: { bg: 'bg-activity-sleep', bgMuted: 'bg-activity-sleep-muted', bgActive: 'bg-activity-sleep/20', bgInactive: 'bg-muted/40', text: 'text-activity-sleep', textMuted: 'text-muted-foreground/60' },
+  Stretching: { bg: 'bg-activity-stretching', bgMuted: 'bg-activity-stretching-muted', bgActive: 'bg-activity-stretching/20', bgInactive: 'bg-muted/40', text: 'text-activity-stretching', textMuted: 'text-muted-foreground/60' },
+  Hydration: { bg: 'bg-activity-hydration', bgMuted: 'bg-activity-hydration-muted', bgActive: 'bg-activity-hydration/20', bgInactive: 'bg-muted/40', text: 'text-activity-hydration', textMuted: 'text-muted-foreground/60' },
+  Mindfulness: { bg: 'bg-activity-mindfulness', bgMuted: 'bg-activity-mindfulness-muted', bgActive: 'bg-activity-mindfulness/20', bgInactive: 'bg-muted/40', text: 'text-activity-mindfulness', textMuted: 'text-muted-foreground/60' },
 };
 
 const ActivitiesContent = () => {
@@ -145,12 +145,12 @@ const ActivitiesContent = () => {
                             key={activity.name}
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                               activity.completed 
-                                ? `${colors.bgSoft} ${colors.text}` 
-                                : `${colors.bgSoft} ${colors.text} opacity-50`
+                                ? colors.bgActive
+                                : colors.bgInactive
                             }`}
                             title={`${activity.name}: ${activity.completed ? activity.duration : 'Not completed'}`}
                           >
-                            <ActivityIcon className="w-4 h-4" />
+                            <ActivityIcon className={`w-4 h-4 ${activity.completed ? colors.text : colors.textMuted}`} />
                           </div>
                         );
                       })}
