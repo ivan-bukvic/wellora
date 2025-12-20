@@ -85,7 +85,7 @@ const ActivitiesContent = () => {
                 </div>
               </div>
               <button className="text-primary text-sm font-medium hover:underline flex-shrink-0">
-                + Log
+                + Log Activity
               </button>
             </div>
           );
@@ -105,7 +105,7 @@ const ActivitiesContent = () => {
                 </div>
               </div>
               <button className="text-primary text-sm font-medium hover:underline flex-shrink-0">
-                + Log
+                + Log Activity
               </button>
             </div>
           );
