@@ -60,12 +60,12 @@ const ActivitiesContent = () => {
                               ? 'bg-success/8 border border-success/20' 
                               : isInProgress 
                                 ? 'bg-warning/8 border border-warning/20'
-                                : 'bg-muted/30 border border-border/30'
+                                : 'bg-muted/20 border border-border/20'
                           }`}
                         >
-                          {/* Icon */}
-                          <div className={`w-10 h-10 ${colors.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                            <Icon className="w-5 h-5 text-primary-foreground" />
+                          {/* Icon - neutral background, activity color in glyph */}
+                          <div className="w-10 h-10 bg-muted/40 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <Icon className={`w-5 h-5 ${colors.text} opacity-80`} />
                           </div>
                           
                           {/* Activity Name + Duration */}

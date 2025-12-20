@@ -98,7 +98,7 @@ const DailyFlowTimeline = () => {
           <TooltipProvider delayDuration={100}>
             {todayFlow.map((activity) => {
               const Icon = iconMap[activity.name];
-              const bgClass = activityBgMap[activity.name];
+              const activityColor = activityColorMap[activity.name];
               
               // Calculate Y position based on the curve path
               // Approximate the curve: y = 40 + sin-like wave
@@ -126,14 +126,15 @@ const DailyFlowTimeline = () => {
                       className={`absolute transform -translate-x-1/2 -translate-y-1/2 
                         w-8 h-8 rounded-full flex items-center justify-center
                         transition-all duration-200 hover:scale-110 hover:shadow-md
-                        ${bgClass} ${activity.completed ? 'opacity-90' : 'opacity-60'}
+                        bg-card border-2 ${activity.completed ? '' : 'opacity-60'}
                         shadow-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30`}
                       style={{
                         left: `${activity.position}%`,
                         top: `${yPercent}%`,
+                        borderColor: activityColor,
                       }}
                     >
-                      <Icon className="w-4 h-4 text-primary-foreground" />
+                      <Icon className="w-4 h-4 text-primary" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent 
