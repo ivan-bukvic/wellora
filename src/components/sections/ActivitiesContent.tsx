@@ -1,4 +1,4 @@
-import { Footprints, Moon, Droplets, Brain, Plus, Check, Clock, LucideProps } from 'lucide-react';
+import { Footprints, Moon, Droplets, Brain, Check, Clock, LucideProps } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
 import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
@@ -74,16 +74,18 @@ const ActivitiesContent = () => {
         {activities.slice(0, 3).map((activity) => {
           const Icon = activity.icon;
           return (
-            <div key={activity.name} className="col-span-2 wellora-card hover:shadow-soft-lg cursor-pointer transition-all">
-              <div className={`w-14 h-14 ${activity.color} rounded-2xl flex items-center justify-center mb-4`}>
-                <Icon className="w-7 h-7 text-primary-foreground" />
+            <div key={activity.name} className="col-span-2 wellora-card hover:shadow-soft-lg cursor-pointer transition-all flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 ${activity.color} rounded-2xl flex items-center justify-center flex-shrink-0`}>
+                  <Icon className="w-7 h-7 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">{activity.name}</h3>
+                  <p className="text-sm text-muted-foreground">{activity.description}</p>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">{activity.name}</h3>
-              <p className="text-sm text-muted-foreground">{activity.description}</p>
-              
-              <button className="mt-4 flex items-center gap-2 text-primary text-sm font-medium hover:underline">
-                <Plus className="w-4 h-4" />
-                Log Activity
+              <button className="text-primary text-sm font-medium hover:underline flex-shrink-0">
+                + Log
               </button>
             </div>
           );
@@ -92,16 +94,18 @@ const ActivitiesContent = () => {
         {activities.slice(3, 5).map((activity) => {
           const Icon = activity.icon;
           return (
-            <div key={activity.name} className="col-span-3 wellora-card hover:shadow-soft-lg cursor-pointer transition-all">
-              <div className={`w-14 h-14 ${activity.color} rounded-2xl flex items-center justify-center mb-4`}>
-                <Icon className="w-7 h-7 text-primary-foreground" />
+            <div key={activity.name} className="col-span-3 wellora-card hover:shadow-soft-lg cursor-pointer transition-all flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 ${activity.color} rounded-2xl flex items-center justify-center flex-shrink-0`}>
+                  <Icon className="w-7 h-7 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">{activity.name}</h3>
+                  <p className="text-sm text-muted-foreground">{activity.description}</p>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">{activity.name}</h3>
-              <p className="text-sm text-muted-foreground">{activity.description}</p>
-              
-              <button className="mt-4 flex items-center gap-2 text-primary text-sm font-medium hover:underline">
-                <Plus className="w-4 h-4" />
-                Log Activity
+              <button className="text-primary text-sm font-medium hover:underline flex-shrink-0">
+                + Log
               </button>
             </div>
           );
