@@ -1,4 +1,5 @@
-import { Droplets, Brain, Footprints, Moon, PersonStanding } from 'lucide-react';
+import { Droplets, Brain, Footprints, Moon } from 'lucide-react';
+import StretchingIcon from '@/components/icons/StretchingIcon';
 
 const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
@@ -26,7 +27,7 @@ const activities = [
   },
   {
     name: 'Stretching',
-    icon: PersonStanding,
+    icon: StretchingIcon,
     activeColor: 'bg-activity-stretching/40',
     inactiveColor: 'bg-activity-stretching/[0.08]',
     pattern: [true, false, true, false, true, false, false],
