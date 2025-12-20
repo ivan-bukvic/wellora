@@ -59,29 +59,29 @@ const DayInMotionVisual = () => {
           opacity="0.2"
         />
         
-        {/* Small curved side street */}
+        {/* Small curved connector between streets */}
         <path
-          d="M -10 268 Q 48 252, 98 272 Q 142 288, 185 265"
+          d="M 68 95 Q 88 98, 95 102"
           stroke="hsl(210 8% 91%)"
-          strokeWidth="3.5"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.18"
-        />
-        
-        {/* Upper curved connector */}
-        <path
-          d="M 195 -10 Q 212 35, 198 78 Q 185 118, 215 155"
-          stroke="hsl(210 10% 90%)"
           strokeWidth="3.5"
           strokeLinecap="round"
           fill="none"
           opacity="0.2"
         />
         
-        {/* Soft curved alley */}
+        {/* Connector from first street down to third */}
         <path
-          d="M 350 120 Q 378 145, 365 182 Q 352 218, 385 255 Q 408 285, 420 320"
+          d="M 115 195 Q 128 155, 162 98"
+          stroke="hsl(210 10% 90%)"
+          strokeWidth="3.5"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.18"
+        />
+        
+        {/* Short curved alley */}
+        <path
+          d="M 225 188 Q 248 155, 282 115"
           stroke="hsl(210 8% 91%)"
           strokeWidth="3"
           strokeLinecap="round"
@@ -89,59 +89,81 @@ const DayInMotionVisual = () => {
           opacity="0.18"
         />
         
-        {/* Small organic path near bottom */}
+        {/* Lower connecting path */}
         <path
-          d="M 220 235 Q 258 248, 295 232 Q 328 218, 365 242"
+          d="M 62 175 Q 85 182, 115 195"
           stroke="hsl(210 10% 90%)"
           strokeWidth="3"
           strokeLinecap="round"
           fill="none"
           opacity="0.15"
         />
-
-        {/* === PRIMARY MOTION PATH: Recorded, organic trace === */}
         
-        {/* Motion path - subtle, organic, with faded ends */}
+        {/* Upper right connector */}
+        <path
+          d="M 282 115 Q 305 100, 320 88"
+          stroke="hsl(210 8% 91%)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.15"
+        />
+
+        {/* === PRIMARY MOTION PATH: Following street network === */}
+        
+        {/* Motion path gradient - fades at ends */}
         <defs>
-          <linearGradient id="pathFade" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(201 60% 65%)" stopOpacity="0.15" />
-            <stop offset="12%" stopColor="hsl(201 60% 60%)" stopOpacity="0.55" />
-            <stop offset="50%" stopColor="hsl(201 55% 58%)" stopOpacity="0.65" />
-            <stop offset="88%" stopColor="hsl(201 60% 60%)" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="hsl(201 60% 65%)" stopOpacity="0.12" />
+          <linearGradient id="routeFade" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(201 45% 65%)" stopOpacity="0.1" />
+            <stop offset="8%" stopColor="hsl(201 50% 58%)" stopOpacity="0.45" />
+            <stop offset="50%" stopColor="hsl(201 45% 55%)" stopOpacity="0.55" />
+            <stop offset="92%" stopColor="hsl(201 50% 58%)" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="hsl(201 45% 65%)" stopOpacity="0.08" />
           </linearGradient>
         </defs>
         
-        {/* Main recorded path - gentle organic curve */}
+        {/* 
+          Route path - follows the street network:
+          1. Starts on lower-left area of third street
+          2. Follows third street northeast
+          3. Takes connector up to diagonal street
+          4. Follows diagonal to first street intersection
+          5. Follows first street to upper right
+        */}
         <path
-          d="M 42 248 Q 68 225, 95 208 Q 135 182, 168 168 Q 212 150, 248 138 Q 298 122, 345 98 Q 372 85, 388 72"
-          stroke="url(#pathFade)"
-          strokeWidth="2.5"
+          d="M 55 172 
+             Q 55 172, 115 195 
+             Q 128 155, 162 98
+             Q 175 108, 195 98
+             Q 255 72, 320 88"
+          stroke="url(#routeFade)"
+          strokeWidth="2.8"
           strokeLinecap="round"
+          strokeLinejoin="round"
           fill="none"
         />
 
-        {/* === ACTIVITY NODES: Small, soft, natural placement === */}
+        {/* === ACTIVITY NODES: At junctions along the route === */}
         
-        {/* Node 1 - Start area (Walking - muted green) */}
-        <circle cx="52" cy="238" r="5" fill="hsl(90 18% 82%)" opacity="0.4" />
-        <circle cx="52" cy="238" r="2.5" fill="hsl(90 22% 72%)" opacity="0.6" />
+        {/* Node 1 - Route start, on third street (Walking - muted green) */}
+        <circle cx="55" cy="172" r="4.5" fill="hsl(90 15% 84%)" opacity="0.35" />
+        <circle cx="55" cy="172" r="2" fill="hsl(90 20% 72%)" opacity="0.5" />
         
-        {/* Node 2 - Early path (Hydration - muted blue) */}
-        <circle cx="112" cy="195" r="4.5" fill="hsl(201 35% 82%)" opacity="0.35" />
-        <circle cx="112" cy="195" r="2" fill="hsl(201 40% 70%)" opacity="0.55" />
+        {/* Node 2 - Junction of third street and connector (Hydration - muted blue) */}
+        <circle cx="115" cy="195" r="5" fill="hsl(201 30% 84%)" opacity="0.3" />
+        <circle cx="115" cy="195" r="2.5" fill="hsl(201 35% 70%)" opacity="0.45" />
         
-        {/* Node 3 - Mid intersection (Sleep - muted lavender) */}
-        <circle cx="185" cy="160" r="5" fill="hsl(270 25% 85%)" opacity="0.35" />
-        <circle cx="185" cy="160" r="2.5" fill="hsl(270 30% 75%)" opacity="0.5" />
+        {/* Node 3 - Junction of connector and diagonal/first street (Sleep - muted lavender) */}
+        <circle cx="162" cy="98" r="5" fill="hsl(270 20% 86%)" opacity="0.3" />
+        <circle cx="162" cy="98" r="2.5" fill="hsl(270 25% 76%)" opacity="0.42" />
         
-        {/* Node 4 - Upper section (Stretching - muted warm) */}
-        <circle cx="275" cy="128" r="4" fill="hsl(35 35% 82%)" opacity="0.35" />
-        <circle cx="275" cy="128" r="2" fill="hsl(35 40% 72%)" opacity="0.5" />
+        {/* Node 4 - Along first street curve (Stretching - muted warm) */}
+        <circle cx="195" cy="98" r="4" fill="hsl(35 30% 84%)" opacity="0.3" />
+        <circle cx="195" cy="98" r="2" fill="hsl(35 35% 74%)" opacity="0.4" />
         
-        {/* Node 5 - Near end (Mindfulness - muted yellow) */}
-        <circle cx="358" cy="88" r="4.5" fill="hsl(48 30% 85%)" opacity="0.3" />
-        <circle cx="358" cy="88" r="2" fill="hsl(48 35% 75%)" opacity="0.45" />
+        {/* Node 5 - Near route end on first street (Mindfulness - muted gold) */}
+        <circle cx="320" cy="88" r="4.5" fill="hsl(48 25% 86%)" opacity="0.28" />
+        <circle cx="320" cy="88" r="2" fill="hsl(48 30% 76%)" opacity="0.38" />
       </svg>
       
       {/* Text overlay */}
