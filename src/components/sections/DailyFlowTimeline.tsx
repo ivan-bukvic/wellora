@@ -50,7 +50,7 @@ const todayFlow: FlowActivity[] = [
 
 const DailyFlowTimeline = () => {
   return (
-    <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden bg-gradient-to-br from-muted/20 via-background to-muted/10 flex flex-col">
+    <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.03), hsl(var(--background)), hsl(var(--primary) / 0.02))' }}>
       {/* Header */}
       <div className="px-6 pt-5 pb-3">
         <h3 className="text-base font-semibold text-foreground">Today's Flow</h3>
@@ -69,14 +69,14 @@ const DailyFlowTimeline = () => {
             preserveAspectRatio="none"
             fill="none"
           >
-            {/* Gradient definition for the flow line */}
+            {/* Gradient definition for the flow line - soft, calming brand blue */}
             <defs>
               <linearGradient id="flowLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
-                <stop offset="15%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
-                <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.35" />
-                <stop offset="85%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
+                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.08" />
+                <stop offset="10%" stopColor="hsl(var(--primary))" stopOpacity="0.28" />
+                <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.32" />
+                <stop offset="90%" stopColor="hsl(var(--primary))" stopOpacity="0.28" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.08" />
               </linearGradient>
             </defs>
             
