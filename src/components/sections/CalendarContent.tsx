@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Check, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoCalendarData } from '@/data/demoData';
@@ -55,46 +55,62 @@ const CalendarContent = () => {
     return checkDate > today;
   };
 
+  // Get progress bar color based on completion rate
+  const getProgressColor = (completionRate: number) => {
+    if (completionRate >= 0.8) return 'bg-success';
+    if (completionRate >= 0.4) return 'bg-warning';
+    if (completionRate > 0) return 'bg-destructive/60';
+    return 'bg-muted';
+  };
+
+  // Get subtle border accent based on completion
+  const getBorderAccent = (completionRate: number) => {
+    if (completionRate >= 0.8) return 'border-success/30';
+    if (completionRate >= 0.4) return 'border-warning/30';
+    if (completionRate > 0) return 'border-destructive/20';
+    return 'border-border';
+  };
+
   return (
     <div className="animate-fade-in-up">
-      <p className="text-muted-foreground mb-8">View your wellness schedule and activity history</p>
+      <p className="text-muted-foreground mb-6">View your wellness schedule and activity history</p>
       
-      <div className="wellora-card">
+      <div className="wellora-card p-4 sm:p-6">
         {/* Calendar Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-foreground">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-foreground">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button 
               onClick={previousMonth}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
+              className="p-1.5 hover:bg-muted rounded-lg transition-colors"
             >
-              <ChevronLeft className="w-5 h-5 text-muted-foreground" />
+              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
             </button>
             <button 
               onClick={nextMonth}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
+              className="p-1.5 hover:bg-muted rounded-lg transition-colors"
             >
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </button>
           </div>
         </div>
 
         {/* Day Names */}
-        <div className="grid grid-cols-7 gap-2 mb-4">
+        <div className="grid grid-cols-7 gap-1.5 mb-2">
           {dayNames.map((day) => (
-            <div key={day} className="text-center text-sm font-medium text-muted-foreground py-2">
+            <div key={day} className="text-center text-xs font-medium text-muted-foreground py-1">
               {day}
             </div>
           ))}
         </div>
 
-        {/* Calendar Grid */}
-        <div className="grid grid-cols-7 gap-2">
+        {/* Calendar Grid - Fixed height to fit on screen */}
+        <div className="grid grid-cols-7 gap-1.5">
           {/* Empty cells for days before the first of the month */}
           {Array.from({ length: startingDay }).map((_, index) => (
-            <div key={`empty-${index}`} className="aspect-square" />
+            <div key={`empty-${index}`} className="aspect-[4/3]" />
           ))}
           
           {/* Days of the month */}
@@ -105,65 +121,76 @@ const CalendarContent = () => {
             const today = isToday(day);
             const future = isFuture(day);
             
-            let statusColor = 'bg-muted';
-            let statusIcon = null;
-            
-            if (isDemoUser && dayData && !future) {
-              const completionRate = dayData.completed / dayData.total;
-              if (completionRate >= 0.8) {
-                statusColor = 'bg-success/20 border-success/30';
-                statusIcon = <Check className="w-3 h-3 text-success" />;
-              } else if (completionRate >= 0.4) {
-                statusColor = 'bg-warning/20 border-warning/30';
-              } else if (completionRate > 0) {
-                statusColor = 'bg-destructive/10 border-destructive/20';
-              }
-            }
+            const completed = dayData?.completed ?? 0;
+            const total = dayData?.total ?? 5;
+            const completionRate = total > 0 ? completed / total : 0;
+            const hasData = isDemoUser && dayData && !future;
 
             return (
               <div 
                 key={day}
-                className={`aspect-square rounded-xl flex flex-col items-center justify-center border transition-all cursor-pointer hover:shadow-soft ${
-                  today ? 'bg-primary text-primary-foreground border-primary' : 
-                  future ? 'bg-muted/30 text-muted-foreground border-transparent' :
-                  `${statusColor} border`
-                }`}
+                className={`
+                  aspect-[4/3] rounded-lg flex flex-col p-1.5 sm:p-2 transition-all cursor-pointer
+                  ${today 
+                    ? 'bg-primary/[0.07] border border-primary/30 shadow-sm' 
+                    : future 
+                      ? 'bg-muted/20 border border-transparent' 
+                      : hasData 
+                        ? `bg-card border ${getBorderAccent(completionRate)} hover:shadow-sm`
+                        : 'bg-muted/30 border border-transparent'
+                  }
+                `}
               >
-                <span className={`text-sm font-medium ${today ? 'text-primary-foreground' : ''}`}>
+                {/* Day number - top left */}
+                <span className={`text-xs font-medium leading-none ${
+                  today 
+                    ? 'text-primary font-semibold' 
+                    : future 
+                      ? 'text-muted-foreground/50' 
+                      : 'text-foreground'
+                }`}>
                   {day}
                 </span>
-                {statusIcon && !today && (
-                  <div className="mt-1">{statusIcon}</div>
+                
+                {/* Completion info - center */}
+                {hasData && (
+                  <div className="flex-1 flex flex-col items-center justify-center">
+                    <span className="text-[10px] sm:text-xs font-medium text-foreground/80 leading-tight">
+                      {completed} / {total}
+                    </span>
+                    <span className="text-[8px] sm:text-[9px] text-muted-foreground leading-tight hidden sm:block">
+                      done
+                    </span>
+                  </div>
                 )}
-                {isDemoUser && dayData && dayData.hasStreak && !today && !future && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-warning mt-1" title="Streak!" />
+                
+                {/* Future placeholder */}
+                {future && (
+                  <div className="flex-1 flex items-center justify-center">
+                    <span className="text-[9px] text-muted-foreground/40">—</span>
+                  </div>
+                )}
+                
+                {/* No data placeholder for non-demo */}
+                {!isDemoUser && !future && (
+                  <div className="flex-1 flex items-center justify-center">
+                    <span className="text-[9px] text-muted-foreground/40">—</span>
+                  </div>
+                )}
+                
+                {/* Progress bar - bottom */}
+                {hasData && (
+                  <div className="w-full h-0.5 sm:h-1 bg-muted/50 rounded-full overflow-hidden mt-auto">
+                    <div 
+                      className={`h-full rounded-full transition-all ${getProgressColor(completionRate)}`}
+                      style={{ width: `${completionRate * 100}%` }}
+                    />
+                  </div>
                 )}
               </div>
             );
           })}
         </div>
-
-        {/* Legend */}
-        {isDemoUser && (
-          <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-border/50">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-success/20 border border-success/30" />
-              <span className="text-xs text-muted-foreground">80%+ complete</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-warning/20 border border-warning/30" />
-              <span className="text-xs text-muted-foreground">40-80% complete</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-destructive/10 border border-destructive/20" />
-              <span className="text-xs text-muted-foreground">&lt;40% complete</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-warning" />
-              <span className="text-xs text-muted-foreground">Streak</span>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Empty state for non-demo users */}
