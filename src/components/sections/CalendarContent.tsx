@@ -72,12 +72,12 @@ const CalendarContent = () => {
   };
 
   return (
-    <div className="animate-fade-in-up">
-      <p className="text-muted-foreground mb-6">View your wellness schedule and activity history</p>
+    <div className="animate-fade-in-up h-full flex flex-col">
+      <p className="text-muted-foreground mb-4">View your wellness schedule and activity history</p>
       
-      <div className="wellora-card p-4 sm:p-6">
+      <div className="wellora-card p-4 sm:p-5 flex-1 flex flex-col">
         {/* Calendar Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-semibold text-foreground">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
@@ -98,7 +98,7 @@ const CalendarContent = () => {
         </div>
 
         {/* Day Names */}
-        <div className="grid grid-cols-7 gap-1.5 mb-2">
+        <div className="grid grid-cols-7 gap-2 sm:gap-3 mb-2">
           {dayNames.map((day) => (
             <div key={day} className="text-center text-xs font-medium text-muted-foreground py-1">
               {day}
@@ -106,11 +106,11 @@ const CalendarContent = () => {
           ))}
         </div>
 
-        {/* Calendar Grid - Fixed height to fit on screen */}
-        <div className="grid grid-cols-7 gap-1.5">
+        {/* Calendar Grid - Flex grow to fill available space */}
+        <div className="grid grid-cols-7 gap-2 sm:gap-3 flex-1 auto-rows-fr">
           {/* Empty cells for days before the first of the month */}
           {Array.from({ length: startingDay }).map((_, index) => (
-            <div key={`empty-${index}`} className="aspect-[4/3]" />
+            <div key={`empty-${index}`} className="min-h-0" />
           ))}
           
           {/* Days of the month */}
@@ -130,9 +130,9 @@ const CalendarContent = () => {
               <div 
                 key={day}
                 className={`
-                  aspect-[4/3] rounded-lg flex flex-col p-1.5 sm:p-2 transition-all cursor-pointer
+                  rounded-xl flex flex-col p-1.5 sm:p-2 transition-all cursor-pointer min-h-0
                   ${today 
-                    ? 'bg-primary/[0.07] border border-primary/30 shadow-sm' 
+                    ? 'bg-primary/[0.08] border border-primary/40 shadow-sm' 
                     : future 
                       ? 'bg-muted/20 border border-transparent' 
                       : hasData 
@@ -154,33 +154,30 @@ const CalendarContent = () => {
                 
                 {/* Completion info - center */}
                 {hasData && (
-                  <div className="flex-1 flex flex-col items-center justify-center">
+                  <div className="flex-1 flex flex-col items-center justify-center min-h-0">
                     <span className="text-[10px] sm:text-xs font-medium text-foreground/80 leading-tight">
-                      {completed} / {total}
-                    </span>
-                    <span className="text-[8px] sm:text-[9px] text-muted-foreground leading-tight hidden sm:block">
-                      done
+                      {completed}/{total}
                     </span>
                   </div>
                 )}
                 
                 {/* Future placeholder */}
                 {future && (
-                  <div className="flex-1 flex items-center justify-center">
-                    <span className="text-[9px] text-muted-foreground/40">—</span>
+                  <div className="flex-1 flex items-center justify-center min-h-0">
+                    <span className="text-[8px] text-muted-foreground/40">—</span>
                   </div>
                 )}
                 
                 {/* No data placeholder for non-demo */}
                 {!isDemoUser && !future && (
-                  <div className="flex-1 flex items-center justify-center">
-                    <span className="text-[9px] text-muted-foreground/40">—</span>
+                  <div className="flex-1 flex items-center justify-center min-h-0">
+                    <span className="text-[8px] text-muted-foreground/40">—</span>
                   </div>
                 )}
                 
                 {/* Progress bar - bottom */}
                 {hasData && (
-                  <div className="w-full h-0.5 sm:h-1 bg-muted/50 rounded-full overflow-hidden mt-auto">
+                  <div className="w-full h-0.5 bg-muted/50 rounded-full overflow-hidden mt-auto">
                     <div 
                       className={`h-full rounded-full transition-all ${getProgressColor(completionRate)}`}
                       style={{ width: `${completionRate * 100}%` }}
