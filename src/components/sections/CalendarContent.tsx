@@ -55,20 +55,28 @@ const CalendarContent = () => {
     return checkDate > today;
   };
 
-  // Get progress bar color based on completion rate
-  const getProgressColor = (completionRate: number) => {
-    if (completionRate >= 0.8) return 'bg-success';
-    if (completionRate >= 0.4) return 'bg-warning';
-    if (completionRate > 0) return 'bg-destructive/60';
-    return 'bg-muted';
+  // Get mood/intensity word based on completion rate
+  const getMoodWord = (completionRate: number): string => {
+    if (completionRate >= 0.8) return 'Balanced';
+    if (completionRate >= 0.6) return 'Active';
+    if (completionRate >= 0.3) return 'Light';
+    return 'Rest-focused';
   };
 
-  // Get subtle border accent based on completion
-  const getBorderAccent = (completionRate: number) => {
-    if (completionRate >= 0.8) return 'border-success/30';
-    if (completionRate >= 0.4) return 'border-warning/30';
-    if (completionRate > 0) return 'border-destructive/20';
-    return 'border-border';
+  // Get subtle accent color based on completion rate
+  const getAccentColor = (completionRate: number) => {
+    if (completionRate >= 0.8) return 'text-success/70';
+    if (completionRate >= 0.4) return 'text-warning/70';
+    if (completionRate > 0) return 'text-destructive/50';
+    return 'text-muted-foreground/50';
+  };
+
+  // Get subtle underline color
+  const getUnderlineColor = (completionRate: number) => {
+    if (completionRate >= 0.8) return 'bg-success/30';
+    if (completionRate >= 0.4) return 'bg-warning/30';
+    if (completionRate > 0) return 'bg-destructive/20';
+    return 'bg-muted';
   };
 
   return (
@@ -136,7 +144,7 @@ const CalendarContent = () => {
                     : future 
                       ? 'bg-muted/20 border border-transparent' 
                       : hasData 
-                        ? `bg-card border ${getBorderAccent(completionRate)} hover:shadow-sm`
+                        ? 'bg-card border border-border/50 hover:shadow-sm'
                         : 'bg-muted/30 border border-transparent'
                   }
                 `}
@@ -152,11 +160,14 @@ const CalendarContent = () => {
                   {day}
                 </span>
                 
-                {/* Completion info - center */}
+                {/* Mood word and completion - center */}
                 {hasData && (
-                  <div className="flex-1 flex flex-col items-center justify-center min-h-0">
-                    <span className="text-[10px] sm:text-xs font-medium text-foreground/80 leading-tight">
-                      {completed}/{total}
+                  <div className="flex-1 flex flex-col items-center justify-center min-h-0 gap-0.5">
+                    <span className={`text-[9px] sm:text-[10px] font-medium leading-tight ${getAccentColor(completionRate)}`}>
+                      {getMoodWord(completionRate)}
+                    </span>
+                    <span className="text-[8px] sm:text-[9px] text-muted-foreground/60 leading-tight">
+                      {Math.round(completionRate * 100)}%
                     </span>
                   </div>
                 )}
@@ -175,14 +186,9 @@ const CalendarContent = () => {
                   </div>
                 )}
                 
-                {/* Progress bar - bottom */}
+                {/* Subtle underline accent - bottom */}
                 {hasData && (
-                  <div className="w-full h-0.5 bg-muted/50 rounded-full overflow-hidden mt-auto">
-                    <div 
-                      className={`h-full rounded-full transition-all ${getProgressColor(completionRate)}`}
-                      style={{ width: `${completionRate * 100}%` }}
-                    />
-                  </div>
+                  <div className={`w-full h-0.5 rounded-full mt-auto ${getUnderlineColor(completionRate)}`} />
                 )}
               </div>
             );
