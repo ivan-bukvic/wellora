@@ -179,10 +179,10 @@ const LogActivityModal = ({
 
           {/* Actions */}
           <div className="flex flex-col gap-3 mt-6">
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl h-11">
+            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white font-medium rounded-xl h-11">
               Save Activity
             </Button>
-            <Button type="button" variant="ghost" onClick={handleClose} className="w-full text-muted-foreground hover:text-foreground hover:bg-transparent font-medium">
+            <Button type="button" variant="outline" onClick={handleClose} className="w-full border border-border/50 bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30 hover:border-border font-medium rounded-xl h-11">
               Cancel
             </Button>
           </div>
