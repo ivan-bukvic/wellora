@@ -155,6 +155,7 @@ const LogActivityModal = ({
   if (!config) return null;
 
   const Icon = config.icon;
+  const instanceId = React.useId();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -188,43 +189,47 @@ const LogActivityModal = ({
         {/* Form */}
         <form onSubmit={handleSubmit} className="px-6 pb-6" autoComplete="off">
           <div className="space-y-4">
-            {config.fields.map((field) => (
-              <div key={field.name} className="space-y-2">
-                <Label htmlFor={field.name} className="text-sm font-medium text-foreground">
-                  {field.label}
-                </Label>
+            {config.fields.map((field) => {
+              const fieldId = `${instanceId}-${field.name}`;
 
-                {field.type === 'textarea' ? (
-                  <Textarea
-                    id={field.name}
-                    name={field.name}
-                    placeholder={field.placeholder}
-                    value={values[field.name] ?? ''}
-                    onChange={(e) => onChange(field.name, e.target.value)}
-                    autoComplete="off"
-                    className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]"
-                  />
-                ) : (
-                  <div className="relative">
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      type={field.type}
+              return (
+                <div key={field.name} className="space-y-2">
+                  <Label htmlFor={fieldId} className="text-sm font-medium text-foreground">
+                    {field.label}
+                  </Label>
+
+                  {field.type === 'textarea' ? (
+                    <Textarea
+                      id={fieldId}
+                      name={fieldId}
                       placeholder={field.placeholder}
                       value={values[field.name] ?? ''}
                       onChange={(e) => onChange(field.name, e.target.value)}
                       autoComplete="off"
-                      className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16"
+                      className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]"
                     />
-                    {field.unit && (
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                        {field.unit}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
+                  ) : (
+                    <div className="relative">
+                      <Input
+                        id={fieldId}
+                        name={fieldId}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        value={values[field.name] ?? ''}
+                        onChange={(e) => onChange(field.name, e.target.value)}
+                        autoComplete="off"
+                        className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16"
+                      />
+                      {field.unit && (
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                          {field.unit}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Actions */}
