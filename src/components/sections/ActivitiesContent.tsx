@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Footprints, Moon, Droplets, Brain, Check, Clock, LucideProps } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
@@ -37,48 +37,22 @@ const ActivitiesContent = () => {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
-  const closeTimerRef = useRef<number | null>(null);
-
   const [logActivityForm, setLogActivityForm] = useState<Record<string, string>>({});
 
-  const resetLogActivityForm = () => {
-    // Hard reset: remove ALL keys so no activity-specific fields can persist.
-    setLogActivityForm({});
-  };
-
   const handleOpenLogModal = (activityType: string) => {
-    if (closeTimerRef.current) {
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-
-    resetLogActivityForm();
     setActiveActivityType(activityType);
     setIsModalOpen(true);
   };
 
   const handleCloseLogModal = () => {
-    resetLogActivityForm();
     setIsModalOpen(false);
-
-    // Delay clearing activity so the Dialog can fully close without unmounting mid-animation.
-    closeTimerRef.current = window.setTimeout(() => {
-      setActiveActivityType(null);
-      closeTimerRef.current = null;
-    }, 250);
+    setActiveActivityType(null);
   };
 
   const handleSaveLogModal = async () => {
-    // Treat this as a successful save for now.
     console.log('Saving activity:', activeActivityType, logActivityForm);
-
-    resetLogActivityForm();
     setIsModalOpen(false);
-
-    closeTimerRef.current = window.setTimeout(() => {
-      setActiveActivityType(null);
-      closeTimerRef.current = null;
-    }, 250);
+    setActiveActivityType(null);
   };
 
   const handleLogFieldChange = (name: string, value: string) => {
@@ -268,16 +242,17 @@ const ActivitiesContent = () => {
           </div>
         </div>
       )}
-      {/* Log Activity Modal */}
-      <LogActivityModal
-        key={activeActivityType ?? 'log-activity'}
-        isOpen={isModalOpen}
-        onClose={handleCloseLogModal}
-        onSave={handleSaveLogModal}
-        onChange={handleLogFieldChange}
-        values={logActivityForm}
-        activityName={activeActivityType}
-      />
+      {/* Log Activity Modal - conditionally rendered to force unmount */}
+      {isModalOpen && activeActivityType && (
+        <LogActivityModal
+          isOpen={true}
+          onClose={handleCloseLogModal}
+          onSave={handleSaveLogModal}
+          onChange={handleLogFieldChange}
+          values={logActivityForm}
+          activityName={activeActivityType}
+        />
+      )}
     </div>
   );
 };
