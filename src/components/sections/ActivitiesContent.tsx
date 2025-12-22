@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Footprints, Moon, Droplets, Brain, Check, Clock, LucideProps } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
 import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
 import DailyFlowTimeline from './DailyFlowTimeline';
+import LogActivityModal from '@/components/activities/LogActivityModal';
 
 const activities = [
   { icon: Footprints, name: 'Walking', description: 'Track your daily steps', color: 'bg-activity-walking' },
@@ -32,6 +34,19 @@ const ActivitiesContent = () => {
   const { isDemoUser } = useDemoMode();
   const activityLogs = isDemoUser ? generateDemoActivityLogs() : [];
   const todayRoutine = isDemoUser ? demoTodayRoutine : [];
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState<string | null>(null);
+
+  const handleLogActivity = (activityName: string) => {
+    setSelectedActivity(activityName);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedActivity(null);
+  };
 
   return (
     <div className="animate-fade-in-up">
@@ -129,7 +144,10 @@ const ActivitiesContent = () => {
                   <p className="text-sm text-muted-foreground">{activity.description}</p>
                 </div>
               </div>
-              <button className="text-primary text-sm font-medium hover:underline flex-shrink-0">
+              <button 
+                onClick={() => handleLogActivity(activity.name)}
+                className="text-primary text-sm font-medium hover:underline flex-shrink-0"
+              >
                 + Log Activity
               </button>
             </div>
@@ -149,7 +167,10 @@ const ActivitiesContent = () => {
                   <p className="text-sm text-muted-foreground">{activity.description}</p>
                 </div>
               </div>
-              <button className="text-primary text-sm font-medium hover:underline flex-shrink-0">
+              <button 
+                onClick={() => handleLogActivity(activity.name)}
+                className="text-primary text-sm font-medium hover:underline flex-shrink-0"
+              >
                 + Log Activity
               </button>
             </div>
@@ -207,6 +228,12 @@ const ActivitiesContent = () => {
           </div>
         </div>
       )}
+      {/* Log Activity Modal */}
+      <LogActivityModal 
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        activityName={selectedActivity}
+      />
     </div>
   );
 };
