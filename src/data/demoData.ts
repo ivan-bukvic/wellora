@@ -120,7 +120,7 @@ export const generateDemoActivityLogs = () => {
 
   const activityTypes = ['Walking', 'Sleeping', 'Stretching', 'Hydration', 'Mindfulness'];
   
-  for (let i = 0; i < 21; i++) {
+  for (let i = 0; i < 30; i++) {
     const date = getPastDate(i);
     const isWeekend = new Date(date).getDay() === 0 || new Date(date).getDay() === 6;
     
