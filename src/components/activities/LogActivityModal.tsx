@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Footprints, Moon, Droplets, Brain } from 'lucide-react';
+import { Footprints, Moon, Droplets, Brain } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
-
+import welloraLogo from '@/assets/wellora-logo.svg';
 interface LogActivityModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -93,11 +93,19 @@ const LogActivityModal = ({ isOpen, onClose, activityName }: LogActivityModalPro
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent 
-        className="sm:max-w-[440px] bg-[hsl(var(--primary)/0.02)] border-0 shadow-2xl rounded-3xl p-0 gap-0"
+        className="sm:max-w-[440px] bg-card border-0 shadow-2xl rounded-3xl p-0 gap-0"
         style={{ 
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 12px 24px -8px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15)',
         }}
       >
+        {/* Wellora Icon - Top Right */}
+        <img 
+          src={welloraLogo} 
+          alt="" 
+          className="absolute top-5 right-5 w-6 h-6 opacity-60"
+          style={{ filter: 'hue-rotate(0deg)' }}
+        />
+        
         {/* Header */}
         <DialogHeader className="px-6 pt-6 pb-4">
           <DialogTitle className="text-xl font-semibold text-foreground">
@@ -127,7 +135,7 @@ const LogActivityModal = ({ isOpen, onClose, activityName }: LogActivityModalPro
                     placeholder={field.placeholder}
                     value={formData[field.name] || ''}
                     onChange={(e) => handleInputChange(field.name, e.target.value)}
-                    className="bg-background border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]"
+                    className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]"
                   />
                 ) : (
                   <div className="relative">
@@ -137,7 +145,7 @@ const LogActivityModal = ({ isOpen, onClose, activityName }: LogActivityModalPro
                       placeholder={field.placeholder}
                       value={formData[field.name] || ''}
                       onChange={(e) => handleInputChange(field.name, e.target.value)}
-                      className="bg-background border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16"
+                      className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16"
                     />
                     {field.unit && (
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
