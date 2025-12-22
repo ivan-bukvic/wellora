@@ -72,12 +72,12 @@ const CalendarDayCard = React.memo(({
         className={`
           rounded-xl flex flex-col p-1.5 sm:p-2 transition-all cursor-pointer min-h-0 h-full
           ${today 
-            ? 'bg-primary/[0.08] border border-primary/40 shadow-sm' 
+            ? 'bg-primary/[0.06] border border-primary/30 shadow-sm' 
             : future 
-              ? 'bg-muted/20 border border-transparent' 
+              ? 'bg-muted/20 border border-primary/[0.08]' 
               : hasData 
-                ? 'bg-card border border-border/50 hover:shadow-sm'
-                : 'bg-muted/30 border border-transparent'
+                ? 'bg-card border border-primary/[0.12] hover:shadow-sm'
+                : 'bg-muted/30 border border-primary/[0.08]'
           }
         `}
       >
@@ -94,11 +94,11 @@ const CalendarDayCard = React.memo(({
         
         {/* Mood word and completion - center */}
         {hasData && (
-          <div className="flex-1 flex flex-col items-center justify-center min-h-0 gap-0.5">
-            <span className={`text-[9px] sm:text-[10px] font-medium leading-tight ${getAccentColor(completionRate)}`}>
+          <div className="flex-1 flex flex-col items-center justify-center min-h-0 gap-1">
+            <span className={`text-[10px] sm:text-xs font-semibold leading-tight ${getAccentColor(completionRate)}`}>
               {getMoodWord(completionRate)}
             </span>
-            <span className="text-[8px] sm:text-[9px] text-muted-foreground/60 leading-tight">
+            <span className="text-[9px] sm:text-[10px] text-muted-foreground/50 font-normal leading-tight">
               {Math.round(completionRate * 100)}%
             </span>
           </div>
