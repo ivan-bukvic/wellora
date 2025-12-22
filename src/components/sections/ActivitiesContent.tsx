@@ -36,25 +36,63 @@ const ActivitiesContent = () => {
   const todayRoutine = isDemoUser ? demoTodayRoutine : [];
   
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState<string | null>(null);
+  const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
   const closeTimerRef = useRef<number | null>(null);
 
-  const handleLogActivity = (activityName: string) => {
+  const [logActivityForm, setLogActivityForm] = useState<Record<string, string>>({
+    duration: '',
+    steps: '',
+    notes: '',
+  });
+
+  const resetLogActivityForm = () => {
+    setLogActivityForm({
+      duration: '',
+      steps: '',
+      notes: '',
+    });
+  };
+
+  const handleOpenLogModal = (activityType: string) => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-    setSelectedActivity(activityName);
+
+    resetLogActivityForm();
+    setActiveActivityType(activityType);
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseLogModal = () => {
+    resetLogActivityForm();
     setIsModalOpen(false);
+
     // Delay clearing activity so the Dialog can fully close without unmounting mid-animation.
     closeTimerRef.current = window.setTimeout(() => {
-      setSelectedActivity(null);
+      setActiveActivityType(null);
       closeTimerRef.current = null;
     }, 250);
+  };
+
+  const handleSaveLogModal = async () => {
+    // Treat this as a successful save for now.
+    console.log('Saving activity:', activeActivityType, logActivityForm);
+
+    resetLogActivityForm();
+    setIsModalOpen(false);
+
+    closeTimerRef.current = window.setTimeout(() => {
+      setActiveActivityType(null);
+      closeTimerRef.current = null;
+    }, 250);
+  };
+
+  const handleLogFieldChange = (name: string, value: string) => {
+    setLogActivityForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -154,7 +192,7 @@ const ActivitiesContent = () => {
                 </div>
               </div>
               <button 
-                onClick={() => handleLogActivity(activity.name)}
+                onClick={() => handleOpenLogModal(activity.name)}
                 className="text-primary text-sm font-medium hover:underline flex-shrink-0"
               >
                 + Log Activity
@@ -177,7 +215,7 @@ const ActivitiesContent = () => {
                 </div>
               </div>
               <button 
-                onClick={() => handleLogActivity(activity.name)}
+                onClick={() => handleOpenLogModal(activity.name)}
                 className="text-primary text-sm font-medium hover:underline flex-shrink-0"
               >
                 + Log Activity
@@ -238,10 +276,14 @@ const ActivitiesContent = () => {
         </div>
       )}
       {/* Log Activity Modal */}
-      <LogActivityModal 
+      <LogActivityModal
+        key={activeActivityType ?? 'log-activity'}
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        activityName={selectedActivity}
+        onClose={handleCloseLogModal}
+        onSave={handleSaveLogModal}
+        onChange={handleLogFieldChange}
+        values={logActivityForm}
+        activityName={activeActivityType}
       />
     </div>
   );
