@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, Footprints, Moon, Activity, Droplets, Brain } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoCalendarData, generateDemoActivityLogs } from '@/data/demoData';
 
@@ -12,13 +12,171 @@ const activityIcons: Record<string, React.ElementType> = {
   Mindfulness: Brain,
 };
 
+// Get mood/intensity word based on completion rate
+const getMoodWord = (completionRate: number): string => {
+  if (completionRate >= 0.8) return 'Balanced';
+  if (completionRate >= 0.6) return 'Active';
+  if (completionRate >= 0.3) return 'Light';
+  return 'Rest-focused';
+};
+
+// Get subtle accent color based on completion rate
+const getAccentColor = (completionRate: number) => {
+  if (completionRate >= 0.8) return 'text-success/70';
+  if (completionRate >= 0.4) return 'text-warning/70';
+  if (completionRate > 0) return 'text-destructive/50';
+  return 'text-muted-foreground/50';
+};
+
+// Get subtle underline color
+const getUnderlineColor = (completionRate: number) => {
+  if (completionRate >= 0.8) return 'bg-success/30';
+  if (completionRate >= 0.4) return 'bg-warning/30';
+  if (completionRate > 0) return 'bg-destructive/20';
+  return 'bg-muted';
+};
+
+// Props for memoized day card
+interface CalendarDayCardProps {
+  day: number;
+  dayData: { completed: number; total: number } | undefined;
+  today: boolean;
+  future: boolean;
+  completedActivities: string[];
+  hasData: boolean;
+  isDemoUser: boolean;
+}
+
+// Memoized day card component - manages its own hover state
+const CalendarDayCard = React.memo(({ 
+  day, 
+  dayData, 
+  today, 
+  future, 
+  completedActivities,
+  hasData,
+}: CalendarDayCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const completed = dayData?.completed ?? 0;
+  const total = dayData?.total ?? 5;
+  const completionRate = total > 0 ? completed / total : 0;
+
+  return (
+    <div 
+      className="relative"
+      onMouseEnter={() => hasData && completedActivities.length > 0 && setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div 
+        className={`
+          rounded-xl flex flex-col p-1.5 sm:p-2 transition-all cursor-pointer min-h-0 h-full
+          ${today 
+            ? 'bg-primary/[0.08] border border-primary/40 shadow-sm' 
+            : future 
+              ? 'bg-muted/20 border border-transparent' 
+              : hasData 
+                ? 'bg-card border border-border/50 hover:shadow-sm'
+                : 'bg-muted/30 border border-transparent'
+          }
+        `}
+      >
+        {/* Day number - top left */}
+        <span className={`text-xs font-medium leading-none ${
+          today 
+            ? 'text-primary font-semibold' 
+            : future 
+              ? 'text-muted-foreground/50' 
+              : 'text-foreground'
+        }`}>
+          {day}
+        </span>
+        
+        {/* Mood word and completion - center */}
+        {hasData && (
+          <div className="flex-1 flex flex-col items-center justify-center min-h-0 gap-0.5">
+            <span className={`text-[9px] sm:text-[10px] font-medium leading-tight ${getAccentColor(completionRate)}`}>
+              {getMoodWord(completionRate)}
+            </span>
+            <span className="text-[8px] sm:text-[9px] text-muted-foreground/60 leading-tight">
+              {Math.round(completionRate * 100)}%
+            </span>
+          </div>
+        )}
+        
+        {/* Future placeholder */}
+        {future && (
+          <div className="flex-1 flex items-center justify-center min-h-0">
+            <span className="text-[8px] text-muted-foreground/40">—</span>
+          </div>
+        )}
+        
+        {/* No data placeholder for non-demo */}
+        {!hasData && !future && (
+          <div className="flex-1 flex items-center justify-center min-h-0">
+            <span className="text-[8px] text-muted-foreground/40">—</span>
+          </div>
+        )}
+        
+        {/* Subtle underline accent - bottom */}
+        {hasData && (
+          <div className={`w-full h-0.5 rounded-full mt-auto ${getUnderlineColor(completionRate)}`} />
+        )}
+      </div>
+
+      {/* Hover Popover - Completed Activity Icons */}
+      {isHovered && completedActivities.length > 0 && (
+        <div 
+          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 
+                     bg-background/95 backdrop-blur-sm rounded-xl shadow-lg 
+                     px-3 py-2 flex items-center gap-2
+                     animate-in fade-in zoom-in-95 duration-100"
+        >
+          {completedActivities.slice(0, 5).map((activity) => {
+            const Icon = activityIcons[activity];
+            if (!Icon) return null;
+            return (
+              <Icon 
+                key={activity} 
+                className="w-4 h-4 text-muted-foreground/70" 
+              />
+            );
+          })}
+          {/* Small arrow pointing down */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
+            <div className="w-2 h-2 bg-background/95 rotate-45 shadow-sm" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+});
+
+CalendarDayCard.displayName = 'CalendarDayCard';
+
 const CalendarContent = () => {
   const { isDemoUser } = useDemoMode();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [hoveredDay, setHoveredDay] = useState<number | null>(null);
   
-  const calendarData = isDemoUser ? generateDemoCalendarData() : {};
-  const activityLogs = isDemoUser ? generateDemoActivityLogs() : [];
+  // Memoize demo data to prevent regeneration on every render
+  const calendarData = useMemo(() => 
+    isDemoUser ? generateDemoCalendarData() : {}, 
+    [isDemoUser]
+  );
+  
+  const activityLogs = useMemo(() => 
+    isDemoUser ? generateDemoActivityLogs() : [], 
+    [isDemoUser]
+  );
+
+  // Precompute completed activities map
+  const completedActivitiesMap = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    activityLogs.forEach(log => {
+      map[log.date] = log.activities.filter(a => a.completed).map(a => a.name);
+    });
+    return map;
+  }, [activityLogs]);
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                       'July', 'August', 'September', 'October', 'November', 'December'];
@@ -65,37 +223,6 @@ const CalendarContent = () => {
     const today = new Date();
     const checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
     return checkDate > today;
-  };
-
-  // Get completed activities for a specific date
-  const getCompletedActivities = (dateKey: string): string[] => {
-    const log = activityLogs.find(l => l.date === dateKey);
-    if (!log) return [];
-    return log.activities.filter(a => a.completed).map(a => a.name);
-  };
-
-  // Get mood/intensity word based on completion rate
-  const getMoodWord = (completionRate: number): string => {
-    if (completionRate >= 0.8) return 'Balanced';
-    if (completionRate >= 0.6) return 'Active';
-    if (completionRate >= 0.3) return 'Light';
-    return 'Rest-focused';
-  };
-
-  // Get subtle accent color based on completion rate
-  const getAccentColor = (completionRate: number) => {
-    if (completionRate >= 0.8) return 'text-success/70';
-    if (completionRate >= 0.4) return 'text-warning/70';
-    if (completionRate > 0) return 'text-destructive/50';
-    return 'text-muted-foreground/50';
-  };
-
-  // Get subtle underline color
-  const getUnderlineColor = (completionRate: number) => {
-    if (completionRate >= 0.8) return 'bg-success/30';
-    if (completionRate >= 0.4) return 'bg-warning/30';
-    if (completionRate > 0) return 'bg-destructive/20';
-    return 'bg-muted';
   };
 
   return (
@@ -147,102 +274,20 @@ const CalendarContent = () => {
             const dayData = calendarData[dateKey];
             const today = isToday(day);
             const future = isFuture(day);
-            
-            const completed = dayData?.completed ?? 0;
-            const total = dayData?.total ?? 5;
-            const completionRate = total > 0 ? completed / total : 0;
-            const hasData = isDemoUser && dayData && !future;
-            const completedActivities = hasData ? getCompletedActivities(dateKey) : [];
-            const isHovered = hoveredDay === day;
+            const hasData = isDemoUser && !!dayData && !future;
+            const completedActivities = completedActivitiesMap[dateKey] || [];
 
             return (
-              <div 
+              <CalendarDayCard
                 key={day}
-                className="relative"
-                onMouseEnter={() => hasData && completedActivities.length > 0 && setHoveredDay(day)}
-                onMouseLeave={() => setHoveredDay(null)}
-              >
-                <div 
-                  className={`
-                    rounded-xl flex flex-col p-1.5 sm:p-2 transition-all cursor-pointer min-h-0 h-full
-                    ${today 
-                      ? 'bg-primary/[0.08] border border-primary/40 shadow-sm' 
-                      : future 
-                        ? 'bg-muted/20 border border-transparent' 
-                        : hasData 
-                          ? 'bg-card border border-border/50 hover:shadow-sm'
-                          : 'bg-muted/30 border border-transparent'
-                    }
-                  `}
-                >
-                  {/* Day number - top left */}
-                  <span className={`text-xs font-medium leading-none ${
-                    today 
-                      ? 'text-primary font-semibold' 
-                      : future 
-                        ? 'text-muted-foreground/50' 
-                        : 'text-foreground'
-                  }`}>
-                    {day}
-                  </span>
-                  
-                  {/* Mood word and completion - center */}
-                  {hasData && (
-                    <div className="flex-1 flex flex-col items-center justify-center min-h-0 gap-0.5">
-                      <span className={`text-[9px] sm:text-[10px] font-medium leading-tight ${getAccentColor(completionRate)}`}>
-                        {getMoodWord(completionRate)}
-                      </span>
-                      <span className="text-[8px] sm:text-[9px] text-muted-foreground/60 leading-tight">
-                        {Math.round(completionRate * 100)}%
-                      </span>
-                    </div>
-                  )}
-                  
-                  {/* Future placeholder */}
-                  {future && (
-                    <div className="flex-1 flex items-center justify-center min-h-0">
-                      <span className="text-[8px] text-muted-foreground/40">—</span>
-                    </div>
-                  )}
-                  
-                  {/* No data placeholder for non-demo */}
-                  {!isDemoUser && !future && (
-                    <div className="flex-1 flex items-center justify-center min-h-0">
-                      <span className="text-[8px] text-muted-foreground/40">—</span>
-                    </div>
-                  )}
-                  
-                  {/* Subtle underline accent - bottom */}
-                  {hasData && (
-                    <div className={`w-full h-0.5 rounded-full mt-auto ${getUnderlineColor(completionRate)}`} />
-                  )}
-                </div>
-
-                {/* Hover Popover - Completed Activity Icons */}
-                {isHovered && completedActivities.length > 0 && (
-                  <div 
-                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 
-                               bg-background/95 backdrop-blur-sm rounded-xl shadow-lg 
-                               px-3 py-2 flex items-center gap-2
-                               animate-in fade-in zoom-in-95 duration-100"
-                  >
-                    {completedActivities.slice(0, 5).map((activity) => {
-                      const Icon = activityIcons[activity];
-                      if (!Icon) return null;
-                      return (
-                        <Icon 
-                          key={activity} 
-                          className="w-4 h-4 text-muted-foreground/70" 
-                        />
-                      );
-                    })}
-                    {/* Small arrow pointing down */}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
-                      <div className="w-2 h-2 bg-background/95 rotate-45 shadow-sm" />
-                    </div>
-                  </div>
-                )}
-              </div>
+                day={day}
+                dayData={dayData}
+                today={today}
+                future={future}
+                completedActivities={completedActivities}
+                hasData={hasData}
+                isDemoUser={isDemoUser}
+              />
             );
           })}
         </div>
