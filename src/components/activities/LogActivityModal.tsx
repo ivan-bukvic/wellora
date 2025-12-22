@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Footprints, Moon, Droplets, Brain } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -121,6 +121,14 @@ const LogActivityModal = ({
   activityName
 }: LogActivityModalProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
+
+  // Reset form data whenever modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({});
+    }
+  }, [isOpen]);
+
   if (!activityName) return null;
   const config = activityConfigs[activityName];
   if (!config) return null;
