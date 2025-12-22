@@ -121,11 +121,14 @@ const LogActivityModal = ({
   activityName
 }: LogActivityModalProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const [formKey, setFormKey] = useState(0);
 
   // Reset form data whenever modal opens or activity changes
   useEffect(() => {
     if (isOpen) {
       setFormData({});
+      // Force a fresh form instance to prevent any retained input state.
+      setFormKey(prev => prev + 1);
     }
   }, [isOpen, activityName]);
 
@@ -169,7 +172,7 @@ const LogActivityModal = ({
         </DialogHeader>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="px-6 pb-6">
+        <form key={formKey} onSubmit={handleSubmit} className="px-6 pb-6">
           <div className="space-y-4">
             {config.fields.map(field => <div key={field.name} className="space-y-2">
                 <Label htmlFor={field.name} className="text-sm font-medium text-foreground">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Footprints, Moon, Droplets, Brain, Check, Clock, LucideProps } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
@@ -37,15 +37,24 @@ const ActivitiesContent = () => {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<string | null>(null);
+  const closeTimerRef = useRef<number | null>(null);
 
   const handleLogActivity = (activityName: string) => {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
     setSelectedActivity(activityName);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedActivity(null);
+    // Delay clearing activity so the Dialog can fully close without unmounting mid-animation.
+    closeTimerRef.current = window.setTimeout(() => {
+      setSelectedActivity(null);
+      closeTimerRef.current = null;
+    }, 250);
   };
 
   return (
