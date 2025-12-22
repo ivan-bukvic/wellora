@@ -40,6 +40,7 @@ const ActivitiesContent = () => {
   const [logActivityForm, setLogActivityForm] = useState<Record<string, string>>({});
 
   const handleOpenLogModal = (activityType: string) => {
+    setLogActivityForm({});
     setActiveActivityType(activityType);
     setIsModalOpen(true);
   };
