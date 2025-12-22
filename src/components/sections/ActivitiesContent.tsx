@@ -39,18 +39,11 @@ const ActivitiesContent = () => {
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
   const closeTimerRef = useRef<number | null>(null);
 
-  const [logActivityForm, setLogActivityForm] = useState<Record<string, string>>({
-    duration: '',
-    steps: '',
-    notes: '',
-  });
+  const [logActivityForm, setLogActivityForm] = useState<Record<string, string>>({});
 
   const resetLogActivityForm = () => {
-    setLogActivityForm({
-      duration: '',
-      steps: '',
-      notes: '',
-    });
+    // Hard reset: remove ALL keys so no activity-specific fields can persist.
+    setLogActivityForm({});
   };
 
   const handleOpenLogModal = (activityType: string) => {
