@@ -122,12 +122,12 @@ const LogActivityModal = ({
 }: LogActivityModalProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
 
-  // Reset form data whenever modal opens
+  // Reset form data whenever modal opens or activity changes
   useEffect(() => {
     if (isOpen) {
       setFormData({});
     }
-  }, [isOpen]);
+  }, [isOpen, activityName]);
 
   if (!activityName) return null;
   const config = activityConfigs[activityName];
@@ -150,7 +150,7 @@ const LogActivityModal = ({
     setFormData({});
     onClose();
   };
-  return <Dialog open={isOpen} onOpenChange={handleClose}>
+  return <Dialog key={activityName} open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[440px] bg-card border-0 shadow-2xl rounded-3xl p-0 gap-0" style={{
       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15)'
     }}>
@@ -176,8 +176,8 @@ const LogActivityModal = ({
                   {field.label}
                 </Label>
                 
-                {field.type === 'textarea' ? <Textarea id={field.name} placeholder={field.placeholder} value={formData[field.name] || ''} onChange={e => handleInputChange(field.name, e.target.value)} className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]" /> : <div className="relative">
-                    <Input id={field.name} type={field.type} placeholder={field.placeholder} value={formData[field.name] || ''} onChange={e => handleInputChange(field.name, e.target.value)} className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16" />
+                {field.type === 'textarea' ? <Textarea id={field.name} placeholder={field.placeholder} value={formData[field.name] || ''} onChange={e => handleInputChange(field.name, e.target.value)} autoComplete="off" className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]" /> : <div className="relative">
+                    <Input id={field.name} type={field.type} placeholder={field.placeholder} value={formData[field.name] || ''} onChange={e => handleInputChange(field.name, e.target.value)} autoComplete="off" className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16" />
                     {field.unit && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
                         {field.unit}
                       </span>}
