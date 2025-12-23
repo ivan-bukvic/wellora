@@ -71,13 +71,14 @@ const CalendarDayCard = React.memo(({
       <div 
         className={`
           rounded-xl flex flex-col p-1.5 sm:p-2 transition-all cursor-pointer min-h-0 h-full
+          border border-primary/30
           ${today 
-            ? 'bg-primary/[0.06] border border-primary/30 shadow-sm' 
+            ? 'bg-primary/[0.06] shadow-sm' 
             : future 
-              ? 'bg-muted/20 border border-primary/[0.08]' 
+              ? 'bg-muted/20' 
               : hasData 
-                ? 'bg-card border border-primary/[0.12] hover:shadow-sm'
-                : 'bg-muted/30 border border-primary/[0.08]'
+                ? 'bg-card hover:shadow-sm'
+                : 'bg-muted/30'
           }
         `}
       >
