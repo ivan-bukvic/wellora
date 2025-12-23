@@ -1,11 +1,11 @@
-import React from 'react';
-import { Footprints, Moon, Droplets, Brain } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
+import React from "react";
+import { Footprints, Moon, Droplets, Brain } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import YogaMoonIcon from "@/components/icons/YogaMoonIcon";
 
 interface LogActivityModalProps {
   isOpen: boolean;
@@ -25,7 +25,7 @@ const activityConfigs: Record<
     fields: {
       name: string;
       label: string;
-      type: 'number' | 'text' | 'textarea';
+      type: "number" | "text" | "textarea";
       placeholder: string;
       unit?: string;
     }[];
@@ -35,23 +35,23 @@ const activityConfigs: Record<
     icon: Footprints,
     fields: [
       {
-        name: 'duration',
-        label: 'Duration',
-        type: 'number',
-        placeholder: '30',
-        unit: 'minutes',
+        name: "duration",
+        label: "Duration",
+        type: "number",
+        placeholder: "30",
+        unit: "minutes",
       },
       {
-        name: 'steps',
-        label: 'Steps (optional)',
-        type: 'number',
-        placeholder: '4000',
+        name: "steps",
+        label: "Steps (optional)",
+        type: "number",
+        placeholder: "4000",
       },
       {
-        name: 'notes',
-        label: 'Notes (optional)',
-        type: 'textarea',
-        placeholder: 'How did your walk feel today?',
+        name: "notes",
+        label: "Notes (optional)",
+        type: "textarea",
+        placeholder: "How did your walk feel today?",
       },
     ],
   },
@@ -59,23 +59,23 @@ const activityConfigs: Record<
     icon: Moon,
     fields: [
       {
-        name: 'duration',
-        label: 'Sleep Duration',
-        type: 'number',
-        placeholder: '8',
-        unit: 'hours',
+        name: "duration",
+        label: "Sleep Duration",
+        type: "number",
+        placeholder: "8",
+        unit: "hours",
       },
       {
-        name: 'quality',
-        label: 'Sleep Quality (1-10)',
-        type: 'number',
-        placeholder: '7',
+        name: "quality",
+        label: "Sleep Quality (1-10)",
+        type: "number",
+        placeholder: "7",
       },
       {
-        name: 'notes',
-        label: 'Notes (optional)',
-        type: 'textarea',
-        placeholder: 'Any dreams or disruptions?',
+        name: "notes",
+        label: "Notes (optional)",
+        type: "textarea",
+        placeholder: "Any dreams or disruptions?",
       },
     ],
   },
@@ -83,17 +83,17 @@ const activityConfigs: Record<
     icon: YogaMoonIcon,
     fields: [
       {
-        name: 'duration',
-        label: 'Duration',
-        type: 'number',
-        placeholder: '15',
-        unit: 'minutes',
+        name: "duration",
+        label: "Duration",
+        type: "number",
+        placeholder: "15",
+        unit: "minutes",
       },
       {
-        name: 'notes',
-        label: 'Notes (optional)',
-        type: 'textarea',
-        placeholder: 'What stretches did you do?',
+        name: "notes",
+        label: "Notes (optional)",
+        type: "textarea",
+        placeholder: "What stretches did you do?",
       },
     ],
   },
@@ -101,17 +101,17 @@ const activityConfigs: Record<
     icon: Droplets,
     fields: [
       {
-        name: 'amount',
-        label: 'Water Intake',
-        type: 'number',
-        placeholder: '8',
-        unit: 'glasses',
+        name: "amount",
+        label: "Water Intake",
+        type: "number",
+        placeholder: "8",
+        unit: "glasses",
       },
       {
-        name: 'notes',
-        label: 'Notes (optional)',
-        type: 'textarea',
-        placeholder: 'Any hydration goals for tomorrow?',
+        name: "notes",
+        label: "Notes (optional)",
+        type: "textarea",
+        placeholder: "Any hydration goals for tomorrow?",
       },
     ],
   },
@@ -119,36 +119,31 @@ const activityConfigs: Record<
     icon: Brain,
     fields: [
       {
-        name: 'duration',
-        label: 'Duration',
-        type: 'number',
-        placeholder: '10',
-        unit: 'minutes',
+        name: "duration",
+        label: "Duration",
+        type: "number",
+        placeholder: "10",
+        unit: "minutes",
       },
       {
-        name: 'type',
-        label: 'Practice Type',
-        type: 'text',
-        placeholder: 'Meditation, breathing, journaling...',
+        name: "type",
+        label: "Practice Type",
+        type: "text",
+        placeholder: "Meditation, breathing, journaling...",
       },
       {
-        name: 'notes',
-        label: 'Notes (optional)',
-        type: 'textarea',
-        placeholder: 'How do you feel after your practice?',
+        name: "notes",
+        label: "Notes (optional)",
+        type: "textarea",
+        placeholder: "How do you feel after your practice?",
       },
     ],
   },
 };
 
-const LogActivityModal = ({
-  isOpen,
-  onClose,
-  onSave,
-  onChange,
-  values,
-  activityName,
-}: LogActivityModalProps) => {
+const LogActivityModal = ({ isOpen, onClose, onSave, onChange, values, activityName }: LogActivityModalProps) => {
+  console.log("[LogActivityModal render]", activityName, values);
+
   if (!activityName) return null;
 
   const config = activityConfigs[activityName];
@@ -172,7 +167,7 @@ const LogActivityModal = ({
       <DialogContent
         className="sm:max-w-[440px] bg-card border-0 shadow-2xl rounded-3xl p-0 gap-0"
         style={{
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15)',
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15)",
         }}
       >
         {/* Wellora Icon - Top Right */}
@@ -198,12 +193,12 @@ const LogActivityModal = ({
                     {field.label}
                   </Label>
 
-                  {field.type === 'textarea' ? (
+                  {field.type === "textarea" ? (
                     <Textarea
                       id={fieldId}
                       name={fieldId}
                       placeholder={field.placeholder}
-                      value={values[field.name] ?? ''}
+                      value={values[field.name] ?? ""}
                       onChange={(e) => onChange(field.name, e.target.value)}
                       autoComplete="off"
                       className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]"
@@ -215,7 +210,7 @@ const LogActivityModal = ({
                         name={fieldId}
                         type={field.type}
                         placeholder={field.placeholder}
-                        value={values[field.name] ?? ''}
+                        value={values[field.name] ?? ""}
                         onChange={(e) => onChange(field.name, e.target.value)}
                         autoComplete="off"
                         className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16"
@@ -234,7 +229,10 @@ const LogActivityModal = ({
 
           {/* Actions */}
           <div className="flex flex-col gap-3 mt-6">
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white font-medium rounded-xl h-11">
+            <Button
+              type="submit"
+              className="w-full bg-primary hover:bg-primary/90 text-white font-medium rounded-xl h-11"
+            >
               Save Activity
             </Button>
             <Button
