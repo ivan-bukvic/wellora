@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Camera } from 'lucide-react';
+import { Camera, Loader2 } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
@@ -19,6 +19,7 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
   // User data from auth
   const [userEmail, setUserEmail] = useState('');
   const [fullName, setFullName] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   
   // Password fields
   const [currentPassword, setCurrentPassword] = useState('');
@@ -53,7 +54,7 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -69,14 +70,51 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
       return;
     }
 
-    // Create preview and update parent
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const url = event.target?.result as string;
-      onAvatarChange(url);
-      toast.success('Photo updated');
-    };
-    reader.readAsDataURL(file);
+    setIsUploading(true);
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('You must be logged in to upload an avatar');
+        return;
+      }
+
+      // Generate unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/avatar.${fileExt}`;
+
+      // Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, file, { upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName);
+
+      // Add cache-busting timestamp
+      const avatarUrlWithTimestamp = `${publicUrl}?t=${Date.now()}`;
+
+      // Save URL to profiles table
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: avatarUrlWithTimestamp })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
+
+      // Update UI
+      onAvatarChange(avatarUrlWithTimestamp);
+      toast.success('Photo updated successfully');
+    } catch (error) {
+      console.error('Avatar upload error:', error);
+      toast.error('Failed to upload photo');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleSaveProfile = async () => {
@@ -153,10 +191,20 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
               />
               <Button 
                 onClick={handlePhotoClick}
+                disabled={isUploading}
                 className="bg-primary hover:bg-primary/90 text-white"
               >
-                <Camera className="w-4 h-4 mr-2" />
-                Change photo
+                {isUploading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Camera className="w-4 h-4 mr-2" />
+                    Change photo
+                  </>
+                )}
               </Button>
               <p className="text-sm text-muted-foreground">PNG or JPG · Max 5MB</p>
             </div>
