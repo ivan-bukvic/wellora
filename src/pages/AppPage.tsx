@@ -3,7 +3,6 @@ import {
   LayoutDashboard, 
   Activity, 
   Calendar as CalendarIcon, 
-  User, 
   Settings as SettingsIcon, 
   LogOut,
   Bell,
@@ -19,16 +18,14 @@ import WelloraLogo from '@/assets/wellora-logo.png';
 import DashboardContent from '@/components/sections/DashboardContent';
 import ActivitiesContent from '@/components/sections/ActivitiesContent';
 import CalendarContent from '@/components/sections/CalendarContent';
-import ProfileContent from '@/components/sections/ProfileContent';
 import SettingsContent from '@/components/sections/SettingsContent';
 
-type Section = 'dashboard' | 'activities' | 'calendar' | 'profile' | 'settings';
+type Section = 'dashboard' | 'activities' | 'calendar' | 'settings';
 
 const navItems: { icon: typeof LayoutDashboard; label: string; section: Section }[] = [
   { icon: LayoutDashboard, label: 'Dashboard', section: 'dashboard' },
   { icon: Activity, label: 'Activities', section: 'activities' },
   { icon: CalendarIcon, label: 'Calendar', section: 'calendar' },
-  { icon: User, label: 'Profile', section: 'profile' },
   { icon: SettingsIcon, label: 'Settings', section: 'settings' },
 ];
 
@@ -36,7 +33,6 @@ const sectionTitles: Record<Section, string> = {
   dashboard: 'Dashboard',
   activities: 'Activities',
   calendar: 'Calendar',
-  profile: 'Profile',
   settings: 'Settings',
 };
 
@@ -60,8 +56,6 @@ const AppPage = () => {
         return <ActivitiesContent />;
       case 'calendar':
         return <CalendarContent />;
-      case 'profile':
-        return <ProfileContent />;
       case 'settings':
         return <SettingsContent />;
       default:
