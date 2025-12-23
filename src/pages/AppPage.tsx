@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LayoutDashboard, Activity, Calendar as CalendarIcon, Settings as SettingsIcon, LogOut, Bell, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useDemoMode } from '@/hooks/useDemoMode';
+import { useUserProfile } from '@/context/UserProfileContext';
 import WelloraLogo from '@/assets/wellora-logo.png';
 
 // Import section content components
@@ -53,38 +54,14 @@ const sectionSubtitles: Record<Section, string> = {
 const AppPage = () => {
   const navigate = useNavigate();
   const { demoUserName } = useDemoMode();
+  const { profile } = useUserProfile();
   const [activeSection, setActiveSection] = useState<Section>('dashboard');
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   
   const activeIndex = navItems.findIndex(item => item.section === activeSection);
-
-  // Fetch avatar from profile on mount
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('avatar_url')
-          .eq('id', user.id)
-          .single();
-        
-        if (profile?.avatar_url) {
-          setAvatarUrl(profile.avatar_url);
-        }
-      }
-    };
-
-    fetchAvatar();
-  }, []);
   
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/auth');
-  };
-
-  const handleAvatarChange = (url: string | null) => {
-    setAvatarUrl(url);
   };
 
   const renderContent = () => {
@@ -96,7 +73,7 @@ const AppPage = () => {
       case 'calendar':
         return <CalendarContent />;
       case 'settings':
-        return <SettingsContent avatarUrl={avatarUrl} onAvatarChange={handleAvatarChange} />;
+        return <SettingsContent />;
       default:
         return <DashboardContent />;
     }
@@ -106,6 +83,8 @@ const AppPage = () => {
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
+
+  const displayName = profile?.name || demoUserName;
 
   return (
     <div className="h-[100dvh] bg-background overflow-hidden flex">
@@ -187,13 +166,13 @@ const AppPage = () => {
             {/* User Avatar */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center overflow-hidden">
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt="Profile" className="w-full h-full object-cover" />
+                {profile?.avatar_url ? (
+                  <img src={profile.avatar_url} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-sm font-medium text-accent-foreground">{getInitials(demoUserName)}</span>
+                  <span className="text-sm font-medium text-accent-foreground">{getInitials(displayName)}</span>
                 )}
               </div>
-              <span className="text-sm font-medium text-foreground">{demoUserName}</span>
+              <span className="text-sm font-medium text-foreground">{displayName}</span>
             </div>
           </div>
         </header>

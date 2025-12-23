@@ -1,19 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { Camera, Loader2 } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
+import { useUserProfile } from '@/context/UserProfileContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 
-interface SettingsContentProps {
-  avatarUrl: string | null;
-  onAvatarChange: (url: string | null) => void;
-}
-
-const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) => {
+const SettingsContent = () => {
   const { demoUserName } = useDemoMode();
+  const { profile, user, updateProfileLocal } = useUserProfile();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   // User data from auth
@@ -27,23 +24,14 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  // Fetch user data on mount
+  // Sync local form state with profile
   useEffect(() => {
-    const fetchUserData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (user) {
-        // Email always comes from auth
-        setUserEmail(user.email || '');
-        
-        // Full name from metadata
-        const metadata = user.user_metadata || {};
-        setFullName(metadata.name || '');
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    if (user) {
+      setUserEmail(user.email || '');
+      const metadata = user.user_metadata || {};
+      setFullName(metadata.name || profile?.name || '');
+    }
+  }, [user, profile?.name]);
 
   // Get initials from user name
   const getInitials = (name: string) => {
@@ -70,15 +58,14 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
       return;
     }
 
+    if (!user) {
+      toast.error('You must be logged in to upload an avatar');
+      return;
+    }
+
     setIsUploading(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('You must be logged in to upload an avatar');
-        return;
-      }
-
       // Generate unique filename
       const fileExt = file.name.split('.').pop();
       const fileName = `${user.id}/avatar.${fileExt}`;
@@ -98,16 +85,21 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
       // Add cache-busting timestamp
       const avatarUrlWithTimestamp = `${publicUrl}?t=${Date.now()}`;
 
-      // Save URL to profiles table
-      const { error: updateError } = await supabase
+      // Upsert profile to ensure row exists and update avatar_url
+      const { error: upsertError } = await supabase
         .from('profiles')
-        .update({ avatar_url: avatarUrlWithTimestamp })
-        .eq('id', user.id);
+        .upsert({ 
+          id: user.id, 
+          avatar_url: avatarUrlWithTimestamp,
+          email: user.email 
+        }, { 
+          onConflict: 'id' 
+        });
 
-      if (updateError) throw updateError;
+      if (upsertError) throw upsertError;
 
-      // Update UI
-      onAvatarChange(avatarUrlWithTimestamp);
+      // Update global profile state immediately
+      updateProfileLocal({ avatar_url: avatarUrlWithTimestamp });
       toast.success('Photo updated successfully');
     } catch (error) {
       console.error('Avatar upload error:', error);
@@ -127,6 +119,16 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
       });
 
       if (error) throw error;
+
+      // Also update profiles table
+      if (user) {
+        await supabase
+          .from('profiles')
+          .upsert({ id: user.id, name: fullName.trim() }, { onConflict: 'id' });
+        
+        updateProfileLocal({ name: fullName.trim() });
+      }
+
       toast.success('Profile saved successfully');
     } catch (error) {
       toast.error('Failed to save profile');
@@ -157,6 +159,8 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
     setConfirmPassword('');
   };
 
+  const displayName = profile?.name || demoUserName;
+
   return (
     <div className="animate-fade-in-up">
       <div className="space-y-6">
@@ -167,15 +171,15 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
           <div className="flex flex-col items-center sm:items-start gap-4">
             {/* Avatar */}
             <div className="w-28 h-28 rounded-full bg-muted flex items-center justify-center overflow-hidden">
-              {avatarUrl ? (
+              {profile?.avatar_url ? (
                 <img 
-                  src={avatarUrl} 
+                  src={profile.avatar_url} 
                   alt="Profile" 
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <span className="text-2xl font-semibold text-muted-foreground">
-                  {getInitials(demoUserName)}
+                  {getInitials(displayName)}
                 </span>
               )}
             </div>
