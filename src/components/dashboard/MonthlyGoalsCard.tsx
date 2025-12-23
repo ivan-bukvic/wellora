@@ -53,13 +53,13 @@ export const MonthlyGoalsCard = () => {
       </div>
       
       <ScrollArea className="flex-1 -mr-2 pr-2">
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {goals.map((goal) => {
             const Icon = goal.icon;
             const progress = (goal.current / goal.target) * 100;
             
             return (
-              <div key={goal.label} className="space-y-1.5">
+              <div key={goal.label} className="space-y-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <Icon className="w-3.5 h-3.5 text-muted-foreground" />
@@ -70,9 +70,9 @@ export const MonthlyGoalsCard = () => {
                   </span>
                 </div>
                 
-                <div className="goal-progress">
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div 
-                    className={`goal-progress-fill ${goal.color}`}
+                    className={`h-full rounded-full transition-all duration-500 ease-out ${goal.color}`}
                     style={{ width: `${Math.min(progress, 100)}%` }}
                   />
                 </div>
