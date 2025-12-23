@@ -123,7 +123,7 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
               />
               <Button 
                 onClick={handlePhotoClick}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="bg-primary hover:bg-primary/90 text-white"
               >
                 <Camera className="w-4 h-4 mr-2" />
                 Change photo
@@ -176,7 +176,7 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
             <div className="flex justify-end mt-6">
               <Button 
                 onClick={handleSaveProfile}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
               >
                 Save Changes
               </Button>
@@ -227,7 +227,7 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
             <div className="flex justify-end mt-6">
               <Button 
                 onClick={handleUpdatePassword}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
               >
                 Update Password
               </Button>
