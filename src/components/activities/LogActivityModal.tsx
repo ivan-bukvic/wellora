@@ -162,29 +162,74 @@ const LogActivityModal = ({ isOpen, onClose, onSave, onChange, values, activityN
     if (!open) onClose();
   };
 
-  return (
-  <Dialog open={isOpen} modal>
-    {isOpen && (
-      <DialogContent
+return (
+    <Dialog open={isOpen} modal>
+      {isOpen && (
+  <DialogContent
+
         className="sm:max-w-[440px] bg-card border-0 shadow-2xl rounded-3xl p-0 gap-0"
         style={{
-          boxShadow:
-            '0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15)',
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15)",
         }}
       >
+        {/* Wellora Icon - Top Right */}
+
+        {/* Header */}
         <DialogHeader className="px-6 pt-6 pb-4">
-          <DialogTitle className="text-xl font-semibold text-foreground">
-            Log Activity
-          </DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-foreground">Log Activity</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
             <Icon className="w-4 h-4" />
             {activityName}
           </DialogDescription>
         </DialogHeader>
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="px-6 pb-6" autoComplete="off">
-          {/* keep your existing inputs here exactly as they are */}
+          <div className="space-y-4">
+            {config.fields.map((field) => {
+              const fieldId = `${instanceId}-${field.name}`;
 
+              return (
+                <div key={field.name} className="space-y-2">
+                  <Label htmlFor={fieldId} className="text-sm font-medium text-foreground">
+                    {field.label}
+                  </Label>
+
+                  {field.type === "textarea" ? (
+                    <Textarea
+                      id={fieldId}
+                      name={fieldId}
+                      placeholder={field.placeholder}
+                      value={values[field.name] ?? ""}
+                      onChange={(e) => onChange(field.name, e.target.value)}
+                      autoComplete="off"
+                      className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl resize-none min-h-[80px]"
+                    />
+                  ) : (
+                    <div className="relative">
+                      <Input
+                        id={fieldId}
+                        name={fieldId}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        value={values[field.name] ?? ""}
+                        onChange={(e) => onChange(field.name, e.target.value)}
+                        autoComplete="off"
+                        className="bg-white border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl pr-16"
+                      />
+                      {field.unit && (
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                          {field.unit}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Actions */}
           <div className="flex flex-col gap-3 mt-6">
             <Button
               type="submit"
@@ -192,21 +237,19 @@ const LogActivityModal = ({ isOpen, onClose, onSave, onChange, values, activityN
             >
               Save Activity
             </Button>
-
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
-              className="w-full border border-border/50 bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30 font-medium rounded-xl h-11"
+              className="w-full border border-border/50 bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30 hover:border-border font-medium rounded-xl h-11"
             >
               Cancel
             </Button>
           </div>
         </form>
       </DialogContent>
-    )}
-  </Dialog>
-);
-
+    </Dialog>
+  );
+};
 
 export default LogActivityModal;
