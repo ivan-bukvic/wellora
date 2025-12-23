@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Camera } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
+import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -15,16 +16,43 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
   const { demoUserName } = useDemoMode();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  // Parse demo user name into first/last
-  const nameParts = demoUserName.split(' ');
-  const [firstName, setFirstName] = useState(nameParts[0] || '');
-  const [lastName, setLastName] = useState(nameParts.slice(1).join(' ') || '');
+  // User data from auth
+  const [userEmail, setUserEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   
   // Password fields
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  // Fetch user data on mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        // Email always comes from auth
+        setUserEmail(user.email || '');
+        
+        // Check for first_name/last_name in metadata first (saved from Settings)
+        const metadata = user.user_metadata || {};
+        
+        if (metadata.first_name !== undefined || metadata.last_name !== undefined) {
+          // User has previously saved first/last name
+          setFirstName(metadata.first_name || '');
+          setLastName(metadata.last_name || '');
+        } else if (metadata.name) {
+          // Only full_name exists (from signup) - prefill first name, leave last empty
+          setFirstName(metadata.name);
+          setLastName('');
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   // Get initials from user name
   const getInitials = (name: string) => {
@@ -61,8 +89,21 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
     reader.readAsDataURL(file);
   };
 
-  const handleSaveProfile = () => {
-    toast.success('Profile saved successfully');
+  const handleSaveProfile = async () => {
+    try {
+      // Save first_name and last_name to user metadata
+      const { error } = await supabase.auth.updateUser({
+        data: {
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+        }
+      });
+
+      if (error) throw error;
+      toast.success('Profile saved successfully');
+    } catch (error) {
+      toast.error('Failed to save profile');
+    }
   };
 
   const handleUpdatePassword = () => {
@@ -160,13 +201,14 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
                   />
                 </div>
               </div>
+              <p className="text-xs text-muted-foreground">You can optionally split your name into first and last name.</p>
               
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
-                  value="user@example.com"
+                  value={userEmail}
                   disabled
                   className="bg-muted/50 text-muted-foreground cursor-not-allowed"
                 />
