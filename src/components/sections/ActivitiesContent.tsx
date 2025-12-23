@@ -38,22 +38,31 @@ const ActivitiesContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
   const [logActivityForm, setLogActivityForm] = useState<Record<string, string>>({});
+  const [openNonce, setOpenNonce] = useState(0);
 
   const handleOpenLogModal = (activityType: string) => {
-    setLogActivityForm({});
+    console.log('[LogModal] OPEN click', activityType, 'BEFORE reset', logActivityForm);
+
+    setLogActivityForm({}); // clear ALL keys
     setActiveActivityType(activityType);
+    setOpenNonce((n) => n + 1); // force new instance each open
     setIsModalOpen(true);
   };
 
   const handleCloseLogModal = () => {
+    console.log('[LogModal] CLOSE', activeActivityType, 'RESET');
+
+    setLogActivityForm({});
     setIsModalOpen(false);
     setActiveActivityType(null);
   };
 
   const handleSaveLogModal = async () => {
     console.log('Saving activity:', activeActivityType, logActivityForm);
-    setIsModalOpen(false);
-    setActiveActivityType(null);
+
+    // After successful save, reset then close
+    setLogActivityForm({});
+    handleCloseLogModal();
   };
 
   const handleLogFieldChange = (name: string, value: string) => {
@@ -246,6 +255,7 @@ const ActivitiesContent = () => {
       {/* Log Activity Modal - conditionally rendered to force unmount */}
       {isModalOpen && activeActivityType && (
         <LogActivityModal
+          key={`${activeActivityType}-${openNonce}`}
           isOpen={true}
           onClose={handleCloseLogModal}
           onSave={handleSaveLogModal}
