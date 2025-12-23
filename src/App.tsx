@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { DemoModeProvider } from "@/hooks/useDemoMode";
+import { UserProfileProvider } from "@/context/UserProfileContext";
 import AppPage from "./pages/AppPage";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -14,16 +15,18 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <DemoModeProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/app" element={<AppPage />} />
-            <Route path="/" element={<Navigate to="/app" replace />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <UserProfileProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/app" element={<AppPage />} />
+              <Route path="/" element={<Navigate to="/app" replace />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </UserProfileProvider>
       </DemoModeProvider>
     </TooltipProvider>
   </QueryClientProvider>
