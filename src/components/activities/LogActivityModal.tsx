@@ -163,7 +163,7 @@ const LogActivityModal = ({ isOpen, onClose, onSave, onChange, values, activityN
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+    <Dialog open={isOpen} modal>
       <DialogContent
         className="sm:max-w-[440px] bg-card border-0 shadow-2xl rounded-3xl p-0 gap-0"
         style={{
