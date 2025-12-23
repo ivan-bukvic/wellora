@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Camera } from 'lucide-react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { Input } from '@/components/ui/input';
@@ -6,7 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 
-const SettingsContent = () => {
+interface SettingsContentProps {
+  avatarUrl: string | null;
+  onAvatarChange: (url: string | null) => void;
+}
+
+const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) => {
   const { demoUserName } = useDemoMode();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -14,7 +19,6 @@ const SettingsContent = () => {
   const nameParts = demoUserName.split(' ');
   const [firstName, setFirstName] = useState(nameParts[0] || '');
   const [lastName, setLastName] = useState(nameParts.slice(1).join(' ') || '');
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   
   // Password fields
   const [currentPassword, setCurrentPassword] = useState('');
@@ -47,10 +51,11 @@ const SettingsContent = () => {
       return;
     }
 
-    // Create preview
+    // Create preview and update parent
     const reader = new FileReader();
     reader.onload = (event) => {
-      setAvatarPreview(event.target?.result as string);
+      const url = event.target?.result as string;
+      onAvatarChange(url);
       toast.success('Photo updated');
     };
     reader.readAsDataURL(file);
@@ -86,12 +91,6 @@ const SettingsContent = () => {
 
   return (
     <div className="animate-fade-in-up">
-      {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-foreground">Settings</h1>
-        <p className="text-muted-foreground mt-1">Manage your account preferences</p>
-      </div>
-      
       <div className="space-y-6">
         {/* Profile Photo Card - Full width */}
         <div className="bg-card border border-border rounded-xl p-6">
@@ -100,9 +99,9 @@ const SettingsContent = () => {
           <div className="flex flex-col items-center sm:items-start gap-4">
             {/* Avatar */}
             <div className="w-28 h-28 rounded-full bg-muted flex items-center justify-center overflow-hidden">
-              {avatarPreview ? (
+              {avatarUrl ? (
                 <img 
-                  src={avatarPreview} 
+                  src={avatarUrl} 
                   alt="Profile" 
                   className="w-full h-full object-cover"
                 />
@@ -124,7 +123,7 @@ const SettingsContent = () => {
               />
               <Button 
                 onClick={handlePhotoClick}
-                className="bg-primary hover:bg-primary/90 text-white"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <Camera className="w-4 h-4 mr-2" />
                 Change photo
@@ -177,7 +176,7 @@ const SettingsContent = () => {
             <div className="flex justify-end mt-6">
               <Button 
                 onClick={handleSaveProfile}
-                className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
               >
                 Save Changes
               </Button>
@@ -228,7 +227,7 @@ const SettingsContent = () => {
             <div className="flex justify-end mt-6">
               <Button 
                 onClick={handleUpdatePassword}
-                className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
               >
                 Update Password
               </Button>
