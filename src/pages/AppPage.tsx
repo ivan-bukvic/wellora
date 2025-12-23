@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LayoutDashboard, Activity, Calendar as CalendarIcon, Settings as SettingsIcon, LogOut, Bell, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -57,6 +57,26 @@ const AppPage = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   
   const activeIndex = navItems.findIndex(item => item.section === activeSection);
+
+  // Fetch avatar from profile on mount
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('avatar_url')
+          .eq('id', user.id)
+          .single();
+        
+        if (profile?.avatar_url) {
+          setAvatarUrl(profile.avatar_url);
+        }
+      }
+    };
+
+    fetchAvatar();
+  }, []);
   
   const handleLogout = async () => {
     await supabase.auth.signOut();
