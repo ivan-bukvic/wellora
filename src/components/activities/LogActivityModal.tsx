@@ -165,7 +165,7 @@ const LogActivityModal = ({ isOpen, onClose, onSave, onChange, values, activityN
   return (
     <Dialog open={isOpen} modal>
       {isOpen && (
-  <DialogContent
+    <DialogContent
         className="sm:max-w-[440px] bg-card border-0 shadow-2xl rounded-3xl p-0 gap-0"
         style={{
           boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 12px 24px -8px rgba(0, 0, 0, 0.15)",
