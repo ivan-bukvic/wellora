@@ -18,8 +18,7 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
   
   // User data from auth
   const [userEmail, setUserEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [fullName, setFullName] = useState('');
   
   // Password fields
   const [currentPassword, setCurrentPassword] = useState('');
@@ -36,18 +35,9 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
         // Email always comes from auth
         setUserEmail(user.email || '');
         
-        // Check for first_name/last_name in metadata first (saved from Settings)
+        // Full name from metadata
         const metadata = user.user_metadata || {};
-        
-        if (metadata.first_name !== undefined || metadata.last_name !== undefined) {
-          // User has previously saved first/last name
-          setFirstName(metadata.first_name || '');
-          setLastName(metadata.last_name || '');
-        } else if (metadata.name) {
-          // Only full_name exists (from signup) - prefill first name, leave last empty
-          setFirstName(metadata.name);
-          setLastName('');
-        }
+        setFullName(metadata.name || '');
       }
     };
 
@@ -91,11 +81,10 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
 
   const handleSaveProfile = async () => {
     try {
-      // Save first_name and last_name to user metadata
+      // Save full name to user metadata
       const { error } = await supabase.auth.updateUser({
         data: {
-          first_name: firstName.trim(),
-          last_name: lastName.trim(),
+          name: fullName.trim(),
         }
       });
 
@@ -181,27 +170,15 @@ const SettingsContent = ({ avatarUrl, onAvatarChange }: SettingsContentProps) =>
             <h2 className="text-lg font-semibold text-foreground mb-6">Personal Information</h2>
             
             <div className="flex-1 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input
-                    id="firstName"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    placeholder="Enter first name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input
-                    id="lastName"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    placeholder="Enter last name"
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input
+                  id="fullName"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Enter your full name"
+                />
               </div>
-              <p className="text-xs text-muted-foreground">You can optionally split your name into first and last name.</p>
               
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
