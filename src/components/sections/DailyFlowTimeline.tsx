@@ -1,5 +1,4 @@
-import { Footprints, Moon, Droplets, Brain, LucideProps } from 'lucide-react';
-import YogaMoonIcon from '@/components/icons/YogaMoonIcon';
+import { Footprints, Moon, Droplets, Brain, PersonStanding, LucideProps } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -18,7 +17,7 @@ interface FlowActivity {
 const iconMap: Record<string, React.ComponentType<LucideProps>> = {
   Walking: Footprints,
   Sleeping: Moon,
-  Stretching: YogaMoonIcon,
+  Stretching: PersonStanding,
   Hydration: Droplets,
   Mindfulness: Brain,
 };

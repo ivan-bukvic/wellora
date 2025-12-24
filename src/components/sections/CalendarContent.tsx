@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Footprints, Moon, Activity, Droplets, Brain } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Footprints, Moon, PersonStanding, Droplets, Brain } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { generateDemoCalendarData, generateDemoActivityLogs } from '@/data/demoData';
@@ -7,7 +7,7 @@ import { generateDemoCalendarData, generateDemoActivityLogs } from '@/data/demoD
 const activityIcons: Record<string, React.ElementType> = {
   Walking: Footprints,
   Sleeping: Moon,
-  Stretching: Activity,
+  Stretching: PersonStanding,
   Hydration: Droplets,
   Mindfulness: Brain,
 };
