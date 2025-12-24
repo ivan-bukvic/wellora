@@ -136,7 +136,7 @@ export const WeeklySummarySheet = ({ open, onOpenChange, data }: WeeklySummarySh
         <div className="pt-4 border-t border-border">
           <Button 
             variant="outline" 
-            className="w-full"
+            className="w-full hover:bg-primary hover:text-primary-foreground hover:border-primary"
             onClick={() => onOpenChange(false)}
           >
             Close
