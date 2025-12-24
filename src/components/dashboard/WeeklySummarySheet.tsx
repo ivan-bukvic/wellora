@@ -51,7 +51,7 @@ export const WeeklySummarySheet = ({ open, onOpenChange, data }: WeeklySummarySh
             <div>
               <SheetTitle className="text-lg">Your week in review</SheetTitle>
               <SheetDescription className="text-sm">
-                A calm look at your recent patterns
+                Gentle reflections based on your recent activity.
               </SheetDescription>
             </div>
           </div>
@@ -104,11 +104,11 @@ export const WeeklySummarySheet = ({ open, onOpenChange, data }: WeeklySummarySh
             </div>
           )}
 
-          {/* Micro insights */}
+          {/* Small observations */}
           {data.microCopyCandidates.length > 0 && (
             <div className="space-y-3">
               <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                Small Observations
+                Quiet Patterns
               </h4>
               <div className="space-y-2">
                 {data.microCopyCandidates.slice(0, 2).map((copy, index) => (

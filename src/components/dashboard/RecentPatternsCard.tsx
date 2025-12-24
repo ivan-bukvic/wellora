@@ -21,7 +21,7 @@ const patterns = [
 export const RecentPatternsCard = () => {
   return (
     <div className="wellora-card animate-fade-in-up stagger-1">
-      <h3 className="text-base font-medium text-foreground mb-4">What's been changing</h3>
+      <h3 className="text-base font-medium text-foreground mb-4">Recent patterns</h3>
       
       <div className="space-y-3">
         {patterns.map((pattern, index) => {
