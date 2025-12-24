@@ -21,14 +21,14 @@ export const AIInsightCard = () => {
               <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
-              <span className="text-sm font-medium text-white/80">AI Insight</span>
+              <span className="text-sm font-medium text-white/80">Weekly Reflection</span>
             </div>
             
             <h3 className="text-xl font-semibold mb-2 text-white">
-              {isLoading ? 'Analyzing your week...' : data.heroInsight}
+              {isLoading ? 'Gathering your week...' : data.heroInsight}
             </h3>
             <p className="text-white/80 text-sm max-w-md">
-              {data.weeklySummary[0] || "Your patterns are taking shape."}
+              Gentle reflections based on your recent activity.
             </p>
           </div>
           

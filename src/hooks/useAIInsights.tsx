@@ -11,20 +11,20 @@ export interface AIInsightData {
 }
 
 const FALLBACK_DATA: AIInsightData = {
-  heroInsight: "You're building a steady routine.",
+  heroInsight: "Your rhythm is taking shape.",
   weeklySummary: [],
   indicators: [],
   microCopyCandidates: [],
 };
 
-// Demo AI insights for portfolio user
+// Demo reflections for portfolio user
 const DEMO_AI_DATA: AIInsightData = {
-  heroInsight: "Short mindfulness sessions are working well for you.",
+  heroInsight: "Short mindfulness sessions seem to fit your days well.",
   weeklySummary: [
-    "You stayed consistent on most weekdays.",
-    "Mindfulness sessions were shorter but more regular.",
-    "Weekends were lighter — that's okay.",
-    "Sleep patterns have been steady throughout the week."
+    "Weekdays showed a steady rhythm.",
+    "Mindfulness was shorter but more regular.",
+    "Weekends were lighter — that's natural.",
+    "Sleep stayed consistent throughout the week."
   ],
   indicators: [
     { activity: "walking", status: "steady" },
@@ -32,9 +32,9 @@ const DEMO_AI_DATA: AIInsightData = {
     { activity: "hydration", status: "inconsistent" }
   ],
   microCopyCandidates: [
-    "Stretching often follows walking.",
-    "Hydration tends to dip on weekends.",
-    "Your morning routine is becoming more consistent."
+    "Stretching often followed walking.",
+    "Hydration dipped slightly on weekends.",
+    "Mornings carried a calmer pace."
   ]
 };
 

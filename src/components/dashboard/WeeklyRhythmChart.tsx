@@ -59,7 +59,7 @@ export const WeeklyRhythmChart = () => {
   return (
     <div className="wellora-card flex-1 animate-fade-in-up stagger-3">
       <h3 className="text-lg font-semibold text-foreground mb-1">Activity vs Rest Balance</h3>
-      <p className="text-xs text-muted-foreground mb-5">A relative view of how your active and restorative days flowed this week.</p>
+      <p className="text-xs text-muted-foreground mb-5">A relative snapshot, not a performance score.</p>
       
       <div className="flex justify-center">
         <svg 
