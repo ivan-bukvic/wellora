@@ -87,6 +87,47 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* How It Works Section */}
+      <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
+        <div className="text-left space-y-10">
+          {/* Eyebrow */}
+          <span className="text-sm text-muted-foreground/70 uppercase tracking-wide">
+            How it works
+          </span>
+
+          {/* Headline */}
+          <h2 className="text-2xl md:text-3xl font-medium text-foreground leading-tight">
+            A simple way to understand your rhythm
+          </h2>
+
+          {/* Body paragraphs */}
+          <div className="space-y-8 text-muted-foreground text-base md:text-lg leading-relaxed">
+            <p>
+              <span className="text-foreground font-medium">Log</span><br />
+              You gently record a few everyday signals - activity, rest, movement, sleep.<br />
+              Nothing exhaustive. Nothing mandatory.
+            </p>
+
+            <p>
+              <span className="text-foreground font-medium">Notice</span><br />
+              Over time, patterns begin to appear.<br />
+              Not charts to optimise - just relationships you can recognise.
+            </p>
+
+            <p>
+              <span className="text-foreground font-medium">Reflect</span><br />
+              Wellora helps you look back and make sense of those patterns, quietly.<br />
+              No scores. No streaks. No pressure.
+            </p>
+          </div>
+
+          {/* Closing line */}
+          <p className="text-sm text-muted-foreground/70 pt-4">
+            This is not about doing more. It's about seeing more clearly.
+          </p>
+        </div>
+      </section>
     </div>
   );
 };
