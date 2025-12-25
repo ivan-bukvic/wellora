@@ -98,11 +98,8 @@ const LandingPage = () => {
                 </div>
               </div>
 
-              {/* Right column with subtle background */}
-              <div 
-                className="py-6 pl-8"
-                style={{ backgroundColor: 'hsl(var(--primary) / 0.08)' }}
-              >
+              {/* Right column */}
+              <div className="py-6 pl-8">
                 <h3 className="text-lg md:text-xl font-semibold text-foreground/85 mb-5">
                   What Wellora does instead
                 </h3>
