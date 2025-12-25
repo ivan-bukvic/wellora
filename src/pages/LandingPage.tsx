@@ -78,9 +78,14 @@ const LandingPage = () => {
           </div>
 
           {/* Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 pt-4 pb-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20 pt-8 pb-2 relative">
+            {/* Vertical divider */}
+            <div 
+              className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+              style={{ backgroundColor: 'hsl(var(--primary) / 0.15)' }}
+            />
             <div className="space-y-4">
-              <h3 className="text-base md:text-lg font-normal text-foreground/80">
+              <h3 className="text-lg md:text-xl font-semibold text-foreground/85">
                 What most wellness tools ask
               </h3>
               <div className="space-y-2 text-muted-foreground text-base md:text-lg leading-relaxed">
@@ -90,7 +95,7 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="space-y-4">
-              <h3 className="text-base md:text-lg font-normal text-foreground/80">
+              <h3 className="text-lg md:text-xl font-semibold text-foreground/85">
                 What Wellora does instead
               </h3>
               <div className="space-y-2 text-muted-foreground text-base md:text-lg leading-relaxed">
