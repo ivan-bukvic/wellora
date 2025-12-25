@@ -33,15 +33,15 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Content */}
-      <main className="max-w-5xl mx-auto px-6 pt-24 pb-32">
+      <main className="max-w-5xl mx-auto px-6 pt-32 md:pt-40 pb-24">
         <div className="flex flex-col items-center text-center space-y-8">
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl font-semibold text-foreground leading-tight max-w-3xl">
+          <h1 className="text-[2.5rem] md:text-[3.25rem] font-semibold text-foreground leading-tight max-w-3xl">
             A <span className="text-primary">calmer</span> way to notice how your days are flowing
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg text-muted-foreground font-normal leading-relaxed max-w-xl">
+          <p className="text-[1.2rem] text-muted-foreground font-normal leading-relaxed max-w-xl">
             Wellora helps you gently track activity and rest, so patterns become visible over time - without pressure or noise.
           </p>
 
