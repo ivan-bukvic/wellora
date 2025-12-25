@@ -75,7 +75,34 @@ const LandingPage = () => {
               You try to log everything.<br />
               Steps, sleep, water, moods, goals.
             </p>
+          </div>
 
+          {/* Comparison */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 pt-4 pb-2">
+            <div className="space-y-4">
+              <h3 className="text-base md:text-lg font-normal text-foreground/80">
+                What most wellness tools ask
+              </h3>
+              <div className="space-y-2 text-muted-foreground text-base md:text-lg leading-relaxed">
+                <p>Track everything, every day</p>
+                <p>Compete with streaks and scores</p>
+                <p>Optimise toward a number</p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-base md:text-lg font-normal text-foreground/80">
+                What Wellora does instead
+              </h3>
+              <div className="space-y-2 text-muted-foreground text-base md:text-lg leading-relaxed">
+                <p>Log what feels natural</p>
+                <p>Notice patterns over time</p>
+                <p>Reflect without pressure</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Remaining body copy */}
+          <div className="space-y-6 text-muted-foreground text-base md:text-lg leading-relaxed">
             <p>
               Over time, it starts to feel like work - more numbers, more reminders, more pressure.
             </p>
