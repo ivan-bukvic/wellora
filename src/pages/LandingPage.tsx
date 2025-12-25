@@ -84,14 +84,29 @@ const LandingPage = () => {
               A different approach
             </span>
 
-            {/* Two-column grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* Two-column grid with organic divider */}
+            <div className="grid grid-cols-1 md:grid-cols-2 relative">
+              {/* Subtle organic curved line between columns */}
+              <svg 
+                className="hidden md:block absolute left-1/2 top-4 bottom-4 -translate-x-1/2 h-[calc(100%-2rem)] w-8"
+                viewBox="0 0 32 200" 
+                preserveAspectRatio="none"
+                fill="none"
+              >
+                <path 
+                  d="M16 0 C 20 40, 12 60, 16 100 C 20 140, 12 160, 16 200" 
+                  stroke="hsl(var(--primary) / 0.10)" 
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                />
+              </svg>
+
               {/* Left column */}
-              <div className="py-6 pr-8">
-                <h3 className="text-lg md:text-xl font-semibold text-foreground/85 mb-5">
+              <div className="py-6 pr-10">
+                <h3 className="text-xl md:text-[1.35rem] font-semibold text-foreground/90 mb-5">
                   What most wellness tools ask
                 </h3>
-                <div className="space-y-4 text-muted-foreground text-base md:text-lg leading-relaxed">
+                <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
                   <p>Track everything, every day</p>
                   <p>Compete with streaks and scores</p>
                   <p>Optimise toward a number</p>
@@ -99,11 +114,11 @@ const LandingPage = () => {
               </div>
 
               {/* Right column */}
-              <div className="py-6 pl-8">
-                <h3 className="text-lg md:text-xl font-semibold text-foreground/85 mb-5">
+              <div className="py-6 pl-10">
+                <h3 className="text-xl md:text-[1.35rem] font-semibold text-foreground/90 mb-5">
                   What Wellora does instead
                 </h3>
-                <div className="space-y-4 text-muted-foreground text-base md:text-lg leading-relaxed">
+                <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
                   <p>Log what feels natural</p>
                   <p>Notice patterns over time</p>
                   <p>Reflect without pressure</p>
