@@ -1,0 +1,69 @@
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+
+const LandingPage = () => {
+  return (
+    <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative overflow-hidden">
+      {/* Subtle blue fade at bottom */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
+        }}
+      />
+
+      {/* Header */}
+      <header className="w-full">
+        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
+          {/* Logo */}
+          <span className="text-xl font-medium text-foreground tracking-tight">
+            Wellora
+          </span>
+
+          {/* CTA */}
+          <Link to="/auth">
+            <Button 
+              variant="ghost" 
+              className="text-muted-foreground hover:text-foreground hover:bg-transparent font-normal"
+            >
+              Explore the app
+            </Button>
+          </Link>
+        </div>
+      </header>
+
+      {/* Hero Content */}
+      <main className="max-w-5xl mx-auto px-6 pt-24 pb-32">
+        <div className="flex flex-col items-center text-center space-y-8">
+          {/* Headline */}
+          <h1 className="text-4xl md:text-5xl font-semibold text-foreground leading-tight max-w-3xl">
+            A <span className="text-primary">calmer</span> way to notice how your days are flowing
+          </h1>
+
+          {/* Subheadline */}
+          <p className="text-lg text-muted-foreground font-normal leading-relaxed max-w-xl">
+            Wellora helps you gently track activity and rest, so patterns become visible over time - without pressure or noise.
+          </p>
+
+          {/* Primary CTA */}
+          <div className="flex flex-col items-center space-y-3 pt-4">
+            <Link to="/auth">
+              <Button 
+                className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-base font-medium rounded-lg"
+              >
+                Explore the app
+              </Button>
+            </Link>
+
+            {/* Micro-copy */}
+            <span className="text-sm text-muted-foreground/70 font-normal">
+              No credit card. Just clarity.
+            </span>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default LandingPage;
