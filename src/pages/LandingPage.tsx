@@ -60,6 +60,33 @@ const LandingPage = () => {
           </div>
         </div>
       </main>
+
+      {/* Validation Section */}
+      <section className="max-w-2xl mx-auto px-6 py-24 md:py-32">
+        <div className="text-left space-y-8">
+          {/* Headline */}
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground leading-tight">
+            Most wellness tools don't fail - they just ask too much
+          </h2>
+
+          {/* Body copy */}
+          <div className="space-y-6 text-muted-foreground text-base md:text-lg leading-relaxed">
+            <p>
+              You try to log everything.<br />
+              Steps, sleep, water, moods, goals.
+            </p>
+
+            <p>
+              Over time, it starts to feel like work - more numbers, more reminders, more pressure.
+            </p>
+
+            <p>
+              What's often missing isn't motivation or discipline.<br />
+              It's a simple way to see how activity and rest actually relate in everyday life.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
