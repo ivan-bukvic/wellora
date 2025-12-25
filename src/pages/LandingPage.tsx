@@ -78,30 +78,39 @@ const LandingPage = () => {
           </div>
 
           {/* Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20 pt-8 pb-2 relative">
-            {/* Vertical divider */}
-            <div 
-              className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-              style={{ backgroundColor: 'hsl(var(--primary) / 0.15)' }}
-            />
-            <div className="space-y-4">
-              <h3 className="text-lg md:text-xl font-semibold text-foreground/85">
-                What most wellness tools ask
-              </h3>
-              <div className="space-y-2 text-muted-foreground text-base md:text-lg leading-relaxed">
-                <p>Track everything, every day</p>
-                <p>Compete with streaks and scores</p>
-                <p>Optimise toward a number</p>
+          <div className="pt-10 pb-4">
+            {/* Framing label */}
+            <span className="text-xs uppercase tracking-widest text-muted-foreground/60 mb-6 block">
+              A different approach
+            </span>
+
+            {/* Two-column grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* Left column */}
+              <div className="py-6 pr-8">
+                <h3 className="text-lg md:text-xl font-semibold text-foreground/85 mb-5">
+                  What most wellness tools ask
+                </h3>
+                <div className="space-y-4 text-muted-foreground text-base md:text-lg leading-relaxed">
+                  <p>Track everything, every day</p>
+                  <p>Compete with streaks and scores</p>
+                  <p>Optimise toward a number</p>
+                </div>
               </div>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-lg md:text-xl font-semibold text-foreground/85">
-                What Wellora does instead
-              </h3>
-              <div className="space-y-2 text-muted-foreground text-base md:text-lg leading-relaxed">
-                <p>Log what feels natural</p>
-                <p>Notice patterns over time</p>
-                <p>Reflect without pressure</p>
+
+              {/* Right column with subtle background */}
+              <div 
+                className="py-6 pl-8"
+                style={{ backgroundColor: 'hsl(var(--primary) / 0.08)' }}
+              >
+                <h3 className="text-lg md:text-xl font-semibold text-foreground/85 mb-5">
+                  What Wellora does instead
+                </h3>
+                <div className="space-y-4 text-muted-foreground text-base md:text-lg leading-relaxed">
+                  <p>Log what feels natural</p>
+                  <p>Notice patterns over time</p>
+                  <p>Reflect without pressure</p>
+                </div>
               </div>
             </div>
           </div>
