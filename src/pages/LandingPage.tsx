@@ -87,6 +87,11 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* TEMP DEBUG: scroll validation marker (remove after confirming scroll) */}
+      <div className="max-w-2xl mx-auto px-6 pb-24">
+        <p className="text-xs text-muted-foreground">END OF LANDING PAGE</p>
+      </div>
     </div>
   );
 };
