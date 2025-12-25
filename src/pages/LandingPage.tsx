@@ -13,23 +13,21 @@ const LandingPage = () => {
       />
 
       {/* Header */}
-      <header className="w-full">
-        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
-          {/* Logo */}
-          <span className="text-xl font-medium text-foreground tracking-tight">
-            Wellora
-          </span>
+      <header className="w-full flex items-center justify-between px-6 md:px-12 py-6">
+        {/* Logo */}
+        <span className="text-xl font-medium text-foreground tracking-tight">
+          Wellora
+        </span>
 
-          {/* CTA */}
-          <Link to="/auth">
-            <Button 
-              variant="ghost" 
-              className="text-muted-foreground hover:text-foreground hover:bg-transparent font-normal"
-            >
-              Explore the app
-            </Button>
-          </Link>
-        </div>
+        {/* CTA */}
+        <Link to="/auth">
+          <Button 
+            variant="ghost" 
+            className="text-muted-foreground hover:text-foreground hover:bg-transparent font-normal"
+          >
+            Explore the app
+          </Button>
+        </Link>
       </header>
 
       {/* Hero Content */}
