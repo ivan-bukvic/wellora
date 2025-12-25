@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative overflow-hidden">
+    <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
       {/* Subtle blue fade at bottom */}
       <div 
         className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none"
