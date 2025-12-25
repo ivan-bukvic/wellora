@@ -7,6 +7,7 @@ import { DemoModeProvider } from "@/hooks/useDemoMode";
 import { UserProfileProvider } from "@/context/UserProfileContext";
 import AppPage from "./pages/AppPage";
 import Auth from "./pages/Auth";
+import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,7 +23,7 @@ const App = () => (
             <Routes>
               <Route path="/auth" element={<Auth />} />
               <Route path="/app" element={<AppPage />} />
-              <Route path="/" element={<Navigate to="/app" replace />} />
+              <Route path="/" element={<LandingPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
