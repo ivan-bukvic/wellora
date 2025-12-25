@@ -62,10 +62,10 @@ const LandingPage = () => {
       </main>
 
       {/* Validation Section */}
-      <section className="max-w-2xl mx-auto px-6 py-24 md:py-32">
+      <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
         <div className="text-left space-y-8">
           {/* Headline */}
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground leading-tight">
+          <h2 className="text-2xl md:text-3xl font-medium text-foreground leading-tight">
             Most wellness tools don't fail - they just ask too much
           </h2>
 
@@ -87,11 +87,6 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-
-      {/* TEMP DEBUG: scroll validation marker (remove after confirming scroll) */}
-      <div className="max-w-2xl mx-auto px-6 pb-24">
-        <p className="text-xs text-muted-foreground">END OF LANDING PAGE</p>
-      </div>
     </div>
   );
 };
