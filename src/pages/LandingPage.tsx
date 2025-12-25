@@ -84,18 +84,18 @@ const LandingPage = () => {
               A different approach
             </span>
 
-            {/* Two-column grid with organic divider */}
+            {/* Two-column grid with flow marker */}
             <div className="grid grid-cols-1 md:grid-cols-2 relative">
-              {/* Subtle organic curved line between columns */}
+              {/* Subtle vertical flow marker between columns */}
               <svg 
-                className="hidden md:block absolute left-1/2 top-4 bottom-4 -translate-x-1/2 h-[calc(100%-2rem)] w-8"
-                viewBox="0 0 32 200" 
+                className="hidden md:block absolute left-1/2 -top-2 -translate-x-1/2 h-[calc(100%+1rem)] w-4"
+                viewBox="0 0 16 200" 
                 preserveAspectRatio="none"
                 fill="none"
               >
                 <path 
-                  d="M16 0 C 20 40, 12 60, 16 100 C 20 140, 12 160, 16 200" 
-                  stroke="hsl(var(--primary) / 0.10)" 
+                  d="M8 0 C 9 50, 7 100, 8 150 C 9 175, 7 190, 8 200" 
+                  stroke="hsl(var(--primary) / 0.17)" 
                   strokeWidth="1"
                   strokeLinecap="round"
                 />
