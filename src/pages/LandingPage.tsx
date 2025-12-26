@@ -32,7 +32,7 @@ const LandingPage = () => {
           className="absolute pointer-events-none hidden md:block z-0"
           style={{
             right: '-8%',
-            top: '38%',
+            bottom: 0,
             width: '72%',
             height: '100%',
           }}
