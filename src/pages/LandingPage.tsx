@@ -86,62 +86,11 @@ const LandingPage = () => {
             </div>
 
             {/* Micro-copy */}
-            <p className="text-muted-foreground/70 text-[1.55rem] font-normal pt-16 md:pt-20 pb-8">
+            <p className="text-muted-foreground/70 text-[1.55rem] font-normal pt-16 md:pt-20 pb-24 md:pb-32">
               <span>Informed by behavioural psychology</span>
               <span className="mx-2">·</span>
               <span className="italic">Gentle by design.</span>
             </p>
-
-            {/* Scientifically Validated Badge */}
-            <div className="flex items-center gap-3 pb-16 md:pb-24">
-              {/* Left laurel branch */}
-              <svg 
-                width="32" 
-                height="48" 
-                viewBox="0 0 32 48" 
-                fill="none" 
-                className="text-foreground"
-              >
-                <path 
-                  d="M28 4C28 4 24 8 20 12C16 16 14 20 14 24C14 28 16 32 20 36C24 40 28 44 28 44" 
-                  stroke="currentColor" 
-                  strokeWidth="1.5" 
-                  strokeLinecap="round"
-                  fill="none"
-                />
-                <path d="M20 12C18 10 14 10 12 14C10 18 12 22 14 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                <path d="M16 20C14 18 10 18 8 22C6 26 8 30 10 32" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                <path d="M18 28C16 26 12 26 10 30C8 34 10 38 12 40" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                <path d="M22 8C20 6 16 6 14 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-              </svg>
-
-              {/* Text */}
-              <div className="text-center text-foreground text-sm font-medium tracking-wide uppercase leading-tight">
-                <p>Scientifically</p>
-                <p>Validated</p>
-              </div>
-
-              {/* Right laurel branch (mirrored) */}
-              <svg 
-                width="32" 
-                height="48" 
-                viewBox="0 0 32 48" 
-                fill="none" 
-                className="text-foreground scale-x-[-1]"
-              >
-                <path 
-                  d="M28 4C28 4 24 8 20 12C16 16 14 20 14 24C14 28 16 32 20 36C24 40 28 44 28 44" 
-                  stroke="currentColor" 
-                  strokeWidth="1.5" 
-                  strokeLinecap="round"
-                  fill="none"
-                />
-                <path d="M20 12C18 10 14 10 12 14C10 18 12 22 14 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                <path d="M16 20C14 18 10 18 8 22C6 26 8 30 10 32" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                <path d="M18 28C16 26 12 26 10 30C8 34 10 38 12 40" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                <path d="M22 8C20 6 16 6 14 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-              </svg>
-            </div>
           </div>
         </main>
       </section>
