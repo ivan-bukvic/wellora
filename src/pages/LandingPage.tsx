@@ -8,33 +8,6 @@ const LandingPage = () => {
       <div className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none" style={{
       background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
     }} />
-      
-      {/* Ambient stones visual - right third of hero, heavily faded */}
-      <div 
-        className="absolute pointer-events-none hidden md:block"
-        style={{
-          right: 0,
-          top: '35%',
-          bottom: 0,
-          width: '40%',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${heroStones})`,
-            backgroundPosition: 'right center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.25,
-            filter: 'saturate(0.4) contrast(0.85)',
-            maskImage: 'radial-gradient(ellipse 100% 120% at 100% 80%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 100% 120% at 100% 80%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%)',
-          }}
-        />
-      </div>
 
       {/* Header */}
       <header className="w-full flex items-center justify-between px-6 md:px-12 py-6">
@@ -52,7 +25,31 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Content */}
-      <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24">
+      <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24 relative overflow-hidden">
+        {/* Debug: Stones image inside hero container */}
+        <div 
+          className="absolute pointer-events-none hidden md:block"
+          style={{
+            right: 0,
+            bottom: 0,
+            width: '45%',
+            height: '60%',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `url(${heroStones})`,
+              backgroundPosition: 'right center',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              opacity: 0.5,
+              maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+            }}
+          />
+        </div>
         <div className="flex flex-col items-center text-center space-y-6">
           {/* Headline */}
           <h1 className="text-[2.875rem] md:text-[3.74rem] font-semibold text-foreground leading-tight max-w-3xl">
