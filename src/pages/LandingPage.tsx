@@ -94,14 +94,16 @@ const LandingPage = () => {
             </p>
 
             {/* Validation Badge */}
-            <div className="flex flex-col items-center pt-3 pb-24 md:pb-32">
-              <p className="text-muted-foreground/60 text-[0.9rem] font-medium tracking-wide text-center leading-tight">
+            <div className="relative inline-flex items-center justify-center pt-3 pb-24 md:pb-32">
+              {/* Text overlaid on laurel */}
+              <p className="absolute left-1/2 -translate-x-1/2 top-[10px] z-10 text-muted-foreground/60 text-[0.9rem] font-medium tracking-wide text-center leading-tight">
                 Scientifically<br />Validated
               </p>
+              {/* Laurel as base layer */}
               <img 
                 src={laurelWreath} 
                 alt="Laurel wreath" 
-                className="w-[130px] h-auto -mt-1"
+                className="w-[130px] h-auto"
                 style={{ 
                   opacity: 0.75,
                   filter: 'brightness(0) saturate(100%) invert(85%) sepia(35%) saturate(600%) hue-rotate(350deg) brightness(1.05)'
