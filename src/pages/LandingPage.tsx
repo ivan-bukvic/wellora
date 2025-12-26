@@ -45,10 +45,10 @@ const LandingPage = () => {
           </div>
 
           {/* Micro-copy */}
-          <p className="text-muted-foreground/70 text-[0.95rem] pt-8 md:pt-12">
-            <span className="font-medium">Informed by behavioural psychology</span>
+          <p className="text-muted-foreground/70 text-[1.38rem] font-bold pt-16 md:pt-20">
+            <span>Informed by behavioural psychology</span>
             <span className="mx-2">·</span>
-            <span className="font-normal italic">Gentle by design.</span>
+            <span className="italic">Gentle by design.</span>
           </p>
         </div>
       </main>
