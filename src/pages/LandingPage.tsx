@@ -26,14 +26,14 @@ const LandingPage = () => {
 
       {/* Hero Content */}
       <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24 relative overflow-hidden">
-        {/* Debug: Stones image inside hero container */}
+        {/* Ambient stones - large, faded presence behind content */}
         <div 
           className="absolute pointer-events-none hidden md:block"
           style={{
             right: 0,
             bottom: 0,
-            width: '45%',
-            height: '60%',
+            width: '68%',
+            height: '95%',
           }}
         >
           <div
@@ -41,12 +41,24 @@ const LandingPage = () => {
               position: 'absolute',
               inset: 0,
               backgroundImage: `url(${heroStones})`,
-              backgroundPosition: 'right center',
+              backgroundPosition: 'right top',
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
-              opacity: 0.5,
-              maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+              opacity: 0.22,
+              filter: 'saturate(0.6) contrast(0.9)',
+              // Layered directional fades: left (strong), bottom (strong), top (subtle)
+              maskImage: `
+                linear-gradient(to right, transparent 0%, black 35%),
+                linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
+                linear-gradient(to bottom, transparent 0%, black 15%)
+              `,
+              maskComposite: 'intersect',
+              WebkitMaskImage: `
+                linear-gradient(to right, transparent 0%, black 35%),
+                linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
+                linear-gradient(to bottom, transparent 0%, black 15%)
+              `,
+              WebkitMaskComposite: 'source-in',
             }}
           />
         </div>
