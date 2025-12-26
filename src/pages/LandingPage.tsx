@@ -1,16 +1,11 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 const LandingPage = () => {
-  return (
-    <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
+  return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
       {/* Subtle blue fade at bottom */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
-        }}
-      />
+      <div className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none" style={{
+      background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
+    }} />
 
       {/* Header */}
       <header className="w-full flex items-center justify-between px-6 md:px-12 py-6">
@@ -21,10 +16,7 @@ const LandingPage = () => {
 
         {/* CTA */}
         <Link to="/auth">
-          <Button 
-            variant="ghost" 
-            className="text-muted-foreground hover:text-foreground hover:bg-transparent font-normal"
-          >
+          <Button variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-transparent font-normal">
             Explore the app
           </Button>
         </Link>
@@ -46,17 +38,13 @@ const LandingPage = () => {
           {/* Primary CTA */}
           <div className="flex flex-col items-center space-y-3 pt-4">
             <Link to="/auth">
-              <Button 
-                className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg"
-              >
+              <Button className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg">
                 Explore the app
               </Button>
             </Link>
 
             {/* Micro-copy */}
-            <span className="text-[1rem] text-muted-foreground/70 font-normal">
-              No credit card. Just clarity.
-            </span>
+            
           </div>
         </div>
       </main>
@@ -87,18 +75,8 @@ const LandingPage = () => {
             {/* Two-column grid with flow marker */}
             <div className="grid grid-cols-1 md:grid-cols-2 relative">
               {/* Subtle vertical flow marker between columns */}
-              <svg 
-                className="hidden md:block absolute left-1/2 -top-2 -translate-x-1/2 h-[calc(100%+1rem)] w-4"
-                viewBox="0 0 16 200" 
-                preserveAspectRatio="none"
-                fill="none"
-              >
-                <path 
-                  d="M8 0 C 9 50, 7 100, 8 150 C 9 175, 7 190, 8 200" 
-                  stroke="hsl(var(--primary) / 0.17)" 
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                />
+              <svg className="hidden md:block absolute left-1/2 -top-2 -translate-x-1/2 h-[calc(100%+1rem)] w-4" viewBox="0 0 16 200" preserveAspectRatio="none" fill="none">
+                <path d="M8 0 C 9 50, 7 100, 8 150 C 9 175, 7 190, 8 200" stroke="hsl(var(--primary) / 0.17)" strokeWidth="1" strokeLinecap="round" />
               </svg>
 
               {/* Left column */}
@@ -181,8 +159,6 @@ const LandingPage = () => {
           </p>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default LandingPage;
