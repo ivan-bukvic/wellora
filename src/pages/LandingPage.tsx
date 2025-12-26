@@ -23,8 +23,8 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Content */}
-      <main className="max-w-5xl mx-auto px-6 pt-32 md:pt-40 pb-24">
-        <div className="flex flex-col items-center text-center space-y-8">
+      <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24">
+        <div className="flex flex-col items-center text-center space-y-6">
           {/* Headline */}
           <h1 className="text-[2.875rem] md:text-[3.74rem] font-semibold text-foreground leading-tight max-w-3xl">
             A <span className="text-primary">calmer</span> way to notice how your days are flowing
@@ -36,16 +36,20 @@ const LandingPage = () => {
           </p>
 
           {/* Primary CTA */}
-          <div className="flex flex-col items-center space-y-3 pt-4">
+          <div className="flex flex-col items-center pt-2">
             <Link to="/auth">
               <Button className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg">
                 Explore the app
               </Button>
             </Link>
-
-            {/* Micro-copy */}
-            
           </div>
+
+          {/* Micro-copy */}
+          <p className="text-muted-foreground/70 text-[0.95rem] pt-8 md:pt-12">
+            <span className="font-medium">Informed by behavioural psychology</span>
+            <span className="mx-2">·</span>
+            <span className="font-normal italic">Gentle by design.</span>
+          </p>
         </div>
       </main>
 
