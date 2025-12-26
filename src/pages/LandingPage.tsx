@@ -104,7 +104,7 @@ const LandingPage = () => {
                 className="w-[130px] h-auto"
                 style={{ 
                   opacity: 0.75,
-                  filter: 'sepia(1) saturate(2) hue-rotate(10deg) brightness(1.1)'
+                  filter: 'brightness(0) saturate(100%) invert(85%) sepia(35%) saturate(600%) hue-rotate(350deg) brightness(1.05)'
                 }}
               />
             </div>
