@@ -95,13 +95,13 @@ const LandingPage = () => {
 
             {/* Validation Badge */}
             <div className="flex flex-col items-center pt-3 pb-24 md:pb-32">
-              <p className="text-muted-foreground/60 text-[0.9rem] font-medium tracking-wide text-center leading-tight mb-2">
+              <p className="text-muted-foreground/60 text-[0.9rem] font-medium tracking-wide text-center leading-tight">
                 Scientifically<br />Validated
               </p>
               <img 
                 src={laurelWreath} 
                 alt="Laurel wreath" 
-                className="w-[130px] h-auto"
+                className="w-[130px] h-auto -mt-1"
                 style={{ 
                   opacity: 0.75,
                   filter: 'brightness(0) saturate(100%) invert(85%) sepia(35%) saturate(600%) hue-rotate(350deg) brightness(1.05)'
