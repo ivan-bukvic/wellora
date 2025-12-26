@@ -1,11 +1,40 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import heroStones from "@/assets/hero-stones.jpg";
+
 const LandingPage = () => {
   return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
       {/* Subtle blue fade at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none" style={{
       background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
     }} />
+      
+      {/* Ambient stones visual - right third of hero, heavily faded */}
+      <div 
+        className="absolute pointer-events-none hidden md:block"
+        style={{
+          right: 0,
+          top: '35%',
+          bottom: 0,
+          width: '40%',
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url(${heroStones})`,
+            backgroundPosition: 'right center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.25,
+            filter: 'saturate(0.4) contrast(0.85)',
+            maskImage: 'radial-gradient(ellipse 100% 120% at 100% 80%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 100% 120% at 100% 80%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%)',
+          }}
+        />
+      </div>
 
       {/* Header */}
       <header className="w-full flex items-center justify-between px-6 md:px-12 py-6">
