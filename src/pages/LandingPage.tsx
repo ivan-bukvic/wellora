@@ -15,7 +15,7 @@ const LandingPage = () => {
       {/* Header */}
       <header className="w-full flex items-center justify-between px-6 md:px-12 py-6">
         {/* Logo */}
-        <span className="text-xl font-medium text-foreground tracking-tight">
+        <span className="text-[1.44rem] font-medium text-foreground tracking-tight">
           Wellora
         </span>
 
@@ -34,12 +34,12 @@ const LandingPage = () => {
       <main className="max-w-5xl mx-auto px-6 pt-32 md:pt-40 pb-24">
         <div className="flex flex-col items-center text-center space-y-8">
           {/* Headline */}
-          <h1 className="text-[2.5rem] md:text-[3.25rem] font-semibold text-foreground leading-tight max-w-3xl">
+          <h1 className="text-[2.875rem] md:text-[3.74rem] font-semibold text-foreground leading-tight max-w-3xl">
             A <span className="text-primary">calmer</span> way to notice how your days are flowing
           </h1>
 
           {/* Subheadline */}
-          <p className="text-[1.2rem] text-muted-foreground font-normal leading-relaxed max-w-xl">
+          <p className="text-[1.38rem] text-muted-foreground font-normal leading-relaxed max-w-xl">
             Wellora helps you gently track activity and rest, so patterns become visible over time - without pressure or noise.
           </p>
 
@@ -47,14 +47,14 @@ const LandingPage = () => {
           <div className="flex flex-col items-center space-y-3 pt-4">
             <Link to="/auth">
               <Button 
-                className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-base font-medium rounded-lg"
+                className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg"
               >
                 Explore the app
               </Button>
             </Link>
 
             {/* Micro-copy */}
-            <span className="text-sm text-muted-foreground/70 font-normal">
+            <span className="text-[1rem] text-muted-foreground/70 font-normal">
               No credit card. Just clarity.
             </span>
           </div>
@@ -65,12 +65,12 @@ const LandingPage = () => {
       <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
         <div className="text-left space-y-8">
           {/* Headline */}
-          <h2 className="text-2xl md:text-3xl font-medium text-foreground leading-tight">
+          <h2 className="text-[1.73rem] md:text-[2.16rem] font-medium text-foreground leading-tight">
             Most wellness tools don't fail - they just ask too much
           </h2>
 
           {/* Body copy */}
-          <div className="space-y-6 text-muted-foreground text-base md:text-lg leading-relaxed">
+          <div className="space-y-6 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
             <p>
               You try to log everything.<br />
               Steps, sleep, water, moods, goals.
@@ -80,7 +80,7 @@ const LandingPage = () => {
           {/* Comparison */}
           <div className="pt-10 pb-4">
             {/* Framing label */}
-            <span className="text-xs uppercase tracking-widest text-muted-foreground/60 mb-6 block">
+            <span className="text-[0.86rem] uppercase tracking-widest text-muted-foreground/60 mb-6 block">
               A different approach
             </span>
 
@@ -103,10 +103,10 @@ const LandingPage = () => {
 
               {/* Left column */}
               <div className="py-6 pr-10">
-                <h3 className="text-xl md:text-[1.35rem] font-semibold text-foreground/90 mb-5">
+                <h3 className="text-[1.44rem] md:text-[1.55rem] font-semibold text-foreground/90 mb-5">
                   What most wellness tools ask
                 </h3>
-                <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
+                <div className="space-y-5 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
                   <p>Track everything, every day</p>
                   <p>Compete with streaks and scores</p>
                   <p>Optimise toward a number</p>
@@ -115,10 +115,10 @@ const LandingPage = () => {
 
               {/* Right column */}
               <div className="py-6 pl-10">
-                <h3 className="text-xl md:text-[1.35rem] font-semibold text-foreground/90 mb-5">
+                <h3 className="text-[1.44rem] md:text-[1.55rem] font-semibold text-foreground/90 mb-5">
                   What Wellora does instead
                 </h3>
-                <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
+                <div className="space-y-5 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
                   <p>Log what feels natural</p>
                   <p>Notice patterns over time</p>
                   <p>Reflect without pressure</p>
@@ -128,7 +128,7 @@ const LandingPage = () => {
           </div>
 
           {/* Remaining body copy */}
-          <div className="space-y-6 text-muted-foreground text-base md:text-lg leading-relaxed">
+          <div className="space-y-6 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
             <p>
               Over time, it starts to feel like work - more numbers, more reminders, more pressure.
             </p>
@@ -145,17 +145,17 @@ const LandingPage = () => {
       <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
         <div className="text-left space-y-10">
           {/* Eyebrow */}
-          <span className="text-sm text-muted-foreground/70 uppercase tracking-wide">
+          <span className="text-[1rem] text-muted-foreground/70 uppercase tracking-wide">
             How it works
           </span>
 
           {/* Headline */}
-          <h2 className="text-2xl md:text-3xl font-medium text-foreground leading-tight">
+          <h2 className="text-[1.73rem] md:text-[2.16rem] font-medium text-foreground leading-tight">
             A simple way to understand your rhythm
           </h2>
 
           {/* Body paragraphs */}
-          <div className="space-y-8 text-muted-foreground text-base md:text-lg leading-relaxed">
+          <div className="space-y-8 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
             <p>
               <span className="text-foreground font-medium">Log</span><br />
               You gently record a few everyday signals - activity, rest, movement, sleep.<br />
@@ -176,7 +176,7 @@ const LandingPage = () => {
           </div>
 
           {/* Closing line */}
-          <p className="text-sm text-muted-foreground/70 pt-4">
+          <p className="text-[1rem] text-muted-foreground/70 pt-4">
             This is not about doing more. It's about seeing more clearly.
           </p>
         </div>
