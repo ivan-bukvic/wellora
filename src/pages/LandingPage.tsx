@@ -24,16 +24,16 @@ const LandingPage = () => {
         </Link>
       </header>
 
-      {/* Hero Content */}
-      <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24 relative overflow-hidden">
-        {/* Ambient stones - large, faded presence behind content */}
+      {/* Hero Section - positioning context for ambient image */}
+      <section className="relative overflow-hidden">
+        {/* Ambient stones - positioned in true negative space, outside content wrapper */}
         <div 
-          className="absolute pointer-events-none hidden md:block"
+          className="absolute pointer-events-none hidden md:block z-0"
           style={{
-            right: 0,
+            right: '-8%',
             bottom: 0,
-            width: '68%',
-            height: '95%',
+            width: '72%',
+            height: '100%',
           }}
         >
           <div
@@ -44,7 +44,7 @@ const LandingPage = () => {
               backgroundPosition: 'right top',
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
-              opacity: 0.22,
+              opacity: 0.32,
               filter: 'saturate(0.6) contrast(0.9)',
               // Layered directional fades: left (strong), bottom (strong), top (subtle)
               maskImage: `
@@ -62,34 +62,38 @@ const LandingPage = () => {
             }}
           />
         </div>
-        <div className="flex flex-col items-center text-center space-y-6">
-          {/* Headline */}
-          <h1 className="text-[2.875rem] md:text-[3.74rem] font-semibold text-foreground leading-tight max-w-3xl">
-            A <span className="text-primary">calmer</span> way to notice how your days are flowing
-          </h1>
 
-          {/* Subheadline */}
-          <p className="text-[1.38rem] text-muted-foreground font-normal leading-relaxed max-w-xl">
-            Wellora helps you gently track activity and rest, so patterns become visible over time - without pressure or noise.
-          </p>
+        {/* Hero Content - separate from image, maintains its own margins */}
+        <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24 relative z-10">
+          <div className="flex flex-col items-center text-center space-y-6">
+            {/* Headline */}
+            <h1 className="text-[2.875rem] md:text-[3.74rem] font-semibold text-foreground leading-tight max-w-3xl">
+              A <span className="text-primary">calmer</span> way to notice how your days are flowing
+            </h1>
 
-          {/* Primary CTA */}
-          <div className="flex flex-col items-center pt-2">
-            <Link to="/auth">
-              <Button className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg">
-                Explore the app
-              </Button>
-            </Link>
+            {/* Subheadline */}
+            <p className="text-[1.38rem] text-muted-foreground font-normal leading-relaxed max-w-xl">
+              Wellora helps you gently track activity and rest, so patterns become visible over time - without pressure or noise.
+            </p>
+
+            {/* Primary CTA */}
+            <div className="flex flex-col items-center pt-2">
+              <Link to="/auth">
+                <Button className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg">
+                  Explore the app
+                </Button>
+              </Link>
+            </div>
+
+            {/* Micro-copy */}
+            <p className="text-muted-foreground/70 text-[1.55rem] font-normal pt-16 md:pt-20 pb-24 md:pb-32">
+              <span>Informed by behavioural psychology</span>
+              <span className="mx-2">·</span>
+              <span className="italic">Gentle by design.</span>
+            </p>
           </div>
-
-          {/* Micro-copy */}
-          <p className="text-muted-foreground/70 text-[1.55rem] font-normal pt-16 md:pt-20 pb-24 md:pb-32">
-            <span>Informed by behavioural psychology</span>
-            <span className="mx-2">·</span>
-            <span className="italic">Gentle by design.</span>
-          </p>
-        </div>
-      </main>
+        </main>
+      </section>
 
       {/* Validation Section */}
       <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
