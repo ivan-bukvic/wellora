@@ -1,7 +1,21 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import heroAmbient from "@/assets/hero-ambient.jpg";
+
 const LandingPage = () => {
   return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
+      {/* Hero ambient background - subtle diagonal fade */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-[80vh] pointer-events-none overflow-hidden"
+        style={{
+          background: `url(${heroAmbient}) top left / cover no-repeat`,
+          opacity: 0.08,
+          filter: 'blur(2px) saturate(0.4)',
+          maskImage: 'linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0) 70%)',
+          WebkitMaskImage: 'linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0) 70%)',
+        }}
+      />
+      
       {/* Subtle blue fade at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none" style={{
       background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
