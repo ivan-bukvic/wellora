@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import heroStones from "@/assets/hero-stones.jpg";
+import laurelWreath from "@/assets/laurel-wreath.png";
 
 const LandingPage = () => {
   return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
@@ -86,11 +87,27 @@ const LandingPage = () => {
             </div>
 
             {/* Micro-copy */}
-            <p className="text-muted-foreground/70 text-[1.55rem] font-normal pt-16 md:pt-20 pb-24 md:pb-32">
+            <p className="text-muted-foreground/70 text-[1.55rem] font-normal pt-16 md:pt-20">
               <span>Informed by behavioural psychology</span>
               <span className="mx-2">·</span>
               <span className="italic">Gentle by design.</span>
             </p>
+
+            {/* Validation Badge */}
+            <div className="flex flex-col items-center pt-3 pb-24 md:pb-32">
+              <p className="text-muted-foreground/60 text-[0.9rem] font-medium tracking-wide text-center leading-tight mb-2">
+                Scientifically<br />Validated
+              </p>
+              <img 
+                src={laurelWreath} 
+                alt="Laurel wreath" 
+                className="w-[130px] h-auto"
+                style={{ 
+                  opacity: 0.75,
+                  filter: 'sepia(1) saturate(2) hue-rotate(10deg) brightness(1.1)'
+                }}
+              />
+            </div>
           </div>
         </main>
       </section>
