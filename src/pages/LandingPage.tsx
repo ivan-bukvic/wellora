@@ -10,8 +10,8 @@ const LandingPage = () => {
       background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
     }} />
 
-      {/* Header */}
-      <header className="w-full flex items-center justify-between px-6 md:px-12 py-6">
+      {/* Header - transparent, floats over hero */}
+      <header className="w-full flex items-center justify-between px-6 md:px-12 py-6 relative z-20 bg-transparent">
         {/* Logo */}
         <span className="text-[1.44rem] font-medium text-foreground tracking-tight">
           Wellora
@@ -25,8 +25,15 @@ const LandingPage = () => {
         </Link>
       </header>
 
-      {/* Hero Section - positioning context for ambient image */}
-      <section className="relative overflow-hidden">
+      {/* Hero Section - extends behind header */}
+      <section className="relative overflow-hidden pt-[60px] -mt-[60px]">
+        {/* Top fade overlay - white dissolving into hero */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-[80px] z-10 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)'
+          }}
+        />
         {/* Ambient stones - positioned in true negative space, outside content wrapper */}
         <div 
           className="absolute pointer-events-none hidden md:block z-0"
