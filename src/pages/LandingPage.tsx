@@ -179,17 +179,6 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Remaining body copy */}
-          <div className="space-y-6 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
-            <p>
-              Over time, it starts to feel like work - more numbers, more reminders, more pressure.
-            </p>
-
-            <p>
-              What's often missing isn't motivation or discipline.<br />
-              It's a simple way to see how activity and rest actually relate in everyday life.
-            </p>
-          </div>
         </div>
       </section>
 
