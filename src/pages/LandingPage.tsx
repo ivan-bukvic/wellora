@@ -103,10 +103,10 @@ const LandingPage = () => {
               <img 
                 src={laurelWreath} 
                 alt="Laurel wreath" 
-                className="w-[130px] h-auto"
+                className="w-[130px] h-auto mt-[5px]"
                 style={{ 
                   opacity: 0.75,
-                  filter: 'brightness(0) saturate(100%) invert(85%) sepia(35%) saturate(600%) hue-rotate(350deg) brightness(1.05)'
+                  filter: 'brightness(0) saturate(100%) invert(88%) sepia(25%) saturate(500%) hue-rotate(335deg) brightness(1.02)'
                 }}
               />
             </div>
