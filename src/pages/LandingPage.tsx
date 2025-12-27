@@ -27,31 +27,6 @@ const LandingPage = () => {
 
       {/* Hero Section - positioning context for ambient image */}
       <section className="relative overflow-hidden">
-        {/* Decorative wave overlay - top right edge softening (desktop only) */}
-        <svg
-          className="absolute top-0 right-0 pointer-events-none hidden md:block z-[1]"
-          style={{
-            width: '35vw',
-            height: '75px',
-          }}
-          viewBox="0 0 400 75"
-          preserveAspectRatio="none"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="hsl(210 40% 96.1%)" stopOpacity="0" />
-              <stop offset="40%" stopColor="hsl(210 40% 98%)" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="hsl(0 0% 100%)" stopOpacity="1" />
-            </linearGradient>
-          </defs>
-          {/* Soft, low-amplitude wave - gentle paper edge effect */}
-          <path
-            d="M0 0 L400 0 L400 75 C350 72, 300 68, 250 70 C200 72, 150 65, 100 68 C50 71, 25 66, 0 68 Z"
-            fill="url(#waveGradient)"
-          />
-        </svg>
         {/* Ambient stones - positioned in true negative space, outside content wrapper */}
         <div 
           className="absolute pointer-events-none hidden md:block z-0"
