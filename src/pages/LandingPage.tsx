@@ -47,17 +47,19 @@ const LandingPage = () => {
               backgroundRepeat: 'no-repeat',
               opacity: 0.32,
               filter: 'saturate(0.6) contrast(0.9)',
-              // Layered directional fades: left (strong), bottom (strong), top (subtle)
+              // Layered directional fades: left (strong), right (seamless to corner), bottom (strong), top (subtle)
               maskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
+                linear-gradient(to left, transparent 0%, black 20%),
                 linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
-                linear-gradient(to bottom, transparent 0%, black 15%)
+                linear-gradient(to bottom, transparent 0%, black 20%)
               `,
               maskComposite: 'intersect',
               WebkitMaskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
+                linear-gradient(to left, transparent 0%, black 20%),
                 linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
-                linear-gradient(to bottom, transparent 0%, black 15%)
+                linear-gradient(to bottom, transparent 0%, black 20%)
               `,
               WebkitMaskComposite: 'source-in',
             }}
