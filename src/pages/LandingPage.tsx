@@ -32,7 +32,7 @@ const LandingPage = () => {
           className="absolute pointer-events-none hidden md:block z-0"
           style={{
             right: '-8%',
-            bottom: 0,
+            top: 0,
             width: '72%',
             height: '100%',
           }}
@@ -50,14 +50,14 @@ const LandingPage = () => {
               // Layered directional fades: left (strong), bottom (strong), top (subtle)
               maskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
-                linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
-                linear-gradient(to bottom, transparent 0%, black 15%)
+                linear-gradient(to bottom, transparent 0%, transparent 5%, black 40%),
+                linear-gradient(to top, transparent 0%, black 15%)
               `,
               maskComposite: 'intersect',
               WebkitMaskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
-                linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
-                linear-gradient(to bottom, transparent 0%, black 15%)
+                linear-gradient(to bottom, transparent 0%, transparent 5%, black 40%),
+                linear-gradient(to top, transparent 0%, black 15%)
               `,
               WebkitMaskComposite: 'source-in',
             }}
