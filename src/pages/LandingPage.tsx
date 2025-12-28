@@ -69,7 +69,7 @@ const LandingPage = () => {
           <div className="flex flex-col items-center text-center space-y-6">
             {/* Headline */}
             <h1 className="text-[3.15rem] md:text-[4.1rem] font-semibold text-foreground leading-tight max-w-3xl">
-              A <span className="text-primary">calmer</span> way to notice how your days are flowing
+              A <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">calmer</span> way to notice how your days are flowing
             </h1>
 
             {/* Subheadline */}
