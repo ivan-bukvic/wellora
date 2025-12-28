@@ -169,7 +169,7 @@ const LandingPage = () => {
 
           {/* Eyebrow with accent bar */}
           <div className="flex items-center gap-3 mb-10">
-            <span className="w-8 h-[3px] bg-primary rounded-full"></span>
+            
             <span className="text-[0.8rem] uppercase tracking-[0.2em] text-primary font-medium">
               A different approach
             </span>
