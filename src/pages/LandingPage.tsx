@@ -131,16 +131,18 @@ const LandingPage = () => {
             Most wellness tools don't fail - they just ask too much
           </h2>
 
-          {/* Body copy */}
-          <div className="space-y-6 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
-            <p>
-              You try to log everything.<br />
-              Steps, sleep, water, moods, goals.
-            </p>
+          {/* Intro Narrative Stack - each sentence as its own row */}
+          <div className="flex flex-col text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
+            <p>You try to log everything.</p>
+            <p className="mb-2">Steps, sleep, water, moods, goals.</p>
+            {/* Larger gap after row 2 for natural pause */}
+            <p className="mt-4">Over time, it starts to feel like work - more numbers, more reminders, more pressure.</p>
+            <p className="mt-4">What's often missing isn't motivation or discipline.</p>
+            <p className="mt-4">It's a simple way to see how activity and rest actually relate in everyday life.</p>
           </div>
 
-          {/* Comparison */}
-          <div className="pt-10 pb-4">
+          {/* Comparison - moved to end as a response to the narrative */}
+          <div className="pt-12">
             {/* Framing label */}
             <span className="text-[0.86rem] uppercase tracking-widest text-muted-foreground/60 mb-6 block">
               A different approach
@@ -177,18 +179,6 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Remaining body copy */}
-          <div className="space-y-6 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
-            <p>
-              Over time, it starts to feel like work - more numbers, more reminders, more pressure.
-            </p>
-
-            <p>
-              What's often missing isn't motivation or discipline.<br />
-              It's a simple way to see how activity and rest actually relate in everyday life.
-            </p>
           </div>
         </div>
       </section>
