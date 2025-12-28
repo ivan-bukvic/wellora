@@ -194,7 +194,7 @@ const LandingPage = () => {
             
             {/* Left column - "The Old Way" */}
             <div className="space-y-6">
-              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-foreground/80 italic tracking-tight">
+              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-foreground/80 tracking-tight">
                 What most wellness tools ask
               </h3>
               <ul className="space-y-4 pl-1">
