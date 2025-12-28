@@ -96,7 +96,7 @@ const LandingPage = () => {
             {/* Validation Badge */}
             <div className="relative inline-flex items-center justify-center pt-3 pb-24 md:pb-32">
               {/* Text overlaid on laurel */}
-              <p className="absolute left-1/2 -translate-x-1/2 top-[10px] z-10 text-muted-foreground/60 text-[0.9rem] font-medium tracking-wide text-center leading-tight">
+              <p className="absolute left-1/2 -translate-x-1/2 top-[34px] z-10 text-muted-foreground text-[0.9rem] font-medium tracking-wide text-center leading-tight">
                 Scientifically<br />Validated
               </p>
               {/* Laurel as base layer */}
