@@ -247,16 +247,19 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="max-w-5xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
+      <section className="max-w-5xl mx-auto px-6 pt-8 pb-24 md:pt-10 md:pb-32">
         <div className="text-left space-y-10">
           {/* Eyebrow */}
-          <span className="text-[1rem] text-muted-foreground/70 uppercase tracking-wide">
+          <span className="text-[1rem] text-primary uppercase tracking-wide">
             How it works
           </span>
 
           {/* Headline */}
-          <h2 className="text-[1.73rem] md:text-[2.16rem] font-medium text-foreground leading-tight">
-            A simple way to understand your rhythm
+          <h2 className="text-[2rem] md:text-[2.6rem] font-medium text-foreground leading-tight">
+            A simple way to understand your{' '}
+            <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
+              rhythm
+            </span>
           </h2>
 
           {/* Body paragraphs */}
