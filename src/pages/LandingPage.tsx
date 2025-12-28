@@ -123,61 +123,95 @@ const LandingPage = () => {
         </main>
       </section>
 
-      {/* Validation Section */}
-      <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
-        <div className="text-left space-y-8">
-          {/* Headline */}
-          <h2 className="text-[1.73rem] md:text-[2.16rem] font-medium text-foreground leading-tight">
-            Most wellness tools don't fail - they just ask too much
+      {/* The Pattern Section - Exhale Typography */}
+      <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32 relative">
+        {/* Ambient background blob */}
+        <div 
+          className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]"
+          style={{ background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)' }} 
+        />
+        
+        {/* Eyebrow label */}
+        <span className="text-[0.75rem] uppercase tracking-[0.25em] text-muted-foreground/40 mb-6 block">
+          The pattern
+        </span>
+        
+        {/* Headline with decorative flow */}
+        <div className="relative mb-10">
+          {/* Decorative curved line */}
+          <svg className="absolute -left-6 md:-left-10 top-1 w-5 h-14 opacity-30" viewBox="0 0 20 56" fill="none">
+            <path d="M12 0 C 12 18, 4 28, 10 42 C 14 50, 10 54, 12 56" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <h2 className="text-[1.73rem] md:text-[2.16rem] font-medium leading-tight">
+            <span className="text-foreground">Most wellness tools don't fail</span>
+            <span className="text-muted-foreground/60"> - they just ask too much</span>
           </h2>
+        </div>
+        
+        {/* The Pressure block - tight, compressed, claustrophobic */}
+        <div className="pl-5 border-l-2 border-primary/20 space-y-1.5 text-[1.05rem] md:text-[1.15rem] leading-[1.45] text-foreground/75">
+          <p>You try to log everything.</p>
+          <p>Steps, sleep, water, moods, goals.</p>
+          <p>Over time, it starts to feel like work - more numbers, more reminders, more pressure.</p>
+        </div>
+        
+        {/* Breath marker - visual pause */}
+        <div className="flex items-center justify-start gap-2.5 py-10 pl-5">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/30"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/15"></span>
+        </div>
+        
+        {/* The Release block - spacious, airy, open */}
+        <div className="space-y-5 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-muted-foreground/75 tracking-[0.005em]">
+          <p>What's often missing isn't motivation or discipline.</p>
+          <p>It's a simple way to see how activity and rest actually relate in everyday life.</p>
+        </div>
+        
+        {/* The Invitation - Wellora line with soft highlight */}
+        <div className="mt-10">
+          <p className="inline-block text-[1.2rem] md:text-[1.35rem] leading-[1.8] text-muted-foreground/85 
+                        bg-gradient-to-r from-primary/[0.08] to-primary/[0.03] px-5 py-4 rounded-2xl">
+            And that's where <span className="text-primary font-semibold">Wellora</span> comes in — 
+            offering a quieter, more supportive way to notice those patterns.
+          </p>
+        </div>
 
-          {/* Intro Narrative Stack - each sentence as its own row */}
-          <div className="flex flex-col text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
-            <p>You try to log everything.</p>
-            <p className="mb-2">Steps, sleep, water, moods, goals.</p>
-            {/* Larger gap after row 2 for natural pause */}
-            <p className="mt-4">Over time, it starts to feel like work - more numbers, more reminders, more pressure.</p>
-            <p className="mt-4">What's often missing isn't motivation or discipline.</p>
-            <p className="mt-4">It's a simple way to see how activity and rest actually relate in everyday life.</p>
-            <p className="mt-4">And that's where Wellora comes in - offering a quieter, more supportive way to notice those patterns.</p>
-          </div>
+        {/* Comparison - as final response to narrative */}
+        <div className="pt-16 mt-8">
+          {/* Framing label */}
+          <span className="text-[0.75rem] uppercase tracking-[0.25em] text-muted-foreground/40 mb-8 block">
+            A different approach
+          </span>
 
-          {/* Comparison - moved to end as a response to the narrative */}
-          <div className="pt-12">
-            {/* Framing label */}
-            <span className="text-[0.86rem] uppercase tracking-widest text-muted-foreground/60 mb-6 block">
-              A different approach
-            </span>
+          {/* Two-column grid with flow marker */}
+          <div className="grid grid-cols-1 md:grid-cols-2 relative gap-8 md:gap-0">
+            {/* Subtle vertical flow marker between columns */}
+            <svg className="hidden md:block absolute left-1/2 top-0 -translate-x-1/2 h-full w-4" viewBox="0 0 16 200" preserveAspectRatio="none" fill="none">
+              <path d="M8 0 C 9 50, 7 100, 8 150 C 9 175, 7 190, 8 200" stroke="hsl(var(--primary) / 0.15)" strokeWidth="1" strokeLinecap="round" />
+            </svg>
 
-            {/* Two-column grid with flow marker */}
-            <div className="grid grid-cols-1 md:grid-cols-2 relative">
-              {/* Subtle vertical flow marker between columns */}
-              <svg className="hidden md:block absolute left-1/2 -top-2 -translate-x-1/2 h-[calc(100%+1rem)] w-4" viewBox="0 0 16 200" preserveAspectRatio="none" fill="none">
-                <path d="M8 0 C 9 50, 7 100, 8 150 C 9 175, 7 190, 8 200" stroke="hsl(var(--primary) / 0.17)" strokeWidth="1" strokeLinecap="round" />
-              </svg>
-
-              {/* Left column */}
-              <div className="py-6 pr-10">
-                <h3 className="text-[1.44rem] md:text-[1.55rem] font-semibold text-foreground/90 mb-5">
-                  What most wellness tools ask
-                </h3>
-                <div className="space-y-5 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
-                  <p>Track everything, every day</p>
-                  <p>Compete with streaks and scores</p>
-                  <p>Optimise toward a number</p>
-                </div>
+            {/* Left column */}
+            <div className="md:pr-12">
+              <h3 className="text-[1.1rem] uppercase tracking-wide text-foreground/60 mb-4 font-medium">
+                What most wellness tools ask
+              </h3>
+              <div className="space-y-3 text-muted-foreground/70 text-[1.1rem] md:text-[1.2rem] leading-relaxed">
+                <p>Track everything, every day</p>
+                <p>Compete with streaks and scores</p>
+                <p>Optimise toward a number</p>
               </div>
+            </div>
 
-              {/* Right column */}
-              <div className="py-6 pl-10">
-                <h3 className="text-[1.44rem] md:text-[1.55rem] font-semibold text-foreground/90 mb-5">
-                  What Wellora does instead
-                </h3>
-                <div className="space-y-5 text-muted-foreground text-[1.15rem] md:text-[1.3rem] leading-relaxed">
-                  <p>Log what feels natural</p>
-                  <p>Notice patterns over time</p>
-                  <p>Reflect without pressure</p>
-                </div>
+            {/* Right column */}
+            <div className="md:pl-12">
+              <h3 className="text-[1.1rem] uppercase tracking-wide text-foreground/60 mb-4 font-medium">
+                What Wellora does instead
+              </h3>
+              <div className="space-y-3 text-muted-foreground text-[1.1rem] md:text-[1.2rem] leading-relaxed font-medium">
+                <p>Log what feels natural</p>
+                <p>Notice patterns over time</p>
+                <p>Reflect without pressure</p>
               </div>
             </div>
           </div>
