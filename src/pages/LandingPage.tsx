@@ -177,41 +177,108 @@ const LandingPage = () => {
           </p>
         </div>
 
-        {/* Comparison - as final response to narrative */}
-        <div className="pt-16 mt-8">
-          {/* Framing label */}
-          <span className="text-[0.75rem] uppercase tracking-[0.25em] text-muted-foreground/40 mb-8 block">
-            A different approach
-          </span>
+        {/* A Different Approach - Creative Typography Section */}
+        <div className="pt-20 mt-12 relative">
+          {/* Decorative accent blob */}
+          <div 
+            className="absolute -left-20 top-1/4 w-[300px] h-[200px] pointer-events-none opacity-[0.04] hidden md:block"
+            style={{ background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)' }} 
+          />
 
-          {/* Two-column grid with flow marker */}
-          <div className="grid grid-cols-1 md:grid-cols-2 relative gap-8 md:gap-0">
-            {/* Subtle vertical flow marker between columns */}
-            <svg className="hidden md:block absolute left-1/2 top-0 -translate-x-1/2 h-full w-4" viewBox="0 0 16 200" preserveAspectRatio="none" fill="none">
-              <path d="M8 0 C 9 50, 7 100, 8 150 C 9 175, 7 190, 8 200" stroke="hsl(var(--primary) / 0.15)" strokeWidth="1" strokeLinecap="round" />
-            </svg>
+          {/* Eyebrow with accent bar */}
+          <div className="flex items-center gap-3 mb-10">
+            <span className="w-8 h-[3px] bg-primary rounded-full"></span>
+            <span className="text-[0.8rem] uppercase tracking-[0.2em] text-primary font-medium">
+              A different approach
+            </span>
+          </div>
 
-            {/* Left column */}
-            <div className="md:pr-12">
-              <h3 className="text-[1.1rem] uppercase tracking-wide text-foreground/60 mb-4 font-medium">
-                What most wellness tools ask
-              </h3>
-              <div className="space-y-3 text-muted-foreground/70 text-[1.1rem] md:text-[1.2rem] leading-relaxed">
-                <p>Track everything, every day</p>
-                <p>Compete with streaks and scores</p>
-                <p>Optimise toward a number</p>
+          {/* Main headline with mixed typography */}
+          <div className="mb-12">
+            <h2 className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
+              Less tracking,
+              <br />
+              <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
+                more understanding
+              </span>
+            </h2>
+          </div>
+
+          {/* Divider line */}
+          <div className="w-full h-px bg-gradient-to-r from-border via-border/60 to-transparent mb-12"></div>
+
+          {/* Two columns with visual contrast */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+            
+            {/* Left column - "The Old Way" */}
+            <div className="relative">
+              {/* Column number indicator */}
+              <div className="flex items-baseline gap-3 mb-6">
+                <span className="text-[0.75rem] text-muted-foreground/40 font-mono">01 / 02</span>
+                <span className="text-[1rem] font-semibold text-foreground/70">The Usual</span>
+              </div>
+              
+              <p className="text-muted-foreground/60 text-[0.9rem] mb-6 italic">
+                What most tools expect
+              </p>
+              
+              {/* List with strike-through aesthetic */}
+              <div className="space-y-4">
+                <div className="flex items-start gap-3 group">
+                  <span className="w-4 h-[1px] bg-muted-foreground/30 mt-3 shrink-0"></span>
+                  <p className="text-muted-foreground/60 text-[1.1rem] leading-relaxed">Track everything, every day</p>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <span className="w-4 h-[1px] bg-muted-foreground/30 mt-3 shrink-0"></span>
+                  <p className="text-muted-foreground/60 text-[1.1rem] leading-relaxed">Compete with streaks and scores</p>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <span className="w-4 h-[1px] bg-muted-foreground/30 mt-3 shrink-0"></span>
+                  <p className="text-muted-foreground/60 text-[1.1rem] leading-relaxed">Optimise toward a number</p>
+                </div>
+              </div>
+
+              {/* Progress dashes - muted */}
+              <div className="flex items-center gap-1.5 mt-8">
+                <span className="w-6 h-[3px] bg-muted-foreground/20 rounded-full"></span>
+                <span className="w-6 h-[3px] bg-muted-foreground/20 rounded-full"></span>
+                <span className="w-6 h-[3px] bg-muted-foreground/20 rounded-full"></span>
               </div>
             </div>
 
-            {/* Right column */}
-            <div className="md:pl-12">
-              <h3 className="text-[1.1rem] uppercase tracking-wide text-foreground/60 mb-4 font-medium">
-                What Wellora does instead
-              </h3>
-              <div className="space-y-3 text-muted-foreground text-[1.1rem] md:text-[1.2rem] leading-relaxed font-medium">
-                <p>Log what feels natural</p>
-                <p>Notice patterns over time</p>
-                <p>Reflect without pressure</p>
+            {/* Right column - "The Wellora Way" */}
+            <div className="relative">
+              {/* Column number indicator */}
+              <div className="flex items-baseline gap-3 mb-6">
+                <span className="text-[0.75rem] text-primary/60 font-mono">02 / 02</span>
+                <span className="text-[1rem] font-semibold text-foreground">The Wellora Way</span>
+              </div>
+              
+              <p className="text-primary/70 text-[0.9rem] mb-6 italic">
+                A gentler alternative
+              </p>
+              
+              {/* List with accent marks */}
+              <div className="space-y-4">
+                <div className="flex items-start gap-3 group">
+                  <span className="w-4 h-[2px] bg-primary/60 mt-3 shrink-0 rounded-full"></span>
+                  <p className="text-foreground/80 text-[1.1rem] leading-relaxed font-medium">Log what feels natural</p>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <span className="w-4 h-[2px] bg-primary/60 mt-3 shrink-0 rounded-full"></span>
+                  <p className="text-foreground/80 text-[1.1rem] leading-relaxed font-medium">Notice patterns over time</p>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <span className="w-4 h-[2px] bg-primary/60 mt-3 shrink-0 rounded-full"></span>
+                  <p className="text-foreground/80 text-[1.1rem] leading-relaxed font-medium">Reflect without pressure</p>
+                </div>
+              </div>
+
+              {/* Progress dashes - active state */}
+              <div className="flex items-center gap-1.5 mt-8">
+                <span className="w-6 h-[3px] bg-primary/30 rounded-full"></span>
+                <span className="w-6 h-[3px] bg-primary/30 rounded-full"></span>
+                <span className="w-6 h-[3px] bg-primary rounded-full"></span>
               </div>
             </div>
           </div>
