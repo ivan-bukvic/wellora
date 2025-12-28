@@ -117,7 +117,7 @@ const LandingPage = () => {
       }} />
         
         {/* Eyebrow label */}
-        <span className="text-[0.75rem] uppercase tracking-[0.25em] text-muted-foreground/40 mb-6 block">
+        <span className="text-[0.75rem] uppercase tracking-[0.25em] text-primary mb-6 block">
           The pattern
         </span>
         
