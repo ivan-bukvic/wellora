@@ -234,6 +234,15 @@ const LandingPage = () => {
               </ul>
             </div>
           </div>
+          
+          {/* Breath marker - visual pause after comparison */}
+          <div className="flex items-center justify-start gap-2.5 pt-16 pb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-primary/30"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-primary/10"></span>
+          </div>
         </div>
       </section>
 
