@@ -117,7 +117,7 @@ const LandingPage = () => {
       }} />
         
         {/* Eyebrow label */}
-        <span className="text-[0.75rem] uppercase tracking-[0.25em] text-primary mb-6 block">
+        <span className="text-[1rem] uppercase tracking-wide text-primary mb-6 block">
           The pattern
         </span>
         
@@ -169,7 +169,7 @@ const LandingPage = () => {
           {/* Eyebrow with accent bar */}
           <div className="flex items-center gap-3 mb-10">
             
-            <span className="text-[0.8rem] uppercase tracking-[0.2em] text-primary font-medium">
+            <span className="text-[1rem] uppercase tracking-wide text-primary font-medium">
               A different approach
             </span>
           </div>
