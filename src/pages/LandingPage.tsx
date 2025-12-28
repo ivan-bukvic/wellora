@@ -100,7 +100,7 @@ const LandingPage = () => {
                 Scientifically<br />Validated
               </p>
               {/* Laurel as base layer */}
-              <img src={laurelWreath} alt="Laurel wreath" className="w-[150px] h-auto mt-[5px]" style={{
+              <img src={laurelWreath} alt="Laurel wreath" className="w-[150px] h-auto mt-[25px]" style={{
               opacity: 0.75,
               filter: 'brightness(0) saturate(100%) invert(88%) sepia(25%) saturate(500%) hue-rotate(335deg) brightness(1.02)'
             }} />
