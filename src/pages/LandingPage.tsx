@@ -65,7 +65,7 @@ const LandingPage = () => {
         </div>
 
         {/* Hero Content - separate from image, maintains its own margins */}
-        <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-24 relative z-10">
+        <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-0 relative z-10">
           <div className="flex flex-col items-center text-center space-y-6">
             {/* Headline */}
             <h1 className="text-[3.15rem] md:text-[4.1rem] font-semibold text-foreground leading-tight max-w-3xl">
@@ -110,7 +110,7 @@ const LandingPage = () => {
       </section>
 
       {/* The Pattern Section - Exhale Typography */}
-      <section className="max-w-5xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32 relative">
+      <section className="max-w-5xl mx-auto px-6 pt-0 pb-24 md:pt-0 md:pb-32 relative -mt-4">
         {/* Ambient background blob */}
         <div className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]" style={{
         background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
