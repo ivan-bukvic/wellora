@@ -117,7 +117,7 @@ const LandingPage = () => {
       }} />
         
         {/* Eyebrow label */}
-        <span className="text-[0.75rem] uppercase tracking-[0.25em] text-muted-foreground/40 mb-6 block">
+        <span className="text-[0.8rem] uppercase tracking-[0.2em] text-primary font-medium mb-6 block">
           The pattern
         </span>
         
@@ -167,13 +167,10 @@ const LandingPage = () => {
           background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
         }} />
 
-          {/* Eyebrow with accent bar */}
-          <div className="flex items-center gap-3 mb-10">
-            <span className="w-8 h-[3px] bg-primary rounded-full"></span>
-            <span className="text-[0.8rem] uppercase tracking-[0.2em] text-primary font-medium">
-              A different approach
-            </span>
-          </div>
+          {/* Eyebrow label */}
+          <span className="text-[0.8rem] uppercase tracking-[0.2em] text-primary font-medium mb-10 block">
+            A different approach
+          </span>
 
           {/* Main headline with mixed typography */}
           <div className="mb-12">
