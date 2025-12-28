@@ -110,7 +110,7 @@ const LandingPage = () => {
       </section>
 
       {/* The Pattern Section - Exhale Typography */}
-      <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32 relative">
+      <section className="max-w-5xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32 relative">
         {/* Ambient background blob */}
         <div className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]" style={{
         background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
@@ -202,7 +202,7 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
+      <section className="max-w-5xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
         <div className="text-left space-y-10">
           {/* Eyebrow */}
           <span className="text-[1rem] text-muted-foreground/70 uppercase tracking-wide">
