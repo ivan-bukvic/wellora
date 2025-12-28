@@ -172,7 +172,7 @@ const LandingPage = () => {
         <div className="mt-10">
           <p className="inline-block text-[1.2rem] md:text-[1.35rem] leading-[1.8] text-muted-foreground/85 
                         bg-gradient-to-r from-primary/[0.08] to-primary/[0.03] px-5 py-4 rounded-2xl">
-            And that's where <span className="text-primary font-semibold">Wellora</span> comes in — 
+            And that's where <span className="text-primary font-semibold">Wellora</span> comes in - 
             offering a quieter, more supportive way to notice those patterns.
           </p>
         </div>
