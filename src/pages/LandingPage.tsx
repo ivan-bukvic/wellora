@@ -125,10 +125,10 @@ const LandingPage = () => {
         <div className="relative mb-10">
           {/* Decorative curved line */}
           
-          <h2 className="text-[1.73rem] md:text-[2.16rem] font-medium leading-tight">
-            <span className="text-foreground">Most wellness tools don't fail</span>
-            <span className="text-muted-foreground/60"> - they just ask too much</span>
-          </h2>
+        <h2 className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
+          <span className="text-foreground">Most wellness tools don't fail</span>
+          <span className="text-muted-foreground/60"> - they just ask too much</span>
+        </h2>
         </div>
         
         {/* The Pressure block - tight, compressed, claustrophobic */}
