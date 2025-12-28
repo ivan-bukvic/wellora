@@ -146,14 +146,15 @@ const LandingPage = () => {
         </div>
         
         {/* The Release block - spacious, airy, open */}
-        <div className="space-y-4 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-muted-foreground/75 tracking-[0.005em]">
+        <div className="space-y-5 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-muted-foreground/75 tracking-[0.005em]">
           <p>What's often missing isn't motivation or discipline.</p>
           <p>It's a simple way to see how activity and rest actually relate in everyday life.</p>
         </div>
         
         {/* The Invitation - Wellora line with soft highlight */}
-        <div className="mt-5">
-          <p className="text-[1.3rem] md:text-[1.45rem] leading-[1.75] text-foreground/80 font-medium">
+        <div className="mt-10">
+          <p className="inline-block text-[1.2rem] md:text-[1.35rem] leading-[1.8] text-muted-foreground/85 
+                        bg-gradient-to-r from-primary/[0.08] to-primary/[0.03] px-5 py-4 rounded-2xl">
             And that's where <span className="text-primary font-semibold">Wellora</span> comes in - 
             offering a quieter, more supportive way to notice those patterns.
           </p>
@@ -189,72 +190,45 @@ const LandingPage = () => {
           <div className="w-full h-px bg-gradient-to-r from-border via-border/60 to-transparent mb-12"></div>
 
           {/* Two columns with visual contrast */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
             
             {/* Left column - "The Old Way" */}
-            <div className="relative p-6 rounded-2xl bg-muted/30 border border-border/40">
-              {/* Decorative X pattern in corner */}
-              <div className="absolute top-4 right-4 opacity-[0.12]">
-                <svg width="32" height="32" viewBox="0 0 32 32" className="text-muted-foreground">
-                  <line x1="8" y1="8" x2="24" y2="24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="24" y1="8" x2="8" y2="24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </div>
-              {/* Fading gradient on right edge */}
-              <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-muted/40 to-transparent rounded-r-2xl pointer-events-none" />
-              
-              <div className="space-y-6 relative">
-                <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-foreground/80 tracking-tight">
-                  What most wellness tools ask
-                </h3>
-                <ul className="space-y-4 pl-1">
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
-                    <span className="text-muted-foreground/40 mt-0.5">·</span>
-                    <span>Track everything, every day</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
-                    <span className="text-muted-foreground/40 mt-0.5">·</span>
-                    <span>Compete with streaks and scores</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
-                    <span className="text-muted-foreground/40 mt-0.5">·</span>
-                    <span>Optimise toward a number</span>
-                  </li>
-                </ul>
-              </div>
+            <div className="space-y-6">
+              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-foreground/80 tracking-tight">
+                What most wellness tools ask
+              </h3>
+              <ul className="space-y-4 pl-1">
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
+                  <span className="text-muted-foreground/40 mt-0.5">·</span>
+                  <span>Track everything, every day</span>
+                </li>
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
+                  <span className="text-muted-foreground/40 mt-0.5">·</span>
+                  <span>Compete with streaks and scores</span>
+                </li>
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
+                  <span className="text-muted-foreground/40 mt-0.5">·</span>
+                  <span>Optimise toward a number</span>
+                </li>
+              </ul>
             </div>
 
             {/* Right column - "The Wellora Way" */}
-            <div className="relative p-6 rounded-2xl bg-primary/[0.04] border border-primary/15">
-              {/* Decorative flowing curves in corner */}
-              <div className="absolute top-3 right-3 opacity-20">
-                <svg width="40" height="56" viewBox="0 0 40 56" className="text-primary">
-                  <path d="M8 8 Q 24 20, 8 32 Q 24 44, 8 52" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M20 4 Q 36 18, 20 32 Q 36 46, 20 56" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-                </svg>
-              </div>
-              {/* Soft glow on right edge */}
-              <div className="absolute top-0 right-0 w-28 h-full bg-gradient-to-l from-primary/[0.06] to-transparent rounded-r-2xl pointer-events-none" />
-              
-              <div className="space-y-6 relative">
-                <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-primary tracking-tight">
-                  What Wellora does instead
-                </h3>
-                <ul className="space-y-4 pl-1">
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                    <span className="text-primary/60 mt-0.5">·</span>
-                    <span>Log what feels natural</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                    <span className="text-primary/60 mt-0.5">·</span>
-                    <span>Notice patterns over time</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                    <span className="text-primary/60 mt-0.5">·</span>
-                    <span>Reflect without pressure</span>
-                  </li>
-                </ul>
-              </div>
+            <div className="space-y-6 md:pl-8 md:border-l md:border-primary/20">
+              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-primary tracking-tight">
+                What Wellora does instead
+              </h3>
+              <ul className="space-y-4 pl-1">
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
+                  <span className="text-primary/60 mt-0.5">·</span>
+                  <span>Log what feels natural</span>
+                </li>
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
+                  <span className="text-primary/60 mt-0.5">·</span>
+                  <span>Notice patterns over time</span>
+                </li>
+                
+              </ul>
             </div>
           </div>
           
