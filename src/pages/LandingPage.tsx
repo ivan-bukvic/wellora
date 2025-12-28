@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
-
 const LandingPage = () => {
   return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
       {/* Subtle blue fade at bottom */}
@@ -28,49 +27,41 @@ const LandingPage = () => {
       {/* Hero Section - extends behind header */}
       <section className="relative overflow-hidden pt-[60px] -mt-[60px]">
         {/* Top fade overlay - white dissolving into hero */}
-        <div 
-          className="absolute top-0 left-0 right-0 h-[80px] z-10 pointer-events-none"
-          style={{
-            background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)'
-          }}
-        />
+        <div className="absolute top-0 left-0 right-0 h-[80px] z-10 pointer-events-none" style={{
+        background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)'
+      }} />
         {/* Ambient stones - positioned in true negative space, outside content wrapper */}
-        <div 
-          className="absolute pointer-events-none hidden md:block z-0"
-          style={{
-            right: '-8%',
-            bottom: '100px',
-            width: '72%',
-            height: '100%',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: `url(${heroStones})`,
-              backgroundPosition: 'right top',
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat',
-              opacity: 0.32,
-              filter: 'saturate(0.6) contrast(0.9)',
-              // Layered directional fades: left (strong), right (seamless to corner), bottom (strong), top (subtle)
-              maskImage: `
+        <div className="absolute pointer-events-none hidden md:block z-0" style={{
+        right: '-8%',
+        bottom: '100px',
+        width: '72%',
+        height: '100%'
+      }}>
+          <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${heroStones})`,
+          backgroundPosition: 'right top',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.32,
+          filter: 'saturate(0.6) contrast(0.9)',
+          // Layered directional fades: left (strong), right (seamless to corner), bottom (strong), top (subtle)
+          maskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
                 linear-gradient(to left, transparent 0%, black 20%),
                 linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
                 linear-gradient(to bottom, transparent 0%, black 20%)
               `,
-              maskComposite: 'intersect',
-              WebkitMaskImage: `
+          maskComposite: 'intersect',
+          WebkitMaskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
                 linear-gradient(to left, transparent 0%, black 20%),
                 linear-gradient(to top, transparent 0%, transparent 5%, black 40%),
                 linear-gradient(to bottom, transparent 0%, black 20%)
               `,
-              WebkitMaskComposite: 'source-in',
-            }}
-          />
+          WebkitMaskComposite: 'source-in'
+        }} />
         </div>
 
         {/* Hero Content - separate from image, maintains its own margins */}
@@ -109,15 +100,10 @@ const LandingPage = () => {
                 Scientifically<br />Validated
               </p>
               {/* Laurel as base layer */}
-              <img 
-                src={laurelWreath} 
-                alt="Laurel wreath" 
-                className="w-[150px] h-auto mt-[5px]"
-                style={{ 
-                  opacity: 0.75,
-                  filter: 'brightness(0) saturate(100%) invert(88%) sepia(25%) saturate(500%) hue-rotate(335deg) brightness(1.02)'
-                }}
-              />
+              <img src={laurelWreath} alt="Laurel wreath" className="w-[150px] h-auto mt-[5px]" style={{
+              opacity: 0.75,
+              filter: 'brightness(0) saturate(100%) invert(88%) sepia(25%) saturate(500%) hue-rotate(335deg) brightness(1.02)'
+            }} />
             </div>
           </div>
         </main>
@@ -126,10 +112,9 @@ const LandingPage = () => {
       {/* The Pattern Section - Exhale Typography */}
       <section className="max-w-4xl mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32 relative">
         {/* Ambient background blob */}
-        <div 
-          className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]"
-          style={{ background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)' }} 
-        />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]" style={{
+        background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
+      }} />
         
         {/* Eyebrow label */}
         <span className="text-[0.75rem] uppercase tracking-[0.25em] text-muted-foreground/40 mb-6 block">
@@ -139,9 +124,7 @@ const LandingPage = () => {
         {/* Headline with decorative flow */}
         <div className="relative mb-10">
           {/* Decorative curved line */}
-          <svg className="absolute -left-6 md:-left-10 top-1 w-5 h-14 opacity-30" viewBox="0 0 20 56" fill="none">
-            <path d="M12 0 C 12 18, 4 28, 10 42 C 14 50, 10 54, 12 56" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
+          
           <h2 className="text-[1.73rem] md:text-[2.16rem] font-medium leading-tight">
             <span className="text-foreground">Most wellness tools don't fail</span>
             <span className="text-muted-foreground/60"> - they just ask too much</span>
@@ -180,10 +163,9 @@ const LandingPage = () => {
         {/* A Different Approach - Creative Typography Section */}
         <div className="pt-20 mt-12 relative">
           {/* Decorative accent blob */}
-          <div 
-            className="absolute -left-20 top-1/4 w-[300px] h-[200px] pointer-events-none opacity-[0.04] hidden md:block"
-            style={{ background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)' }} 
-          />
+          <div className="absolute -left-20 top-1/4 w-[300px] h-[200px] pointer-events-none opacity-[0.04] hidden md:block" style={{
+          background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
+        }} />
 
           {/* Eyebrow with accent bar */}
           <div className="flex items-center gap-3 mb-10">
