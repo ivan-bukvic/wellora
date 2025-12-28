@@ -220,15 +220,15 @@ const LandingPage = () => {
               <ul className="space-y-4 pl-1">
                 <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
                   <span className="text-primary/60 mt-0.5">·</span>
-                  <span>Log what feels natural</span>
+                  <span><span className="font-semibold text-primary">Log</span> what feels natural</span>
                 </li>
                 <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
                   <span className="text-primary/60 mt-0.5">·</span>
-                  <span>Notice patterns over time</span>
+                  <span><span className="font-semibold text-primary">Notice</span> patterns over time</span>
                 </li>
                 <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
                   <span className="text-primary/60 mt-0.5">·</span>
-                  <span>Reflect without pressure</span>
+                  <span><span className="font-semibold text-primary">Reflect</span> without pressure</span>
                 </li>
               </ul>
             </div>
