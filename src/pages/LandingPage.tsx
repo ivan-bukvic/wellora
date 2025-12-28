@@ -139,6 +139,7 @@ const LandingPage = () => {
             <p className="mt-4">Over time, it starts to feel like work - more numbers, more reminders, more pressure.</p>
             <p className="mt-4">What's often missing isn't motivation or discipline.</p>
             <p className="mt-4">It's a simple way to see how activity and rest actually relate in everyday life.</p>
+            <p className="mt-4">And that's where Wellora comes in - offering a quieter, more supportive way to notice those patterns.</p>
           </div>
 
           {/* Comparison - moved to end as a response to the narrative */}
