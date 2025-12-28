@@ -146,15 +146,14 @@ const LandingPage = () => {
         </div>
         
         {/* The Release block - spacious, airy, open */}
-        <div className="space-y-5 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-muted-foreground/75 tracking-[0.005em]">
+        <div className="space-y-4 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-muted-foreground/75 tracking-[0.005em]">
           <p>What's often missing isn't motivation or discipline.</p>
           <p>It's a simple way to see how activity and rest actually relate in everyday life.</p>
         </div>
         
         {/* The Invitation - Wellora line with soft highlight */}
-        <div className="mt-10">
-          <p className="inline-block text-[1.2rem] md:text-[1.35rem] leading-[1.8] text-muted-foreground/85 
-                        bg-gradient-to-r from-primary/[0.08] to-primary/[0.03] px-5 py-4 rounded-2xl">
+        <div className="mt-5">
+          <p className="text-[1.3rem] md:text-[1.45rem] leading-[1.75] text-foreground/80 font-medium">
             And that's where <span className="text-primary font-semibold">Wellora</span> comes in - 
             offering a quieter, more supportive way to notice those patterns.
           </p>
