@@ -190,13 +190,49 @@ const LandingPage = () => {
           <div className="w-full h-px bg-gradient-to-r from-border via-border/60 to-transparent mb-12"></div>
 
           {/* Two columns with visual contrast */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
             
             {/* Left column - "The Old Way" */}
-            
+            <div className="space-y-6">
+              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-foreground/80 italic tracking-tight">
+                What most wellness tools ask
+              </h3>
+              <ul className="space-y-4 pl-1">
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
+                  <span className="text-muted-foreground/40 mt-0.5">·</span>
+                  <span>Track everything, every day</span>
+                </li>
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
+                  <span className="text-muted-foreground/40 mt-0.5">·</span>
+                  <span>Compete with streaks and scores</span>
+                </li>
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
+                  <span className="text-muted-foreground/40 mt-0.5">·</span>
+                  <span>Optimise toward a number</span>
+                </li>
+              </ul>
+            </div>
 
             {/* Right column - "The Wellora Way" */}
-            
+            <div className="space-y-6 md:pl-8 md:border-l md:border-primary/20">
+              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-primary tracking-tight">
+                What Wellora does instead
+              </h3>
+              <ul className="space-y-4 pl-1">
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
+                  <span className="text-primary/60 mt-0.5">·</span>
+                  <span>Log what feels natural</span>
+                </li>
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
+                  <span className="text-primary/60 mt-0.5">·</span>
+                  <span>Notice patterns over time</span>
+                </li>
+                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
+                  <span className="text-primary/60 mt-0.5">·</span>
+                  <span>Reflect without pressure</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
