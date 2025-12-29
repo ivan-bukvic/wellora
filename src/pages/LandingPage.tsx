@@ -237,7 +237,7 @@ const LandingPage = () => {
                 </h3>
               </div>
               {/* Points Column - 60% */}
-              <div className="w-[60%]">
+              <div className="w-[60%] flex items-center">
                 <ul className="space-y-2.5">
                   <li className="flex items-start gap-2.5 text-[1rem] md:text-[1.1rem] text-foreground/75 leading-relaxed">
                     <span className="text-primary/50 mt-0.5">·</span>
