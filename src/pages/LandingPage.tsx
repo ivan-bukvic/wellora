@@ -185,16 +185,13 @@ const LandingPage = () => {
             </h2>
           </div>
 
-          {/* Divider line */}
-          <div className="w-full h-px bg-gradient-to-r from-border via-border/60 to-transparent mb-12"></div>
-
           {/* Two comparison cards - horizontal layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-12">
             
             {/* Left card - "The Old Way" */}
             <div className="relative flex flex-row p-5 md:p-6 rounded-xl border border-border/40 bg-gradient-to-br from-muted/30 to-transparent">
             {/* Subtle corner accent - soft gradient glow */}
-              <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-muted-foreground/[0.06] to-transparent rounded-tl-xl blur-sm" />
+              <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-foreground/[0.02] to-transparent rounded-tl-xl blur-sm" />
               
               {/* Title Column - 40% */}
               <div className="w-[40%] flex items-center pr-4 md:pr-6">
