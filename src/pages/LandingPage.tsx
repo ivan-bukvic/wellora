@@ -188,49 +188,65 @@ const LandingPage = () => {
           {/* Divider line */}
           <div className="w-full h-px bg-gradient-to-r from-border via-border/60 to-transparent mb-12"></div>
 
-          {/* Two columns with visual contrast */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+          {/* Two comparison cards */}
+          <div className="space-y-8">
             
-            {/* Left column - "The Old Way" */}
-            <div className="space-y-6">
-              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-foreground/80 tracking-tight">
-                What most wellness tools ask
-              </h3>
-              <ul className="space-y-4 pl-1">
-                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
-                  <span className="text-muted-foreground/40 mt-0.5">·</span>
-                  <span>Track everything, every day</span>
-                </li>
-                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
-                  <span className="text-muted-foreground/40 mt-0.5">·</span>
-                  <span>Compete with streaks and scores</span>
-                </li>
-                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-muted-foreground/70 leading-relaxed">
-                  <span className="text-muted-foreground/40 mt-0.5">·</span>
-                  <span>Optimise toward a number</span>
-                </li>
-              </ul>
+            {/* Left card - "The Old Way" */}
+            <div className="flex flex-row p-6 md:p-8">
+              {/* Title Column - 40% */}
+              <div className="w-[40%] flex items-center pr-6 md:pr-10">
+                <h3 className="font-['Source_Sans_3',sans-serif] text-[1.15rem] md:text-[1.25rem] font-medium text-foreground/80 leading-tight">
+                  What most wellness
+                  <br />
+                  tools ask
+                </h3>
+              </div>
+              {/* Points Column - 60% */}
+              <div className="w-[60%]">
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-muted-foreground/70 leading-relaxed">
+                    <span className="text-muted-foreground/40 mt-0.5">·</span>
+                    <span>Track everything, every day</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-muted-foreground/70 leading-relaxed">
+                    <span className="text-muted-foreground/40 mt-0.5">·</span>
+                    <span>Compete with streaks and scores</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-muted-foreground/70 leading-relaxed">
+                    <span className="text-muted-foreground/40 mt-0.5">·</span>
+                    <span>Optimise toward a number</span>
+                  </li>
+                </ul>
+              </div>
             </div>
 
-            {/* Right column - "The Wellora Way" */}
-            <div className="space-y-6 md:pl-8 md:border-l md:border-primary/20">
-              <h3 className="text-[1.35rem] md:text-[1.5rem] font-semibold text-primary tracking-tight">
-                What Wellora does instead
-              </h3>
-              <ul className="space-y-4 pl-1">
-                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                  <span className="text-primary/60 mt-0.5">·</span>
-                  <span><span className="text-primary">Log</span> what feels natural</span>
-                </li>
-                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                  <span className="text-primary/60 mt-0.5">·</span>
-                  <span><span className="text-primary">Notice</span> patterns over time</span>
-                </li>
-                <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                  <span className="text-primary/60 mt-0.5">·</span>
-                  <span><span className="text-primary">Reflect</span> without pressure</span>
-                </li>
-              </ul>
+            {/* Right card - "The Wellora Way" */}
+            <div className="flex flex-row p-6 md:p-8">
+              {/* Title Column - 40% */}
+              <div className="w-[40%] flex items-center pr-6 md:pr-10">
+                <h3 className="font-['Source_Sans_3',sans-serif] text-[1.15rem] md:text-[1.25rem] font-medium text-primary leading-tight">
+                  What Wellora
+                  <br />
+                  does instead
+                </h3>
+              </div>
+              {/* Points Column - 60% */}
+              <div className="w-[60%]">
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-foreground/75 leading-relaxed">
+                    <span className="text-primary/60 mt-0.5">·</span>
+                    <span><span className="text-primary">Log</span> what feels natural</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-foreground/75 leading-relaxed">
+                    <span className="text-primary/60 mt-0.5">·</span>
+                    <span><span className="text-primary">Notice</span> patterns over time</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-foreground/75 leading-relaxed">
+                    <span className="text-primary/60 mt-0.5">·</span>
+                    <span><span className="text-primary">Reflect</span> without pressure</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           
