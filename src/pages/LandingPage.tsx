@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import WordCycle from "@/components/landing/WordCycle";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
 const LandingPage = () => {
@@ -69,7 +70,7 @@ const LandingPage = () => {
           <div className="flex flex-col items-center text-center space-y-6">
             {/* Headline */}
             <h1 className="text-[3.15rem] md:text-[4.1rem] font-semibold text-foreground leading-tight max-w-3xl">
-              A <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">calmer</span> way to notice how your days are flowing
+              A <WordCycle /> way to notice how your days are flowing
             </h1>
 
             {/* Subheadline */}
