@@ -19,7 +19,7 @@ const WordCycle = () => {
     <span 
       className="relative inline-block font-['Playfair_Display',serif] italic text-primary/80 font-normal"
       // Width set to widest word to prevent layout shift
-      style={{ width: "3.6em" }}
+      style={{ width: "3.0em" }}
     >
       {words.map((word, index) => (
         <span
