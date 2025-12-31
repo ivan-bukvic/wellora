@@ -262,13 +262,33 @@ const LandingPage = () => {
             </div>
           </div>
           
-          {/* Breath marker - visual pause after comparison */}
-          <div className="flex items-center justify-start gap-2.5 pt-16 pb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/30"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/10"></span>
+          {/* Breath markers below each card */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 pb-6">
+            {/* Left card dots - neutral foreground */}
+            <div className="flex items-center justify-start gap-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/50"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/[0.44]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/[0.38]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/[0.32]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/[0.26]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/20"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/[0.14]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/[0.08]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/[0.03]"></span>
+            </div>
+
+            {/* Right card dots - primary blue */}
+            <div className="flex items-center justify-start gap-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.44]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.38]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.32]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.26]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.14]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.08]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.03]"></span>
+            </div>
           </div>
         </div>
       </section>
