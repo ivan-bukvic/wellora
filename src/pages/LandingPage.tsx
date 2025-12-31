@@ -194,33 +194,31 @@ const LandingPage = () => {
               {/* Subtle corner accent - soft gradient glow */}
               <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-foreground/[0.02] to-transparent rounded-tl-xl blur-sm" />
               
-              {/* Centered Title */}
-              <div className="text-center mb-5">
-                <h3 className="font-['Source_Sans_3',sans-serif] text-[1.25rem] md:text-[1.4rem] font-medium text-foreground/70 leading-snug">
-                  What most wellness
-                  <br />
-                  tools ask
+              {/* Centered Title - single line */}
+              <div className="text-center mb-6">
+                <h3 className="font-['Source_Sans_3',sans-serif] text-[1.5rem] md:text-[1.75rem] font-semibold text-foreground/70 leading-tight">
+                  What most wellness tools ask
                 </h3>
               </div>
               
               {/* Separator line */}
-              <div className="flex justify-center mb-5">
+              <div className="flex justify-center mb-6">
                 <div className="w-[65%] h-px bg-border/50" />
               </div>
               
               {/* Left-aligned bullet list */}
               <div className="pl-4 md:pl-6">
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-muted-foreground/60 leading-relaxed">
-                    <span className="text-muted-foreground/40 mt-0.5 text-lg">·</span>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 text-[1.15rem] md:text-[1.3rem] text-foreground/70 leading-relaxed">
+                    <span className="text-foreground/50 mt-0.5 text-xl">·</span>
                     <span>Track everything, every day</span>
                   </li>
-                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-muted-foreground/60 leading-relaxed">
-                    <span className="text-muted-foreground/40 mt-0.5 text-lg">·</span>
+                  <li className="flex items-start gap-3 text-[1.15rem] md:text-[1.3rem] text-foreground/70 leading-relaxed">
+                    <span className="text-foreground/50 mt-0.5 text-xl">·</span>
                     <span>Compete with streaks and scores</span>
                   </li>
-                  <li className="flex items-start gap-3 text-[1.05rem] md:text-[1.15rem] text-muted-foreground/60 leading-relaxed">
-                    <span className="text-muted-foreground/40 mt-0.5 text-lg">·</span>
+                  <li className="flex items-start gap-3 text-[1.15rem] md:text-[1.3rem] text-foreground/70 leading-relaxed">
+                    <span className="text-foreground/50 mt-0.5 text-xl">·</span>
                     <span>Optimise toward a number</span>
                   </li>
                 </ul>
@@ -232,33 +230,31 @@ const LandingPage = () => {
               {/* Subtle corner accent - soft gradient glow with brand color */}
               <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-primary/[0.08] to-transparent rounded-tl-xl blur-sm" />
               
-              {/* Centered Title */}
-              <div className="text-center mb-5">
-                <h3 className="font-['Source_Sans_3',sans-serif] text-[1.3rem] md:text-[1.45rem] font-medium text-primary leading-snug">
-                  What Wellora
-                  <br />
-                  does instead
+              {/* Centered Title - single line */}
+              <div className="text-center mb-6">
+                <h3 className="font-['Source_Sans_3',sans-serif] text-[1.55rem] md:text-[1.8rem] font-semibold text-primary leading-tight">
+                  What Wellora does instead
                 </h3>
               </div>
               
               {/* Separator line */}
-              <div className="flex justify-center mb-5">
+              <div className="flex justify-center mb-6">
                 <div className="w-[65%] h-px bg-primary/20" />
               </div>
               
               {/* Left-aligned bullet list */}
               <div className="pl-4 md:pl-6">
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                    <span className="text-primary/50 mt-0.5 text-lg">·</span>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 text-[1.2rem] md:text-[1.35rem] text-foreground/80 leading-relaxed">
+                    <span className="text-primary/50 mt-0.5 text-xl">·</span>
                     <span><span className="text-primary">Log</span> what feels natural</span>
                   </li>
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                    <span className="text-primary/50 mt-0.5 text-lg">·</span>
+                  <li className="flex items-start gap-3 text-[1.2rem] md:text-[1.35rem] text-foreground/80 leading-relaxed">
+                    <span className="text-primary/50 mt-0.5 text-xl">·</span>
                     <span><span className="text-primary">Notice</span> patterns over time</span>
                   </li>
-                  <li className="flex items-start gap-3 text-[1.1rem] md:text-[1.2rem] text-foreground/75 leading-relaxed">
-                    <span className="text-primary/50 mt-0.5 text-lg">·</span>
+                  <li className="flex items-start gap-3 text-[1.2rem] md:text-[1.35rem] text-foreground/80 leading-relaxed">
+                    <span className="text-primary/50 mt-0.5 text-xl">·</span>
                     <span><span className="text-primary">Reflect</span> without pressure</span>
                   </li>
                 </ul>
