@@ -190,9 +190,14 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-12">
             
             {/* Left card - "The Old Way" */}
-            <div className="relative flex flex-col p-6 md:p-8 rounded-xl border border-border/40 bg-gradient-to-br from-muted/30 to-transparent">
+            <div className="group relative flex flex-col p-6 md:p-8 rounded-xl border border-border/40 bg-gradient-to-br from-muted/30 to-transparent backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg hover:border-border/60">
               {/* Subtle corner accent - soft gradient glow */}
               <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-foreground/[0.02] to-transparent rounded-tl-xl blur-sm" />
+              
+              {/* Light streak decoration */}
+              <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute -top-1/2 -left-1/2 w-1/2 h-[200%] bg-gradient-to-r from-transparent via-foreground/[0.03] to-transparent rotate-45" />
+              </div>
               
               {/* Centered Title - single line */}
               <div className="text-center mb-6">
@@ -226,24 +231,35 @@ const LandingPage = () => {
             </div>
 
             {/* Right card - "The Wellora Way" */}
-            <div className="relative flex flex-col p-6 md:p-8 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/[0.04] to-transparent shadow-sm">
+            <div className="group relative flex flex-col p-6 md:p-8 rounded-xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] to-transparent backdrop-blur-md transition-all duration-300 hover:translate-y-[-4px] hover:shadow-xl hover:border-primary/40">
+              {/* Ambient glow behind card */}
+              <div className="absolute -inset-3 bg-primary/[0.08] rounded-2xl blur-2xl animate-breathe pointer-events-none" />
+              
+              {/* Inner glow overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-primary/[0.02] rounded-xl pointer-events-none" />
+              
               {/* Subtle corner accent - soft gradient glow with brand color */}
-              <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-primary/[0.08] to-transparent rounded-tl-xl blur-sm" />
+              <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-primary/[0.12] to-transparent rounded-tl-xl blur-md" />
+              
+              {/* Light streak decoration */}
+              <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl pointer-events-none">
+                <div className="absolute -top-1/2 -left-1/2 w-1/2 h-[200%] bg-gradient-to-r from-transparent via-primary/[0.04] to-transparent rotate-45 group-hover:via-primary/[0.08] transition-all duration-500" />
+              </div>
               
               {/* Centered Title - single line */}
-              <div className="text-center mb-6">
+              <div className="relative text-center mb-6">
                 <h3 className="font-['Source_Sans_3',sans-serif] text-[1.55rem] md:text-[1.8rem] font-semibold text-primary leading-tight">
                   What Wellora does instead
                 </h3>
               </div>
               
               {/* Separator line */}
-              <div className="flex justify-center mb-6">
-                <div className="w-[65%] h-px bg-primary/20" />
+              <div className="relative flex justify-center mb-6">
+                <div className="w-[65%] h-px bg-primary/25" />
               </div>
               
               {/* Left-aligned bullet list */}
-              <div className="pl-4 md:pl-6">
+              <div className="relative pl-4 md:pl-6">
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3 text-[1.2rem] md:text-[1.35rem] text-foreground/80 leading-relaxed">
                     <span className="text-primary/50 mt-0.5 text-xl">·</span>
