@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import WordCycle from "@/components/landing/WordCycle";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
+import welloraLogo from "@/assets/wellora-logo.svg";
 const LandingPage = () => {
   return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
       {/* Subtle blue fade at bottom */}
@@ -245,6 +246,18 @@ const LandingPage = () => {
               <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl pointer-events-none">
                 <div className="absolute -top-1/2 -left-1/2 w-1/2 h-[200%] bg-gradient-to-r from-transparent via-primary/[0.04] to-transparent rotate-45 group-hover:via-primary/[0.08] transition-all duration-500" />
               </div>
+              
+              {/* Subtle background logo - brand anchor */}
+              <img 
+                src={welloraLogo}
+                alt=""
+                aria-hidden="true"
+                className="absolute bottom-4 right-4 w-24 md:w-32 opacity-[0.08] rotate-[3deg] pointer-events-none select-none brightness-0 invert"
+                style={{
+                  maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)'
+                }}
+              />
               
               {/* Centered Title - single line */}
               <div className="relative text-center mb-6">
