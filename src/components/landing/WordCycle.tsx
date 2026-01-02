@@ -17,9 +17,9 @@ const WordCycle = () => {
 
   return (
     <span 
-      className="relative inline-block font-['Playfair_Display',serif] italic text-primary/80 font-normal"
-      // Width set to widest word to prevent layout shift
-      style={{ width: "3.0em", marginLeft: "0.15em" }}
+      className="relative inline-block font-['Playfair_Display',serif] italic text-primary/80 font-medium text-[3.4rem] md:text-[4.4rem] align-middle leading-tight"
+      // Fixed dimensions prevent layout shift; sized for largest word at new font size
+      style={{ width: "2.8em", marginLeft: "0.15em", height: "1.2em" }}
     >
       {words.map((word, index) => (
         <span
