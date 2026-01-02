@@ -252,7 +252,7 @@ const LandingPage = () => {
                 src={welloraLogo}
                 alt=""
                 aria-hidden="true"
-                className="absolute bottom-4 right-4 w-24 md:w-32 opacity-[0.16] rotate-[18deg] pointer-events-none select-none"
+                className="absolute bottom-4 right-4 w-24 md:w-32 opacity-[0.08] rotate-[3deg] pointer-events-none select-none brightness-0 invert"
                 style={{
                   maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
                   WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)'
