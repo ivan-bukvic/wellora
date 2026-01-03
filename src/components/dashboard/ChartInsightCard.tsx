@@ -2,7 +2,7 @@ import { Sparkles } from 'lucide-react';
 import { useAIInsights } from '@/hooks/useAIInsights';
 
 export const ChartInsightCard = () => {
-  const { currentMicroCopy } = useAIInsights();
+  const { data, currentMicroCopy } = useAIInsights();
 
   return (
     <div className="wellora-card flex-1 animate-fade-in-up stagger-4 flex flex-col">
@@ -12,24 +12,23 @@ export const ChartInsightCard = () => {
       </div>
       
       <div className="flex-1 flex flex-col justify-center space-y-3">
-        <p className="text-base text-foreground leading-relaxed">
-          Activity and rest felt balanced this week.
-        </p>
-        <p className="text-base text-foreground leading-relaxed">
-          Consistency was stronger earlier in the week.
-        </p>
-      </div>
-      
-      {/* Footer: design philosophy + optional AI micro-copy */}
-      <div className="mt-4 pt-4 border-t border-border space-y-2">
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          Designed to support reflection, not optimization.
-        </p>
+        {data.weeklySummary.slice(0, 2).map((insight, index) => (
+          <p key={index} className="text-base text-foreground leading-relaxed">
+            {insight}
+          </p>
+        ))}
         {currentMicroCopy && (
-          <p className="text-xs text-muted-foreground/70 italic">
+          <p className="text-base text-foreground leading-relaxed">
             {currentMicroCopy}
           </p>
         )}
+      </div>
+      
+      {/* Footer: design philosophy */}
+      <div className="mt-4 pt-4 border-t border-border">
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Designed to support reflection, not optimization.
+        </p>
       </div>
     </div>
   );
