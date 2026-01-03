@@ -341,24 +341,22 @@ const LandingPage = () => {
           </span>
         </h2>
 
-        {/* Two-column layout with steps */}
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8 md:gap-12">
-          {/* Left column - Steps with connectors */}
-          <div className="relative">
-            {/* Vertical connector line */}
-            <div 
-              className="absolute left-6 top-6 bottom-6 w-0.5 bg-primary/30 hidden md:block"
-              style={{ transform: 'translateX(-50%)' }}
-            />
+        {/* Steps container with connector line */}
+        <div className="relative">
+          {/* Vertical connector line */}
+          <div 
+            className="absolute left-6 top-6 bottom-6 w-0.5 bg-primary/30 hidden md:block"
+            style={{ transform: 'translateX(-50%)' }}
+          />
 
-            {/* Step 1: Log */}
-            <div className="relative flex items-start gap-5 mb-16 md:mb-24">
-              {/* Circle indicator */}
+          {/* Step Row 1: Log */}
+          <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8 md:gap-12 items-center mb-16 md:mb-20">
+            {/* Left column - Circle + Text */}
+            <div className="flex items-center gap-5">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                 <Pencil className="w-5 h-5 text-primary" />
               </div>
-              {/* Text content */}
-              <div className="pt-1">
+              <div>
                 <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
                   Log activity
                 </h3>
@@ -367,15 +365,24 @@ const LandingPage = () => {
                 </p>
               </div>
             </div>
+            {/* Right column - Screenshot */}
+            <div className="hidden md:block">
+              <img 
+                src={howItWorksLog} 
+                alt="Log activity interface" 
+                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto"
+              />
+            </div>
+          </div>
 
-            {/* Step 2: Notice */}
-            <div className="relative flex items-start gap-5 mb-16 md:mb-24">
-              {/* Circle indicator */}
+          {/* Step Row 2: Notice */}
+          <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8 md:gap-12 items-center mb-16 md:mb-20">
+            {/* Left column - Circle + Text */}
+            <div className="flex items-center gap-5">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                 <Eye className="w-5 h-5 text-primary" />
               </div>
-              {/* Text content */}
-              <div className="pt-1">
+              <div>
                 <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
                   Notice patterns
                 </h3>
@@ -384,15 +391,24 @@ const LandingPage = () => {
                 </p>
               </div>
             </div>
+            {/* Right column - Screenshot */}
+            <div className="hidden md:block">
+              <img 
+                src={howItWorksNotice} 
+                alt="Pattern recognition interface" 
+                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto"
+              />
+            </div>
+          </div>
 
-            {/* Step 3: Reflect */}
-            <div className="relative flex items-start gap-5">
-              {/* Circle indicator */}
+          {/* Step Row 3: Reflect */}
+          <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8 md:gap-12 items-center">
+            {/* Left column - Circle + Text */}
+            <div className="flex items-center gap-5">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-primary" />
               </div>
-              {/* Text content */}
-              <div className="pt-1">
+              <div>
                 <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
                   Reflect over time
                 </h3>
@@ -401,34 +417,12 @@ const LandingPage = () => {
                 </p>
               </div>
             </div>
-          </div>
-
-          {/* Right column - Screenshots */}
-          <div className="relative hidden md:flex flex-col justify-between py-2">
-            {/* Screenshot 1 - Log */}
-            <div className="relative mb-8">
-              <img 
-                src={howItWorksLog} 
-                alt="Log activity interface" 
-                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto mr-4"
-              />
-            </div>
-
-            {/* Screenshot 2 - Notice */}
-            <div className="relative mb-8">
-              <img 
-                src={howItWorksNotice} 
-                alt="Pattern recognition interface" 
-                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto mr-8"
-              />
-            </div>
-
-            {/* Screenshot 3 - Reflect */}
-            <div className="relative">
+            {/* Right column - Screenshot */}
+            <div className="hidden md:block">
               <img 
                 src={howItWorksReflect} 
                 alt="Reflection and insights interface" 
-                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto mr-2"
+                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto"
               />
             </div>
           </div>
