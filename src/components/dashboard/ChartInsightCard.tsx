@@ -18,17 +18,19 @@ export const ChartInsightCard = () => {
         <p className="text-base text-foreground leading-relaxed">
           Consistency was stronger earlier in the week.
         </p>
+      </div>
+      
+      {/* Footer: design philosophy + optional AI micro-copy */}
+      <div className="mt-4 pt-4 border-t border-border space-y-2">
         <p className="text-sm text-muted-foreground leading-relaxed">
           Designed to support reflection, not optimization.
         </p>
+        {currentMicroCopy && (
+          <p className="text-xs text-muted-foreground/70 italic">
+            {currentMicroCopy}
+          </p>
+        )}
       </div>
-      
-      {/* Optional AI micro-copy */}
-      {currentMicroCopy && (
-        <p className="mt-4 pt-4 border-t border-border text-xs text-muted-foreground/70 italic">
-          {currentMicroCopy}
-        </p>
-      )}
     </div>
   );
 };
