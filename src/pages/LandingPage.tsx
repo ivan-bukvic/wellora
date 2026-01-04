@@ -345,27 +345,35 @@ const LandingPage = () => {
         <div className="relative">
           {/* Vertical connector line */}
           <div 
-            className="absolute left-6 md:left-[94px] top-6 bottom-6 w-0.5 bg-primary/30 hidden md:block"
+            className="absolute left-6 md:left-6 top-6 bottom-6 w-0.5 bg-primary/30 hidden md:block"
             style={{ transform: 'translateX(-50%)' }}
           />
 
           {/* Step Row 1: Log */}
-          <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8 md:gap-12 items-center mb-16 md:mb-20">
-            {/* Left column - Circle + Text */}
-            <div className="flex items-center gap-5 md:ml-[70px]">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center mb-16 md:mb-20">
+            {/* Column 1: Circle */}
+            <div className="hidden md:flex items-center justify-center">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                 <Pencil className="w-5 h-5 text-primary" />
               </div>
-              <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                  Log activity
-                </h3>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
-                </p>
+            </div>
+            {/* Column 2: Text */}
+            <div className="md:pl-[70px]">
+              <div className="flex items-center gap-5 md:block">
+                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                  <Pencil className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
+                    Log activity
+                  </h3>
+                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                    Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
+                  </p>
+                </div>
               </div>
             </div>
-            {/* Right column - Screenshot */}
+            {/* Column 3: Screenshot */}
             <div className="hidden md:block">
               <img 
                 src={howItWorksLog} 
@@ -376,22 +384,30 @@ const LandingPage = () => {
           </div>
 
           {/* Step Row 2: Notice */}
-          <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8 md:gap-12 items-center mb-16 md:mb-20">
-            {/* Left column - Circle + Text */}
-            <div className="flex items-center gap-5 md:ml-[70px]">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center mb-16 md:mb-20">
+            {/* Column 1: Circle */}
+            <div className="hidden md:flex items-center justify-center">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                 <Eye className="w-5 h-5 text-primary" />
               </div>
-              <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                  Notice patterns
-                </h3>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  Over time, patterns begin to appear. Not charts to optimise - just relationships you can recognise.
-                </p>
+            </div>
+            {/* Column 2: Text */}
+            <div className="md:pl-[70px]">
+              <div className="flex items-center gap-5 md:block">
+                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                  <Eye className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
+                    Notice patterns
+                  </h3>
+                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                    Over time, patterns begin to appear. Not charts to optimise - just relationships you can recognise.
+                  </p>
+                </div>
               </div>
             </div>
-            {/* Right column - Screenshot */}
+            {/* Column 3: Screenshot */}
             <div className="hidden md:block">
               <img 
                 src={howItWorksNotice} 
@@ -402,22 +418,30 @@ const LandingPage = () => {
           </div>
 
           {/* Step Row 3: Reflect */}
-          <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8 md:gap-12 items-center">
-            {/* Left column - Circle + Text */}
-            <div className="flex items-center gap-5 md:ml-[70px]">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center">
+            {/* Column 1: Circle */}
+            <div className="hidden md:flex items-center justify-center">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-primary" />
               </div>
-              <div>
-                <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                  Reflect over time
-                </h3>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  Look back and make sense of those patterns, quietly. No scores. No streaks. No pressure.
-                </p>
+            </div>
+            {/* Column 2: Text */}
+            <div className="md:pl-[70px]">
+              <div className="flex items-center gap-5 md:block">
+                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
+                    Reflect over time
+                  </h3>
+                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                    Look back and make sense of those patterns, quietly. No scores. No streaks. No pressure.
+                  </p>
+                </div>
               </div>
             </div>
-            {/* Right column - Screenshot */}
+            {/* Column 3: Screenshot */}
             <div className="hidden md:block">
               <img 
                 src={howItWorksReflect} 
