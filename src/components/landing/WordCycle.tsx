@@ -19,7 +19,7 @@ const WordCycle = () => {
     <span 
       className="relative inline-block font-['Playfair_Display',serif] italic text-primary/80 font-medium text-[3.4rem] md:text-[4.4rem]"
       // Fixed dimensions prevent layout shift; margins for symmetric spacing; transform for optical lift
-      style={{ width: "2.8em", height: "1.2em", marginLeft: "0.25em", marginRight: "0.25em", transform: "translateY(-3px)" }}
+      style={{ width: "2.8em", height: "1.2em", marginLeft: "0.25em", marginRight: "0.25em", transform: "translateY(-1px)" }}
     >
       {words.map((word, index) => (
         <span
