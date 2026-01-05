@@ -352,9 +352,9 @@ const LandingPage = () => {
               style={{ transform: 'translateX(-50%)', height: 'calc(100% + 120px)' }}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center">
               {/* Column 1: Circle */}
-              <div className="hidden md:flex items-start justify-center pt-2">
+              <div className="hidden md:flex items-center justify-center">
                 <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Pencil className="w-5 h-5 text-primary" />
                 </div>
@@ -366,22 +366,46 @@ const LandingPage = () => {
                     <Pencil className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-3xl md:text-4xl font-semibold text-foreground mb-3">
+                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
                       Log activity
                     </h3>
-                    <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
                       Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
                     </p>
                   </div>
                 </div>
               </div>
-              {/* Column 3: Screenshot - enlarged and editorial */}
-              <div className="hidden md:block">
+              {/* Column 3: Screenshot with decorative frames */}
+              <div className="hidden md:block relative">
+                {/* Frame 1: Primary blue, offset top-right */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                  style={{
+                    top: '-12px',
+                    right: '-12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Frame 2: Faded primary blue, offset bottom-left */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                  style={{
+                    top: '12px',
+                    right: '12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Actual screenshot */}
                 <img 
                   src={howItWorksLogHero} 
                   alt="Log activity interface" 
-                  className="rounded-xl shadow-xl w-full max-w-[520px] ml-auto"
-                  style={{ transform: 'translateY(20px)' }}
+                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
                 />
               </div>
             </div>
