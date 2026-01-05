@@ -4,7 +4,7 @@ import WordCycle from "@/components/landing/WordCycle";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
 import welloraLogo from "@/assets/wellora-logo.svg";
-import howItWorksLog from "@/assets/how-it-works-log.png";
+import howItWorksLogHero from "@/assets/how-it-works-log-hero.png";
 import howItWorksNotice from "@/assets/how-it-works-notice.png";
 import howItWorksReflect from "@/assets/how-it-works-reflect.png";
 import { Pencil, Eye, Sparkles } from "lucide-react";
@@ -327,61 +327,74 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="max-w-[1164px] mx-auto px-6 pt-16 pb-24 md:pt-20 md:pb-32">
-        {/* Eyebrow */}
-        <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
-          How it works
-        </span>
-
-        {/* Headline */}
-        <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight mb-16 md:mb-20">
-          A simple way to understand your{' '}
-          <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
-            rhythm
+      <section className="max-w-[1164px] mx-auto px-6">
+        
+        {/* Zone A: Log Activity - Hero-like first step */}
+        <div className="min-h-[70vh] md:min-h-[85vh] flex flex-col justify-center pt-16 md:pt-24 pb-8">
+          {/* Eyebrow */}
+          <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
+            How it works
           </span>
-        </h2>
 
-        {/* Steps container with connector line */}
-        <div className="relative">
-          {/* Vertical connector line */}
-          <div 
-            className="absolute left-6 md:left-6 top-6 bottom-6 w-0.5 bg-primary/30 hidden md:block"
-            style={{ transform: 'translateX(-50%)' }}
-          />
+          {/* Headline */}
+          <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight mb-12 md:mb-16">
+            A simple way to understand your{' '}
+            <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
+              rhythm
+            </span>
+          </h2>
 
-          {/* Step Row 1: Log */}
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center mb-16 md:mb-20">
-            {/* Column 1: Circle */}
-            <div className="hidden md:flex items-center justify-center">
-              <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                <Pencil className="w-5 h-5 text-primary" />
-              </div>
-            </div>
-            {/* Column 2: Text */}
-            <div className="md:pl-[70px]">
-              <div className="flex items-center gap-5 md:block">
-                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+          {/* Log Step - Hero layout */}
+          <div className="relative">
+            {/* Vertical connector line - extends to next section */}
+            <div 
+              className="absolute left-6 top-6 w-0.5 bg-primary/30 hidden md:block"
+              style={{ transform: 'translateX(-50%)', height: 'calc(100% + 120px)' }}
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-start">
+              {/* Column 1: Circle */}
+              <div className="hidden md:flex items-start justify-center pt-2">
+                <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Pencil className="w-5 h-5 text-primary" />
                 </div>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                    Log activity
-                  </h3>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                    Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
-                  </p>
+              </div>
+              {/* Column 2: Text - pushed further right */}
+              <div className="md:pl-[100px]">
+                <div className="flex items-center gap-5 md:block">
+                  <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                    <Pencil className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl md:text-4xl font-semibold text-foreground mb-3">
+                      Log activity
+                    </h3>
+                    <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                      Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Column 3: Screenshot */}
-            <div className="hidden md:block">
-              <img 
-                src={howItWorksLog} 
-                alt="Log activity interface" 
-                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto"
-              />
+              {/* Column 3: Screenshot - enlarged and editorial */}
+              <div className="hidden md:block">
+                <img 
+                  src={howItWorksLogHero} 
+                  alt="Log activity interface" 
+                  className="rounded-xl shadow-xl w-full max-w-[520px] ml-auto"
+                  style={{ transform: 'translateY(20px)' }}
+                />
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Zone B: Secondary Steps - Notice + Reflect */}
+        <div className="relative pt-16 md:pt-24 pb-24 md:pb-32">
+          {/* Vertical connector line */}
+          <div 
+            className="absolute left-6 top-0 bottom-24 w-0.5 bg-primary/30 hidden md:block"
+            style={{ transform: 'translateX(-50%)' }}
+          />
 
           {/* Step Row 2: Notice */}
           <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center mb-16 md:mb-20">
@@ -450,12 +463,12 @@ const LandingPage = () => {
               />
             </div>
           </div>
-        </div>
 
-        {/* Closing line */}
-        <p className="text-base text-muted-foreground/70 mt-16 md:mt-20">
-          This is not about doing more. It's about seeing more clearly.
-        </p>
+          {/* Closing line */}
+          <p className="text-base text-muted-foreground/70 mt-16 md:mt-20">
+            This is not about doing more. It's about seeing more clearly.
+          </p>
+        </div>
       </section>
     </div>;
 };
