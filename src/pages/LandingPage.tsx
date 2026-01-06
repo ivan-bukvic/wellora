@@ -444,12 +444,37 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-            {/* Column 3: Screenshot */}
-            <div className="hidden md:block">
+            {/* Column 3: Screenshot with decorative frames */}
+            <div className="hidden md:block relative">
+              {/* Frame 1: Primary blue, offset top-right */}
+              <div 
+                className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                style={{
+                  top: '-12px',
+                  right: '-12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '336px',
+                  marginLeft: 'auto',
+                }}
+              />
+              {/* Frame 2: Faded primary blue, offset bottom-left */}
+              <div 
+                className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                style={{
+                  top: '12px',
+                  right: '12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '336px',
+                  marginLeft: 'auto',
+                }}
+              />
+              {/* Actual screenshot */}
               <img 
                 src={howItWorksNotice} 
                 alt="Pattern recognition interface" 
-                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto"
+                className="relative z-10 rounded-xl shadow-lg w-full max-w-[336px] ml-auto"
               />
             </div>
           </div>
@@ -478,12 +503,37 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-            {/* Column 3: Screenshot */}
-            <div className="hidden md:block">
+            {/* Column 3: Screenshot with decorative frames */}
+            <div className="hidden md:block relative">
+              {/* Frame 1: Primary blue, offset top-right */}
+              <div 
+                className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                style={{
+                  top: '-12px',
+                  right: '-12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '336px',
+                  marginLeft: 'auto',
+                }}
+              />
+              {/* Frame 2: Faded primary blue, offset bottom-left */}
+              <div 
+                className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                style={{
+                  top: '12px',
+                  right: '12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '336px',
+                  marginLeft: 'auto',
+                }}
+              />
+              {/* Actual screenshot */}
               <img 
                 src={howItWorksReflect} 
                 alt="Reflection and insights interface" 
-                className="rounded-xl shadow-md w-full max-w-[420px] ml-auto"
+                className="relative z-10 rounded-xl shadow-lg w-full max-w-[336px] ml-auto"
               />
             </div>
           </div>
