@@ -327,101 +327,98 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="max-w-[1164px] mx-auto px-6">
+      <section className="max-w-[1164px] mx-auto px-6 relative">
         
-        {/* Zone A: Log Activity - Hero-like first step */}
-        <div className="min-h-[70vh] md:min-h-[85vh] flex flex-col justify-center pt-16 md:pt-24 pb-8">
+        {/* Section Header */}
+        <div className="pt-16 md:pt-24 pb-8 md:pb-12">
           {/* Eyebrow */}
           <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
             How it works
           </span>
 
           {/* Headline */}
-          <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight mb-12 md:mb-16">
+          <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight">
             A simple way to understand your{' '}
             <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
               rhythm
             </span>
           </h2>
+        </div>
 
-          {/* Log Step - Hero layout */}
-          <div className="relative">
-            {/* Vertical connector line - extends to next section */}
-            <div 
-              className="absolute left-6 top-6 w-0.5 bg-primary/30 hidden md:block"
-              style={{ transform: 'translateX(-50%)', height: 'calc(100% + 120px)' }}
-            />
+        {/* Continuous vertical rail */}
+        <div 
+          className="absolute left-6 w-0.5 bg-primary/30 hidden md:block"
+          style={{ 
+            transform: 'translateX(-50%)', 
+            top: 'calc(16rem)',
+            bottom: '6rem'
+          }}
+        />
 
-            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center">
-              {/* Column 1: Circle */}
-              <div className="hidden md:flex items-center justify-center">
-                <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+        {/* Step 1: Log Activity */}
+        <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center w-full">
+            {/* Column 1: Circle */}
+            <div className="hidden md:flex items-center justify-center">
+              <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                <Pencil className="w-5 h-5 text-primary" />
+              </div>
+            </div>
+            {/* Column 2: Text */}
+            <div className="md:pl-[100px]">
+              <div className="flex items-center gap-5 md:block">
+                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Pencil className="w-5 h-5 text-primary" />
                 </div>
-              </div>
-              {/* Column 2: Text - pushed further right */}
-              <div className="md:pl-[100px]">
-                <div className="flex items-center gap-5 md:block">
-                  <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                    <Pencil className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
-                      Log activity
-                    </h3>
-                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                      Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
-                    </p>
-                  </div>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
+                    Log activity
+                  </h3>
+                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                    Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
+                  </p>
                 </div>
               </div>
-              {/* Column 3: Screenshot with decorative frames */}
-              <div className="hidden md:block relative">
-                {/* Frame 1: Primary blue, offset top-right */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                  style={{
-                    top: '-12px',
-                    right: '-12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '416px',
-                    marginLeft: 'auto',
-                  }}
-                />
-                {/* Frame 2: Faded primary blue, offset bottom-left */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                  style={{
-                    top: '12px',
-                    right: '12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '416px',
-                    marginLeft: 'auto',
-                  }}
-                />
-                {/* Actual screenshot */}
-                <img 
-                  src={howItWorksLogHero} 
-                  alt="Log activity interface" 
-                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
-                />
-              </div>
+            </div>
+            {/* Column 3: Screenshot with decorative frames */}
+            <div className="hidden md:block relative">
+              {/* Frame 1: Primary blue, offset top-right */}
+              <div 
+                className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                style={{
+                  top: '-12px',
+                  right: '-12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '416px',
+                  marginLeft: 'auto',
+                }}
+              />
+              {/* Frame 2: Faded primary blue, offset bottom-left */}
+              <div 
+                className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                style={{
+                  top: '12px',
+                  right: '12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '416px',
+                  marginLeft: 'auto',
+                }}
+              />
+              {/* Actual screenshot */}
+              <img 
+                src={howItWorksLogHero} 
+                alt="Log activity interface" 
+                className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
+              />
             </div>
           </div>
         </div>
 
-        {/* Zone B: Secondary Steps - Notice + Reflect */}
-        <div className="relative pt-16 md:pt-24 pb-24 md:pb-32">
-          {/* Vertical connector line */}
-          <div 
-            className="absolute left-6 top-0 bottom-24 w-0.5 bg-primary/30 hidden md:block"
-            style={{ transform: 'translateX(-50%)' }}
-          />
-
-          {/* Step Row 2: Notice */}
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center mb-16 md:mb-20">
+        {/* Step 2: Notice Patterns */}
+        <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center w-full">
             {/* Column 1: Circle */}
             <div className="hidden md:flex items-center justify-center">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
@@ -478,9 +475,11 @@ const LandingPage = () => {
               />
             </div>
           </div>
+        </div>
 
-          {/* Step Row 3: Reflect */}
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center">
+        {/* Step 3: Reflect Over Time */}
+        <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center w-full">
             {/* Column 1: Circle */}
             <div className="hidden md:flex items-center justify-center">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
@@ -537,12 +536,12 @@ const LandingPage = () => {
               />
             </div>
           </div>
-
-          {/* Closing line */}
-          <p className="text-base text-muted-foreground/70 mt-16 md:mt-20">
-            This is not about doing more. It's about seeing more clearly.
-          </p>
         </div>
+
+        {/* Closing line */}
+        <p className="text-base text-muted-foreground/70 pb-24 md:pb-32">
+          This is not about doing more. It's about seeing more clearly.
+        </p>
       </section>
     </div>;
 };
