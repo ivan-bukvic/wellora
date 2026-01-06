@@ -418,7 +418,7 @@ const LandingPage = () => {
 
         {/* Step 2: Notice Patterns */}
         <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center w-full">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center w-full">
             {/* Column 1: Circle */}
             <div className="hidden md:flex items-center justify-center">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
@@ -426,7 +426,7 @@ const LandingPage = () => {
               </div>
             </div>
             {/* Column 2: Text */}
-            <div className="md:pl-[70px]">
+            <div className="md:pl-[100px]">
               <div className="flex items-center gap-5 md:block">
                 <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Eye className="w-5 h-5 text-primary" />
@@ -451,7 +451,7 @@ const LandingPage = () => {
                   right: '-12px',
                   width: '100%',
                   height: '100%',
-                  maxWidth: '336px',
+                  maxWidth: '416px',
                   marginLeft: 'auto',
                 }}
               />
@@ -463,7 +463,7 @@ const LandingPage = () => {
                   right: '12px',
                   width: '100%',
                   height: '100%',
-                  maxWidth: '336px',
+                  maxWidth: '416px',
                   marginLeft: 'auto',
                 }}
               />
@@ -471,7 +471,7 @@ const LandingPage = () => {
               <img 
                 src={howItWorksNotice} 
                 alt="Pattern recognition interface" 
-                className="relative z-10 rounded-xl shadow-lg w-full max-w-[336px] ml-auto"
+                className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
               />
             </div>
           </div>
@@ -479,7 +479,7 @@ const LandingPage = () => {
 
         {/* Step 3: Reflect Over Time */}
         <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_60%] gap-8 md:gap-0 items-center w-full">
+          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center w-full">
             {/* Column 1: Circle */}
             <div className="hidden md:flex items-center justify-center">
               <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
@@ -487,7 +487,7 @@ const LandingPage = () => {
               </div>
             </div>
             {/* Column 2: Text */}
-            <div className="md:pl-[70px]">
+            <div className="md:pl-[100px]">
               <div className="flex items-center gap-5 md:block">
                 <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-primary" />
@@ -512,7 +512,7 @@ const LandingPage = () => {
                   right: '-12px',
                   width: '100%',
                   height: '100%',
-                  maxWidth: '336px',
+                  maxWidth: '416px',
                   marginLeft: 'auto',
                 }}
               />
@@ -524,7 +524,7 @@ const LandingPage = () => {
                   right: '12px',
                   width: '100%',
                   height: '100%',
-                  maxWidth: '336px',
+                  maxWidth: '416px',
                   marginLeft: 'auto',
                 }}
               />
@@ -532,7 +532,7 @@ const LandingPage = () => {
               <img 
                 src={howItWorksReflect} 
                 alt="Reflection and insights interface" 
-                className="relative z-10 rounded-xl shadow-lg w-full max-w-[336px] ml-auto"
+                className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
               />
             </div>
           </div>
