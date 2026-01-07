@@ -327,33 +327,36 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="max-w-[1164px] mx-auto px-6 relative">
-        
-        {/* Section Header */}
-        <div className="pt-16 md:pt-24 pb-8 md:pb-12">
-          {/* Eyebrow */}
-          <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
-            How it works
-          </span>
-
-          {/* Headline */}
-          <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight">
-            A simple way to understand your{' '}
-            <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
-              rhythm
+      <section>
+        {/* Section Header - keeps current width */}
+        <div className="max-w-[1164px] mx-auto px-6">
+          <div className="pt-16 md:pt-24 pb-8 md:pb-12">
+            {/* Eyebrow */}
+            <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
+              How it works
             </span>
-          </h2>
+
+            {/* Headline */}
+            <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight">
+              A simple way to understand your{' '}
+              <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
+                rhythm
+              </span>
+            </h2>
+          </div>
         </div>
 
-        {/* Continuous vertical rail */}
-        <div 
-          className="absolute left-6 w-0.5 bg-primary/30 hidden md:block"
-          style={{ 
-            transform: 'translateX(-50%)', 
-            top: 'calc(16rem)',
-            bottom: '6rem'
-          }}
-        />
+        {/* Steps Container - wider (+160px total) */}
+        <div className="max-w-[1324px] mx-auto px-6 relative">
+          {/* Continuous vertical rail */}
+          <div 
+            className="absolute left-[104px] w-0.5 bg-primary/30 hidden md:block"
+            style={{ 
+              transform: 'translateX(-50%)', 
+              top: '0',
+              bottom: '6rem'
+            }}
+          />
 
         {/* Step 1: Log Activity */}
         <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
@@ -538,10 +541,11 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Closing line */}
-        <p className="text-base text-muted-foreground/70 pb-24 md:pb-32">
-          This is not about doing more. It's about seeing more clearly.
-        </p>
+          {/* Closing line */}
+          <p className="text-base text-muted-foreground/70 pb-24 md:pb-32">
+            This is not about doing more. It's about seeing more clearly.
+          </p>
+        </div>
       </section>
     </div>;
 };
