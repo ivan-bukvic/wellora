@@ -420,63 +420,66 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Step 2: Notice Patterns */}
+          {/* Step 2: Notice Patterns - Flipped layout (screenshot left, text right) */}
           <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
-            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_50%] gap-8 md:gap-0 items-center w-full">
-              {/* Column 1: Circle */}
+            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr] gap-8 md:gap-0 items-center w-full">
+              {/* Column 1: Circle - fixed position */}
               <div className="hidden md:flex items-center justify-center">
                 <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Eye className="w-5 h-5 text-primary" />
                 </div>
               </div>
-              {/* Column 2: Text */}
-              <div className="md:pl-[80px]">
-                <div className="flex items-center gap-5 md:block">
-                  <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                    <Eye className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                      Notice patterns
-                    </h3>
-                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                      Over time, patterns begin to appear. Not charts to optimise - just relationships you can recognise.
-                    </p>
+              {/* Column 2: Content wrapper (screenshot + text) - flipped order */}
+              <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-12">
+                {/* Screenshot first (left side on desktop) */}
+                <div className="hidden md:block relative md:w-1/2">
+                  {/* Frame 1: Primary blue, offset top-left (mirrored) */}
+                  <div 
+                    className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                    style={{
+                      top: '-12px',
+                      left: '-12px',
+                      width: '100%',
+                      height: '100%',
+                      maxWidth: '416px',
+                      marginRight: 'auto',
+                    }}
+                  />
+                  {/* Frame 2: Faded primary blue, offset bottom-right (mirrored) */}
+                  <div 
+                    className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                    style={{
+                      top: '12px',
+                      left: '12px',
+                      width: '100%',
+                      height: '100%',
+                      maxWidth: '416px',
+                      marginRight: 'auto',
+                    }}
+                  />
+                  {/* Actual screenshot */}
+                  <img 
+                    src={howItWorksNotice} 
+                    alt="Pattern recognition interface" 
+                    className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] mr-auto"
+                  />
+                </div>
+                {/* Text second (right side on desktop) */}
+                <div className="md:w-1/2 md:pl-[40px]">
+                  <div className="flex items-center gap-5 md:block">
+                    <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                      <Eye className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
+                        Notice patterns
+                      </h3>
+                      <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                        Over time, patterns begin to appear. Not charts to optimise - just relationships you can recognise.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* Column 3: Screenshot with decorative frames */}
-              <div className="hidden md:block relative">
-                {/* Frame 1: Primary blue, offset top-right */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                  style={{
-                    top: '-12px',
-                    right: '-12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '416px',
-                    marginLeft: 'auto',
-                  }}
-                />
-                {/* Frame 2: Faded primary blue, offset bottom-left */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                  style={{
-                    top: '12px',
-                    right: '12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '416px',
-                    marginLeft: 'auto',
-                  }}
-                />
-                {/* Actual screenshot */}
-                <img 
-                  src={howItWorksNotice} 
-                  alt="Pattern recognition interface" 
-                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
-                />
               </div>
             </div>
           </div>
