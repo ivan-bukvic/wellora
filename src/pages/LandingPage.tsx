@@ -346,205 +346,207 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Steps Container - wider (+160px total) */}
-        <div className="max-w-[1324px] mx-auto px-6 relative">
-          {/* Continuous vertical rail */}
-          <div 
-            className="absolute left-[104px] w-0.5 bg-primary/30 hidden md:block"
-            style={{ 
-              transform: 'translateX(-50%)', 
-              top: '0',
-              bottom: '6rem'
-            }}
-          />
+        {/* Steps Container - breaks out of parent constraints */}
+        <div className="w-full relative">
+          <div className="max-w-[1400px] mx-auto px-8 md:px-12 lg:px-16 relative">
+            {/* Continuous vertical rail */}
+            <div 
+              className="absolute left-[calc(24px+3rem)] lg:left-[calc(24px+4rem)] w-0.5 bg-primary/30 hidden md:block"
+              style={{ 
+                transform: 'translateX(-50%)', 
+                top: '0',
+                bottom: '6rem'
+              }}
+            />
 
-        {/* Step 1: Log Activity */}
-        <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center w-full">
-            {/* Column 1: Circle */}
-            <div className="hidden md:flex items-center justify-center">
-              <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                <Pencil className="w-5 h-5 text-primary" />
-              </div>
-            </div>
-            {/* Column 2: Text */}
-            <div className="md:pl-[100px]">
-              <div className="flex items-center gap-5 md:block">
-                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+          {/* Step 1: Log Activity */}
+          <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
+            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_50%] gap-8 md:gap-0 items-center w-full">
+              {/* Column 1: Circle */}
+              <div className="hidden md:flex items-center justify-center">
+                <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Pencil className="w-5 h-5 text-primary" />
                 </div>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
-                    Log activity
-                  </h3>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                    Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
-                  </p>
+              </div>
+              {/* Column 2: Text */}
+              <div className="md:pl-[80px]">
+                <div className="flex items-center gap-5 md:block">
+                  <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                    <Pencil className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
+                      Log activity
+                    </h3>
+                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                      Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Column 3: Screenshot with decorative frames */}
-            <div className="hidden md:block relative">
-              {/* Frame 1: Primary blue, offset top-right */}
-              <div 
-                className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                style={{
-                  top: '-12px',
-                  right: '-12px',
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '416px',
-                  marginLeft: 'auto',
-                }}
-              />
-              {/* Frame 2: Faded primary blue, offset bottom-left */}
-              <div 
-                className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                style={{
-                  top: '12px',
-                  right: '12px',
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '416px',
-                  marginLeft: 'auto',
-                }}
-              />
-              {/* Actual screenshot */}
-              <img 
-                src={howItWorksLogHero} 
-                alt="Log activity interface" 
-                className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Step 2: Notice Patterns */}
-        <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center w-full">
-            {/* Column 1: Circle */}
-            <div className="hidden md:flex items-center justify-center">
-              <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                <Eye className="w-5 h-5 text-primary" />
+              {/* Column 3: Screenshot with decorative frames */}
+              <div className="hidden md:block relative">
+                {/* Frame 1: Primary blue, offset top-right */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                  style={{
+                    top: '-12px',
+                    right: '-12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Frame 2: Faded primary blue, offset bottom-left */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                  style={{
+                    top: '12px',
+                    right: '12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Actual screenshot */}
+                <img 
+                  src={howItWorksLogHero} 
+                  alt="Log activity interface" 
+                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
+                />
               </div>
             </div>
-            {/* Column 2: Text */}
-            <div className="md:pl-[100px]">
-              <div className="flex items-center gap-5 md:block">
-                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+          </div>
+
+          {/* Step 2: Notice Patterns */}
+          <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
+            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_50%] gap-8 md:gap-0 items-center w-full">
+              {/* Column 1: Circle */}
+              <div className="hidden md:flex items-center justify-center">
+                <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Eye className="w-5 h-5 text-primary" />
                 </div>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                    Notice patterns
-                  </h3>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                    Over time, patterns begin to appear. Not charts to optimise - just relationships you can recognise.
-                  </p>
+              </div>
+              {/* Column 2: Text */}
+              <div className="md:pl-[80px]">
+                <div className="flex items-center gap-5 md:block">
+                  <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                    <Eye className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
+                      Notice patterns
+                    </h3>
+                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                      Over time, patterns begin to appear. Not charts to optimise - just relationships you can recognise.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Column 3: Screenshot with decorative frames */}
-            <div className="hidden md:block relative">
-              {/* Frame 1: Primary blue, offset top-right */}
-              <div 
-                className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                style={{
-                  top: '-12px',
-                  right: '-12px',
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '416px',
-                  marginLeft: 'auto',
-                }}
-              />
-              {/* Frame 2: Faded primary blue, offset bottom-left */}
-              <div 
-                className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                style={{
-                  top: '12px',
-                  right: '12px',
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '416px',
-                  marginLeft: 'auto',
-                }}
-              />
-              {/* Actual screenshot */}
-              <img 
-                src={howItWorksNotice} 
-                alt="Pattern recognition interface" 
-                className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Step 3: Reflect Over Time */}
-        <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
-          <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_55%] gap-8 md:gap-0 items-center w-full">
-            {/* Column 1: Circle */}
-            <div className="hidden md:flex items-center justify-center">
-              <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-primary" />
+              {/* Column 3: Screenshot with decorative frames */}
+              <div className="hidden md:block relative">
+                {/* Frame 1: Primary blue, offset top-right */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                  style={{
+                    top: '-12px',
+                    right: '-12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Frame 2: Faded primary blue, offset bottom-left */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                  style={{
+                    top: '12px',
+                    right: '12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Actual screenshot */}
+                <img 
+                  src={howItWorksNotice} 
+                  alt="Pattern recognition interface" 
+                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
+                />
               </div>
             </div>
-            {/* Column 2: Text */}
-            <div className="md:pl-[100px]">
-              <div className="flex items-center gap-5 md:block">
-                <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+          </div>
+
+          {/* Step 3: Reflect Over Time */}
+          <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
+            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_50%] gap-8 md:gap-0 items-center w-full">
+              {/* Column 1: Circle */}
+              <div className="hidden md:flex items-center justify-center">
+                <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-primary" />
                 </div>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-                    Reflect over time
-                  </h3>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                    Look back and make sense of those patterns, quietly. No scores. No streaks. No pressure.
-                  </p>
+              </div>
+              {/* Column 2: Text */}
+              <div className="md:pl-[80px]">
+                <div className="flex items-center gap-5 md:block">
+                  <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
+                      Reflect over time
+                    </h3>
+                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                      A weekly summary with gentle AI insights. Nothing loud. Just enough to support what's working.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Column 3: Screenshot with decorative frames */}
-            <div className="hidden md:block relative">
-              {/* Frame 1: Primary blue, offset top-right */}
-              <div 
-                className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                style={{
-                  top: '-12px',
-                  right: '-12px',
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '416px',
-                  marginLeft: 'auto',
-                }}
-              />
-              {/* Frame 2: Faded primary blue, offset bottom-left */}
-              <div 
-                className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                style={{
-                  top: '12px',
-                  right: '12px',
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '416px',
-                  marginLeft: 'auto',
-                }}
-              />
-              {/* Actual screenshot */}
-              <img 
-                src={howItWorksReflect} 
-                alt="Reflection and insights interface" 
-                className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
-              />
+              {/* Column 3: Screenshot with decorative frames */}
+              <div className="hidden md:block relative">
+                {/* Frame 1: Primary blue, offset top-right */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
+                  style={{
+                    top: '-12px',
+                    right: '-12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Frame 2: Faded primary blue, offset bottom-left */}
+                <div 
+                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
+                  style={{
+                    top: '12px',
+                    right: '12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '416px',
+                    marginLeft: 'auto',
+                  }}
+                />
+                {/* Actual screenshot */}
+                <img 
+                  src={howItWorksReflect} 
+                  alt="Reflection and insights interface" 
+                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
+                />
+              </div>
             </div>
           </div>
-        </div>
 
           {/* Closing line */}
           <p className="text-base text-muted-foreground/70 pb-24 md:pb-32">
             This is not about doing more. It's about seeing more clearly.
           </p>
+        </div>
         </div>
       </section>
     </div>;
