@@ -252,16 +252,10 @@ const LandingPage = () => {
               </div>
               
               {/* Subtle background logo - brand anchor */}
-              <img 
-                src={welloraLogo}
-                alt=""
-                aria-hidden="true"
-                className="absolute bottom-4 right-4 w-24 md:w-32 opacity-[0.08] rotate-[3deg] pointer-events-none select-none brightness-0 invert"
-                style={{
-                  maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
-                  WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)'
-                }}
-              />
+              <img src={welloraLogo} alt="" aria-hidden="true" className="absolute bottom-4 right-4 w-24 md:w-32 opacity-[0.08] rotate-[3deg] pointer-events-none select-none brightness-0 invert" style={{
+              maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)'
+            }} />
               
               {/* Centered Title - single line */}
               <div className="relative text-center mb-6">
@@ -350,14 +344,11 @@ const LandingPage = () => {
         <div className="w-full relative">
           <div className="max-w-[1560px] mx-auto px-8 md:px-12 lg:px-16 relative">
             {/* Continuous vertical rail */}
-            <div 
-              className="absolute left-[calc(24px+3rem)] lg:left-[calc(24px+4rem)] w-0.5 bg-primary/30 hidden md:block"
-              style={{ 
-                transform: 'translateX(-50%)', 
-                top: '0',
-                bottom: '6rem'
-              }}
-            />
+            <div className="absolute left-[calc(24px+3rem)] lg:left-[calc(24px+4rem)] w-0.5 bg-primary/30 hidden md:block" style={{
+            transform: 'translateX(-50%)',
+            top: '0',
+            bottom: '6rem'
+          }} />
 
           {/* Step 1: Log Activity */}
           <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
@@ -387,35 +378,25 @@ const LandingPage = () => {
               {/* Column 3: Screenshot with decorative frames */}
               <div className="hidden md:block relative">
                 {/* Frame 1: Primary blue, offset top-right */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                  style={{
-                    top: '-12px',
-                    right: '-12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '416px',
-                    marginLeft: 'auto',
-                  }}
-                />
+                <div className="absolute rounded-xl border-2 border-primary/40 pointer-events-none" style={{
+                  top: '-12px',
+                  right: '-12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '416px',
+                  marginLeft: 'auto'
+                }} />
                 {/* Frame 2: Faded primary blue, offset bottom-left */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                  style={{
-                    top: '12px',
-                    right: '12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '416px',
-                    marginLeft: 'auto',
-                  }}
-                />
+                <div className="absolute rounded-xl border-2 border-primary/20 pointer-events-none" style={{
+                  top: '12px',
+                  right: '12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '416px',
+                  marginLeft: 'auto'
+                }} />
                 {/* Actual screenshot */}
-                <img 
-                  src={howItWorksLogHero} 
-                  alt="Log activity interface" 
-                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto"
-                />
+                <img src={howItWorksLogHero} alt="Log activity interface" className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto" />
               </div>
             </div>
           </div>
@@ -434,35 +415,25 @@ const LandingPage = () => {
                 {/* Screenshot first (left side on desktop) */}
                 <div className="hidden md:block relative md:w-[55%]">
                   {/* Frame 1: Primary blue, offset top-left (mirrored) */}
-                  <div 
-                    className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                    style={{
-                      top: '-12px',
-                      left: '-12px',
-                      width: '100%',
-                      height: '100%',
-                      maxWidth: '624px',
-                      marginRight: 'auto',
-                    }}
-                  />
+                  <div className="absolute rounded-xl border-2 border-primary/40 pointer-events-none" style={{
+                    top: '-12px',
+                    left: '-12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '624px',
+                    marginRight: 'auto'
+                  }} />
                   {/* Frame 2: Faded primary blue, offset bottom-right (mirrored) */}
-                  <div 
-                    className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                    style={{
-                      top: '12px',
-                      left: '12px',
-                      width: '100%',
-                      height: '100%',
-                      maxWidth: '624px',
-                      marginRight: 'auto',
-                    }}
-                  />
+                  <div className="absolute rounded-xl border-2 border-primary/20 pointer-events-none" style={{
+                    top: '12px',
+                    left: '12px',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '624px',
+                    marginRight: 'auto'
+                  }} />
                   {/* Actual screenshot */}
-                  <img 
-                    src={howItWorksNotice} 
-                    alt="Pattern recognition interface" 
-                    className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] mr-auto"
-                  />
+                  <img src={howItWorksNotice} alt="Pattern recognition interface" className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] mr-auto" />
                 </div>
                 {/* Text second (right side on desktop) */}
                 <div className="md:w-[45%] md:pl-[40px]">
@@ -512,43 +483,31 @@ const LandingPage = () => {
               {/* Column 3: Screenshot with decorative frames */}
               <div className="hidden md:block relative">
                 {/* Frame 1: Primary blue, offset top-right */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/40 pointer-events-none"
-                  style={{
-                    top: '-12px',
-                    right: '-12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '624px',
-                    marginLeft: 'auto',
-                  }}
-                />
+                <div className="absolute rounded-xl border-2 border-primary/40 pointer-events-none" style={{
+                  top: '-12px',
+                  right: '-12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '624px',
+                  marginLeft: 'auto'
+                }} />
                 {/* Frame 2: Faded primary blue, offset bottom-left */}
-                <div 
-                  className="absolute rounded-xl border-2 border-primary/20 pointer-events-none"
-                  style={{
-                    top: '12px',
-                    right: '12px',
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '624px',
-                    marginLeft: 'auto',
-                  }}
-                />
+                <div className="absolute rounded-xl border-2 border-primary/20 pointer-events-none" style={{
+                  top: '12px',
+                  right: '12px',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: '624px',
+                  marginLeft: 'auto'
+                }} />
                 {/* Actual screenshot */}
-                <img 
-                  src={howItWorksReflect} 
-                  alt="Reflection and insights interface" 
-                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] ml-auto"
-                />
+                <img src={howItWorksReflect} alt="Reflection and insights interface" className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] ml-auto" />
               </div>
             </div>
           </div>
 
           {/* Closing line */}
-          <p className="text-base text-muted-foreground/70 pb-24 md:pb-32">
-            This is not about doing more. It's about seeing more clearly.
-          </p>
+          
         </div>
         </div>
       </section>
