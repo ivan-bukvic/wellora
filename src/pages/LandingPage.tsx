@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import WordCycle from "@/components/landing/WordCycle";
@@ -8,7 +9,30 @@ import howItWorksLogHero from "@/assets/how-it-works-log-hero.png";
 import howItWorksNotice from "@/assets/how-it-works-notice.png";
 import howItWorksReflect from "@/assets/how-it-works-reflect.png";
 import { Pencil, Eye, Sparkles } from "lucide-react";
+
 const LandingPage = () => {
+  // Scroll animation for comparison cards
+  const comparisonSectionRef = useRef<HTMLDivElement>(null);
+  const [cardsVisible, setCardsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !cardsVisible) {
+            setCardsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (comparisonSectionRef.current) {
+      observer.observe(comparisonSectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [cardsVisible]);
   return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
       {/* Subtle blue fade at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none" style={{
@@ -192,10 +216,20 @@ const LandingPage = () => {
           </div>
 
           {/* Two comparison cards - vertical stack layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-12">
+          <div 
+            ref={comparisonSectionRef}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-12"
+          >
             
             {/* Left card - "The Old Way" */}
-            <div className="group relative flex flex-col p-6 md:p-8 rounded-xl border border-border/40 bg-gradient-to-br from-muted/30 to-transparent backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg hover:border-border/60">
+            <div 
+              className="group relative flex flex-col p-6 md:p-8 rounded-xl border border-border/40 bg-gradient-to-br from-muted/30 to-transparent backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg hover:border-border/60"
+              style={{
+                opacity: cardsVisible ? 1 : 0,
+                transform: cardsVisible ? 'translateY(0)' : 'translateY(10px)',
+                transition: 'opacity 500ms ease-out, transform 500ms ease-out',
+              }}
+            >
               {/* Subtle corner accent - soft gradient glow */}
               <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-foreground/[0.02] to-transparent rounded-tl-xl blur-sm" />
               
@@ -236,7 +270,14 @@ const LandingPage = () => {
             </div>
 
             {/* Right card - "The Wellora Way" */}
-            <div className="group relative flex flex-col p-6 md:p-8 rounded-xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] to-transparent backdrop-blur-md transition-all duration-300 hover:translate-y-[-4px] hover:shadow-xl hover:border-primary/40">
+            <div 
+              className="group relative flex flex-col p-6 md:p-8 rounded-xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] to-transparent backdrop-blur-md transition-all duration-300 hover:translate-y-[-4px] hover:shadow-xl hover:border-primary/40"
+              style={{
+                opacity: cardsVisible ? 1 : 0,
+                transform: cardsVisible ? 'translateY(0)' : 'translateY(10px)',
+                transition: 'opacity 500ms ease-out 200ms, transform 500ms ease-out 200ms',
+              }}
+            >
               {/* Ambient glow behind card */}
               <div className="absolute -inset-3 bg-primary/[0.08] rounded-2xl blur-2xl animate-breathe pointer-events-none" />
               
