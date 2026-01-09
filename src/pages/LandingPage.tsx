@@ -13,7 +13,7 @@ import { Pencil, Eye, Sparkles } from "lucide-react";
 const LandingPage = () => {
   // Scroll animation for comparison cards - asymmetric reveal
   const leftCardRef = useRef<HTMLDivElement>(null);
-  const rightCardRef = useRef<HTMLDivElement>(null);
+  const comparisonSectionRef = useRef<HTMLDivElement>(null);
   const [leftCardVisible, setLeftCardVisible] = useState(false);
   const [rightCardVisible, setRightCardVisible] = useState(false);
 
@@ -37,7 +37,7 @@ const LandingPage = () => {
     return () => observer.disconnect();
   }, [leftCardVisible]);
 
-  // Right card observer - triggers at 75% visibility (delayed reveal)
+  // Right card observer - triggers when 100% of section is visible
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -47,11 +47,11 @@ const LandingPage = () => {
           }
         });
       },
-      { threshold: 0.75 }
+      { threshold: 1.0 }
     );
 
-    if (rightCardRef.current) {
-      observer.observe(rightCardRef.current);
+    if (comparisonSectionRef.current) {
+      observer.observe(comparisonSectionRef.current);
     }
 
     return () => observer.disconnect();
@@ -239,7 +239,7 @@ const LandingPage = () => {
           </div>
 
           {/* Two comparison cards - vertical stack layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-12">
+          <div ref={comparisonSectionRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-12">
             
             {/* Left card - "The Old Way" */}
             <div 
@@ -292,12 +292,11 @@ const LandingPage = () => {
 
             {/* Right card - "The Wellora Way" */}
             <div 
-              ref={rightCardRef}
               className="group relative flex flex-col p-6 md:p-8 rounded-xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] to-transparent backdrop-blur-md transition-all duration-300 hover:translate-y-[-4px] hover:shadow-xl hover:border-primary/40"
               style={{
                 opacity: rightCardVisible ? 1 : 0,
                 transform: rightCardVisible ? 'translateY(0)' : 'translateY(14px)',
-                transition: 'opacity 900ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1)',
+                transition: 'opacity 1300ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 1300ms cubic-bezier(0.22, 0.61, 0.36, 1)',
               }}
             >
               {/* Ambient glow behind card */}
