@@ -68,7 +68,7 @@ const LandingPage = () => {
           setPatternSectionVisible(true);
         }
       },
-      { threshold: 0.9 }
+      { threshold: 0.5 }
     );
 
     if (patternHeadlineRef.current) {
@@ -203,9 +203,9 @@ const LandingPage = () => {
         <h2 ref={patternHeadlineRef} className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
           <span className="text-foreground">Most wellness tools don't fail </span>
           <BlurIn 
-            word="— they just ask too much"
+            word="- they just ask too much"
             inView={patternSectionVisible}
-            duration={1.2}
+            duration={1.8}
             delay={0.2}
             className="text-foreground"
           />
