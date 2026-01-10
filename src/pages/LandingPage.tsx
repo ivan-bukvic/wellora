@@ -15,7 +15,7 @@ const LandingPage = () => {
   // Scroll animation for comparison cards - asymmetric reveal
   const leftCardRef = useRef<HTMLDivElement>(null);
   const comparisonSectionRef = useRef<HTMLDivElement>(null);
-  const patternSectionRef = useRef<HTMLElement>(null);
+  const patternHeadlineRef = useRef<HTMLHeadingElement>(null);
   const [leftCardVisible, setLeftCardVisible] = useState(false);
   const [rightCardVisible, setRightCardVisible] = useState(false);
   const [patternSectionVisible, setPatternSectionVisible] = useState(false);
@@ -60,7 +60,7 @@ const LandingPage = () => {
     return () => observer.disconnect();
   }, [rightCardVisible]);
 
-  // Pattern section observer - triggers at 100% visibility for blur-in effect
+  // Pattern headline observer - triggers at 90% visibility for blur-in effect
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -68,11 +68,11 @@ const LandingPage = () => {
           setPatternSectionVisible(true);
         }
       },
-      { threshold: 1.0 }
+      { threshold: 0.9 }
     );
 
-    if (patternSectionRef.current) {
-      observer.observe(patternSectionRef.current);
+    if (patternHeadlineRef.current) {
+      observer.observe(patternHeadlineRef.current);
     }
 
     return () => observer.disconnect();
@@ -185,7 +185,7 @@ const LandingPage = () => {
       </section>
 
       {/* The Pattern Section - Exhale Typography */}
-      <section ref={patternSectionRef} className="max-w-[1164px] mx-auto px-6 pt-[30px] pb-10 md:pt-[30px] md:pb-12 relative">
+      <section className="max-w-[1164px] mx-auto px-6 pt-[30px] pb-10 md:pt-[30px] md:pb-12 relative">
         {/* Ambient background blob */}
         <div className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]" style={{
         background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
@@ -200,10 +200,10 @@ const LandingPage = () => {
         <div className="relative mb-10">
           {/* Decorative curved line */}
           
-        <h2 className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
-          <span className="text-foreground">Most wellness tools don't fail - </span>
+        <h2 ref={patternHeadlineRef} className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
+          <span className="text-foreground">Most wellness tools don't fail </span>
           <BlurIn 
-            word="they just ask too much"
+            word="— they just ask too much"
             inView={patternSectionVisible}
             duration={1.2}
             delay={0.2}
