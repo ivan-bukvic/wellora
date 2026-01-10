@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { BlurIn } from "@/components/ui/blur-in";
 import WordCycle from "@/components/landing/WordCycle";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
@@ -14,8 +15,10 @@ const LandingPage = () => {
   // Scroll animation for comparison cards - asymmetric reveal
   const leftCardRef = useRef<HTMLDivElement>(null);
   const comparisonSectionRef = useRef<HTMLDivElement>(null);
+  const patternSectionRef = useRef<HTMLElement>(null);
   const [leftCardVisible, setLeftCardVisible] = useState(false);
   const [rightCardVisible, setRightCardVisible] = useState(false);
+  const [patternSectionVisible, setPatternSectionVisible] = useState(false);
 
   // Left card observer - triggers at 22% visibility (early reveal)
   useEffect(() => {
@@ -56,6 +59,25 @@ const LandingPage = () => {
 
     return () => observer.disconnect();
   }, [rightCardVisible]);
+
+  // Pattern section observer - triggers at 100% visibility for blur-in effect
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !patternSectionVisible) {
+          setPatternSectionVisible(true);
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    if (patternSectionRef.current) {
+      observer.observe(patternSectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [patternSectionVisible]);
+
   return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
       {/* Subtle blue fade at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none" style={{
@@ -163,7 +185,7 @@ const LandingPage = () => {
       </section>
 
       {/* The Pattern Section - Exhale Typography */}
-      <section className="max-w-[1164px] mx-auto px-6 pt-[30px] pb-10 md:pt-[30px] md:pb-12 relative">
+      <section ref={patternSectionRef} className="max-w-[1164px] mx-auto px-6 pt-[30px] pb-10 md:pt-[30px] md:pb-12 relative">
         {/* Ambient background blob */}
         <div className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]" style={{
         background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
@@ -179,8 +201,14 @@ const LandingPage = () => {
           {/* Decorative curved line */}
           
         <h2 className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
-          <span className="text-foreground">Most wellness tools don't fail</span>
-          <span className="text-foreground"> - they just ask too much</span>
+          <span className="text-foreground">Most wellness tools don't fail - </span>
+          <BlurIn 
+            word="they just ask too much"
+            inView={patternSectionVisible}
+            duration={1.2}
+            delay={0.2}
+            className="text-foreground"
+          />
         </h2>
         </div>
         
