@@ -458,7 +458,15 @@ const LandingPage = () => {
                   marginLeft: 'auto'
                 }} />
                 {/* Actual screenshot */}
-                <img src={howItWorksLogHero} alt="Log activity interface" className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto" />
+                <img 
+                  src={howItWorksLogHero} 
+                  alt="Log activity interface" 
+                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto" 
+                  style={{
+                    maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -495,7 +503,15 @@ const LandingPage = () => {
                     marginRight: 'auto'
                   }} />
                   {/* Actual screenshot */}
-                  <img src={howItWorksNotice} alt="Pattern recognition interface" className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] mr-auto" />
+                  <img 
+                    src={howItWorksNotice} 
+                    alt="Pattern recognition interface" 
+                    className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] mr-auto" 
+                    style={{
+                      maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                      WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                    }}
+                  />
                 </div>
                 {/* Text second (right side on desktop) */}
                 <div className="md:w-[45%] md:pl-[40px]">
@@ -563,7 +579,15 @@ const LandingPage = () => {
                   marginLeft: 'auto'
                 }} />
                 {/* Actual screenshot */}
-                <img src={howItWorksReflect} alt="Reflection and insights interface" className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] ml-auto" />
+                <img 
+                  src={howItWorksReflect} 
+                  alt="Reflection and insights interface" 
+                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[624px] ml-auto" 
+                  style={{
+                    maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                  }}
+                />
               </div>
             </div>
           </div>
