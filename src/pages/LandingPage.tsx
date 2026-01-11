@@ -92,7 +92,7 @@ const LandingPage = () => {
             src={welloraIcon} 
             alt="Wellora logo" 
             className="h-14 w-auto object-contain"
-            style={{ filter: 'brightness(0) saturate(100%) invert(32%) sepia(85%) saturate(1500%) hue-rotate(190deg) brightness(0.85)' }}
+            style={{ filter: 'brightness(0) saturate(100%) invert(76%) sepia(45%) saturate(600%) hue-rotate(170deg) brightness(100%) contrast(95%)' }}
           />
           <span className="text-[1.5rem] font-semibold text-primary tracking-tight">
             Wellora
