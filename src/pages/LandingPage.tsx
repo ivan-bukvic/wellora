@@ -87,9 +87,17 @@ const LandingPage = () => {
       {/* Header - transparent, floats over hero */}
       <header className="w-full flex items-center justify-between px-6 md:px-12 py-6 relative z-20 bg-transparent">
         {/* Logo */}
-        <span className="text-[1.44rem] font-medium text-foreground tracking-tight">
-          Wellora
-        </span>
+        <Link to="/" className="flex items-center gap-2">
+          <img 
+            src={welloraLogo} 
+            alt="Wellora logo" 
+            className="h-7 w-auto object-contain"
+            style={{ filter: 'brightness(0) saturate(100%) invert(32%) sepia(98%) saturate(1000%) hue-rotate(190deg) brightness(0.9)' }}
+          />
+          <span className="text-[1.5rem] font-semibold text-primary tracking-tight">
+            Wellora
+          </span>
+        </Link>
 
         {/* CTA */}
         <Link to="/auth">
