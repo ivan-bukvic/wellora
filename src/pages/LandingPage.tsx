@@ -222,8 +222,14 @@ const LandingPage = () => {
         {/* Breath marker - visual pause */}
         <div className="flex items-center justify-start gap-2.5 py-10 pl-5">
           <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/30"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/15"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.44]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.38]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.32]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.26]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.14]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.08]"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.03]"></span>
         </div>
         
         {/* The Release block - spacious, airy, open */}
