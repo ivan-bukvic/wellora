@@ -227,7 +227,7 @@ const LandingPage = () => {
         </div>
         
         {/* The Release block - spacious, airy, open */}
-        <div className="space-y-2 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-muted-foreground/75 tracking-[0.005em]">
+        <div className="space-y-2 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-foreground/80 tracking-[0.005em]">
           <p>What's often missing isn't motivation or discipline.</p>
           <p>It's a simple way to see how activity and rest actually relate in everyday life.</p>
         </div>
