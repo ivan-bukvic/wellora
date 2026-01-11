@@ -5,7 +5,7 @@ import { BlurIn } from "@/components/ui/blur-in";
 import WordCycle from "@/components/landing/WordCycle";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
-import welloraLogo from "@/assets/wellora-logo.svg";
+import welloraIcon from "@/assets/wellora-icon.png";
 import howItWorksLogHero from "@/assets/how-it-works-log-hero.png";
 import howItWorksNotice from "@/assets/how-it-works-notice.png";
 import howItWorksReflect from "@/assets/how-it-works-reflect.png";
@@ -89,10 +89,10 @@ const LandingPage = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img 
-            src={welloraLogo} 
+            src={welloraIcon} 
             alt="Wellora logo" 
-            className="h-7 w-auto object-contain"
-            style={{ filter: 'brightness(0) saturate(100%) invert(32%) sepia(98%) saturate(1000%) hue-rotate(190deg) brightness(0.9)' }}
+            className="h-14 w-auto object-contain"
+            style={{ filter: 'brightness(0) saturate(100%) invert(32%) sepia(85%) saturate(1500%) hue-rotate(190deg) brightness(0.85)' }}
           />
           <span className="text-[1.5rem] font-semibold text-primary tracking-tight">
             Wellora
@@ -356,7 +356,7 @@ const LandingPage = () => {
               </div>
               
               {/* Subtle background logo - brand anchor */}
-              <img src={welloraLogo} alt="" aria-hidden="true" className="absolute bottom-4 right-4 w-24 md:w-32 opacity-[0.08] rotate-[3deg] pointer-events-none select-none brightness-0 invert" style={{
+              <img src={welloraIcon} alt="" aria-hidden="true" className="absolute bottom-4 right-4 w-24 md:w-32 opacity-[0.08] rotate-[3deg] pointer-events-none select-none brightness-0 invert" style={{
               maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)'
             }} />
