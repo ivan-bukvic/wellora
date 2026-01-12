@@ -99,7 +99,7 @@ const TestimonialsSection = () => {
       </h2>
 
       {/* Testimonial Grid - 3 columns on desktop, 2 on tablet, 1 on mobile */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 items-start">
         {testimonials.map((testimonial, index) => (
           <div
             key={testimonial.name}
