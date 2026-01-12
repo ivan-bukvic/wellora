@@ -89,7 +89,7 @@ const LandingPage = () => {
     }} />
 
       {/* Header - transparent, floats over hero */}
-      <header className="w-full flex items-center justify-between px-6 md:px-12 py-6 relative z-20 bg-transparent">
+      <header className="w-full flex items-center justify-start pl-[calc(1.5rem+70px)] md:pl-[calc(3rem+70px)] pr-6 md:pr-12 py-6 relative z-20 bg-transparent">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img 
@@ -101,13 +101,6 @@ const LandingPage = () => {
           <span className="text-[1.5rem] font-semibold text-primary tracking-tight">
             Wellora
           </span>
-        </Link>
-
-        {/* CTA */}
-        <Link to="/auth">
-          <Button variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-transparent font-normal">
-            Explore the app
-          </Button>
         </Link>
       </header>
 
