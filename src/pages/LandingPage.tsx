@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { BlurIn } from "@/components/ui/blur-in";
 import WordCycle from "@/components/landing/WordCycle";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import FAQSection from "@/components/landing/FAQSection";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
 import welloraIcon from "@/assets/wellora-icon.png";
@@ -643,6 +644,9 @@ const LandingPage = () => {
 
       {/* Testimonials Section */}
       <TestimonialsSection />
+
+      {/* FAQ Section */}
+      <FAQSection />
     </div>;
 };
 export default LandingPage;
