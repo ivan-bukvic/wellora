@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BlurIn } from "@/components/ui/blur-in";
 import WordCycle from "@/components/landing/WordCycle";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
 import welloraIcon from "@/assets/wellora-icon.png";
@@ -639,6 +640,9 @@ const LandingPage = () => {
         </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
     </div>;
 };
 export default LandingPage;
