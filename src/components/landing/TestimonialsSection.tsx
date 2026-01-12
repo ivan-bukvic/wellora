@@ -76,11 +76,11 @@ const TestimonialsSection = () => {
   // Define varied heights for editorial feel
   const cardVariants = [
     "min-h-[280px]", // Card 1 - medium
-    "min-h-[320px]", // Card 2 - tall
+    "min-h-[360px]", // Card 2 - tall (middle column)
     "min-h-[260px]", // Card 3 - short
-    "min-h-[300px]", // Card 4 - medium-tall
-    "min-h-[270px]", // Card 5 - medium
-    "min-h-[310px]", // Card 6 - tall
+    "min-h-[280px]", // Card 4 - medium
+    "min-h-[340px]", // Card 5 - tall (middle column)
+    "min-h-[280px]", // Card 6 - medium
   ];
 
   return (
