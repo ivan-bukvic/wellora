@@ -5,6 +5,8 @@ import { BlurIn } from "@/components/ui/blur-in";
 import WordCycle from "@/components/landing/WordCycle";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import FAQSection from "@/components/landing/FAQSection";
+import CTASection from "@/components/landing/CTASection";
+import Footer from "@/components/landing/Footer";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
 import welloraIcon from "@/assets/wellora-icon.png";
@@ -647,6 +649,12 @@ const LandingPage = () => {
 
       {/* FAQ Section */}
       <FAQSection />
+
+      {/* CTA Section */}
+      <CTASection />
+
+      {/* Footer */}
+      <Footer />
     </div>;
 };
 export default LandingPage;
