@@ -124,8 +124,8 @@ const LandingPage = () => {
           backgroundPosition: 'right top',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          opacity: 0.32,
-          filter: 'saturate(0.6) contrast(0.9)',
+          opacity: 0.40,
+          filter: 'saturate(0.75) contrast(0.9)',
           // Layered directional fades: left (strong), right (seamless to corner), bottom (strong), top (subtle)
           maskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
