@@ -67,6 +67,7 @@ const FAQSection = () => {
 
   return (
     <section
+      id="faq"
       ref={sectionRef}
       className="max-w-[1164px] mx-auto px-6 pt-16 md:pt-24 pb-16 md:pb-24"
     >

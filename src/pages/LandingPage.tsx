@@ -89,9 +89,9 @@ const LandingPage = () => {
     }} />
 
       {/* Header - transparent, floats over hero */}
-      <header className="w-full flex items-center justify-start pl-[calc(1.5rem+70px)] md:pl-[calc(3rem+70px)] pr-6 md:pr-12 py-6 relative z-20 bg-transparent">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
+      <header className="w-full grid grid-cols-3 items-center pl-[calc(1.5rem+70px)] md:pl-[calc(3rem+70px)] pr-[calc(1.5rem+70px)] md:pr-[calc(3rem+70px)] py-6 relative z-20 bg-transparent">
+        {/* Logo - left */}
+        <Link to="/" className="flex items-center gap-2 justify-self-start">
           <img 
             src={welloraIcon} 
             alt="Wellora logo" 
@@ -101,6 +101,48 @@ const LandingPage = () => {
           <span className="text-[1.5rem] font-semibold text-primary tracking-tight">
             Wellora
           </span>
+        </Link>
+
+        {/* Centered Navigation */}
+        <nav className="hidden md:flex items-center justify-center gap-8">
+          <a 
+            href="#how-it-works" 
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-[1rem] font-medium text-foreground/70 hover:text-primary transition-colors duration-200"
+          >
+            How it works
+          </a>
+          <a 
+            href="#testimonials" 
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-[1rem] font-medium text-foreground/70 hover:text-primary transition-colors duration-200"
+          >
+            Testimonials
+          </a>
+          <a 
+            href="#faq" 
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-[1rem] font-medium text-foreground/70 hover:text-primary transition-colors duration-200"
+          >
+            FAQ
+          </a>
+        </nav>
+
+        {/* Login - right */}
+        <Link 
+          to="/auth" 
+          className="hidden md:block justify-self-end text-[1rem] font-medium text-primary hover:text-primary/80 transition-colors duration-200"
+        >
+          Login
         </Link>
       </header>
 
@@ -422,7 +464,7 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section>
+      <section id="how-it-works">
         {/* Section Header - keeps current width */}
         <div className="max-w-[1164px] mx-auto px-6">
           <div className="pt-16 md:pt-24 pb-8 md:pb-12">
