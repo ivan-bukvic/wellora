@@ -133,7 +133,7 @@ const Auth = () => {
         </h1>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-8" autoComplete="off">
           {/* Full Name - Only for signup */}
           {authMode === 'signup' && (
             <div className="relative">
@@ -142,6 +142,8 @@ const Auth = () => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Full Name"
+                autoComplete="off"
+                name="fullName_noautofill"
                 className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
                 style={{ 
                   borderColor: 'rgba(255, 255, 255, 0.6)',
@@ -158,6 +160,8 @@ const Auth = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email Address"
+              autoComplete="off"
+              name="email_noautofill"
               className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
@@ -173,6 +177,8 @@ const Auth = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
+              autoComplete="new-password"
+              name="password_noautofill"
               className="w-full bg-transparent border-0 border-b py-3 px-0 pr-10 focus:outline-none transition-colors placeholder-white"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
