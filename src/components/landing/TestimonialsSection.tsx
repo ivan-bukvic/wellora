@@ -84,7 +84,7 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="max-w-[1164px] mx-auto px-6 pt-16 md:pt-24 pb-16 md:pb-24">
+    <section id="testimonials" ref={sectionRef} className="max-w-[1164px] mx-auto px-6 pt-16 md:pt-24 pb-16 md:pb-24">
       {/* Eyebrow */}
       <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
         What people are saying
