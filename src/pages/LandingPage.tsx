@@ -139,7 +139,7 @@ const LandingPage = () => {
 
         {/* Login - right */}
         <Link 
-          to="/auth" 
+          to="/auth?mode=login" 
           className="hidden md:block justify-self-end text-[1rem] font-medium text-primary hover:text-primary/80 transition-colors duration-200"
         >
           Login
@@ -201,7 +201,7 @@ const LandingPage = () => {
 
             {/* Primary CTA */}
             <div className="flex flex-col items-center pt-2">
-              <Link to="/auth">
+              <Link to="/auth?mode=signup">
                 <Button className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg">
                   Explore the app
                 </Button>

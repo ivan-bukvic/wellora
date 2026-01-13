@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import authBackground from '@/assets/auth-background.jpg';
@@ -10,7 +10,9 @@ type AuthMode = 'signup' | 'login';
 
 const Auth = () => {
   const navigate = useNavigate();
-  const [authMode, setAuthMode] = useState<AuthMode>('signup');
+  const [searchParams] = useSearchParams();
+  const initialMode = searchParams.get('mode') === 'login' ? 'login' : 'signup';
+  const [authMode, setAuthMode] = useState<AuthMode>(initialMode);
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');

@@ -62,8 +62,8 @@ const CTASection = () => {
           </p>
 
           {/* CTA Button */}
-          <Link to="/auth">
-            <Button 
+          <Link to="/auth?mode=signup">
+            <Button
               className="bg-primary text-white hover:bg-primary/90 px-10 py-3.5 h-auto text-[1.1rem] font-medium rounded-xl transition-colors duration-300"
             >
               Explore the app
