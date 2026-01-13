@@ -78,7 +78,7 @@ const FAQSection = () => {
       {/* Headline */}
       <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight mb-4">
         Frequently asked{" "}
-        <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
+        <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal ml-[3px]">
           questions
         </span>
       </h2>
