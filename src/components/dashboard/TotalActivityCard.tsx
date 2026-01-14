@@ -1,6 +1,7 @@
 import { Sparkles, Footprints, Moon, Brain } from 'lucide-react';
 import { useAIInsights } from '@/hooks/useAIInsights';
 import { useDemoMode } from '@/hooks/useDemoMode';
+import { useUserHasData } from '@/hooks/useUserHasData';
 
 // Soft circular progress indicator (no numbers)
 const SoftProgressRing = ({ progress }: { progress: number }) => {
@@ -43,24 +44,24 @@ const SoftProgressRing = ({ progress }: { progress: number }) => {
 };
 
 // Activity icons row for balance visualization
-const BalanceIcons = () => {
+const BalanceIcons = ({ active = true }: { active?: boolean }) => {
   const activities = [
-    { icon: Footprints, label: 'Movement', active: true },
-    { icon: Moon, label: 'Rest', active: true },
-    { icon: Brain, label: 'Mindfulness', active: true },
+    { icon: Footprints, label: 'Movement' },
+    { icon: Moon, label: 'Rest' },
+    { icon: Brain, label: 'Mindfulness' },
   ];
 
   return (
     <div className="flex items-center gap-3">
-      {activities.map(({ icon: Icon, label, active }) => (
+      {activities.map(({ icon: Icon, label }) => (
         <div 
           key={label}
           className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full ${
             active ? 'bg-primary/10' : 'bg-muted'
           }`}
         >
-          <Icon className={`w-3.5 h-3.5 ${active ? 'text-primary' : 'text-muted-foreground'}`} />
-          <span className={`text-xs font-medium ${active ? 'text-primary' : 'text-muted-foreground'}`}>
+          <Icon className={`w-3.5 h-3.5 ${active ? 'text-primary' : 'text-muted-foreground/50'}`} />
+          <span className={`text-xs font-medium ${active ? 'text-primary' : 'text-muted-foreground/50'}`}>
             {label}
           </span>
         </div>
@@ -68,6 +69,32 @@ const BalanceIcons = () => {
     </div>
   );
 };
+
+// Empty state for consistency card
+const ConsistencyEmptyState = () => (
+  <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
+    <div className="flex items-start gap-4">
+      <SoftProgressRing progress={0} />
+      <div className="flex-1 min-w-0">
+        <h4 className="text-sm font-medium text-muted-foreground mb-1">Weekly Consistency</h4>
+        <p className="text-sm text-muted-foreground/70 leading-snug">
+          Your consistency patterns will appear here over time.
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+// Empty state for balance card
+const BalanceEmptyState = () => (
+  <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
+    <h4 className="text-sm font-medium text-muted-foreground mb-3">Routine Balance</h4>
+    <p className="text-sm text-muted-foreground/70 leading-snug mb-4">
+      Your routine balance takes shape as you log activities.
+    </p>
+    <BalanceIcons active={false} />
+  </div>
+);
 
 // Consistency card
 const ConsistencyCard = () => {
@@ -98,13 +125,17 @@ const BalanceCard = () => {
       <p className="text-base font-medium text-foreground leading-snug mb-4">
         Good balance between movement, rest, and mindfulness
       </p>
-      <BalanceIcons />
+      <BalanceIcons active={true} />
     </div>
   );
 };
 
 export const TotalActivityCard = () => {
   const { currentMicroCopy } = useAIInsights();
+  const { hasData, isLoading } = useUserHasData();
+
+  // Show empty state for new users
+  const showEmptyState = !isLoading && !hasData;
 
   return (
     <div className="wellora-card animate-fade-in-up stagger-1">
@@ -116,12 +147,21 @@ export const TotalActivityCard = () => {
       </div>
       
       <div className="flex flex-col sm:flex-row gap-4">
-        <ConsistencyCard />
-        <BalanceCard />
+        {showEmptyState ? (
+          <>
+            <ConsistencyEmptyState />
+            <BalanceEmptyState />
+          </>
+        ) : (
+          <>
+            <ConsistencyCard />
+            <BalanceCard />
+          </>
+        )}
       </div>
 
-      {/* Optional AI micro-copy */}
-      {currentMicroCopy && (
+      {/* Optional AI micro-copy - only show when user has data */}
+      {!showEmptyState && currentMicroCopy && (
         <p className="mt-4 text-xs text-muted-foreground/70 italic pl-2 border-l border-border">
           {currentMicroCopy}
         </p>
