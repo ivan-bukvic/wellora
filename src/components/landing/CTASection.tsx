@@ -52,7 +52,7 @@ const CTASection = () => {
         {/* Content */}
         <div className="relative z-10 px-8 py-14 md:px-16 md:py-20 text-center">
           {/* Headline */}
-          <h2 className="text-[1.8rem] md:text-[2.4rem] font-semibold text-foreground leading-tight mb-5">
+          <h2 className="text-[2.2rem] md:text-[2.8rem] font-medium text-primary/80 font-['Playfair_Display',serif] italic leading-tight mb-5">
             A gentler way to notice your days
           </h2>
 
