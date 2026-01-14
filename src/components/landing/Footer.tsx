@@ -15,18 +15,7 @@ const Footer = () => {
         </Link>
 
         {/* Navigation Links */}
-        <nav className="flex items-center gap-6 md:gap-8">
-          <Link to="/" className="text-[0.9rem] text-muted-foreground hover:text-foreground transition-colors duration-200">
-            Product
-          </Link>
-          <Link to="/" className="text-[0.9rem] text-muted-foreground hover:text-foreground transition-colors duration-200">
-            Privacy
-          </Link>
-          <Link to="/" className="text-[0.9rem] text-muted-foreground hover:text-foreground transition-colors duration-200">
-            Terms
-          </Link>
-          
-        </nav>
+        
 
         {/* Copyright */}
         <p className="text-[0.85rem] text-muted-foreground/70">
