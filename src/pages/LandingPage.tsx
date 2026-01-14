@@ -212,7 +212,7 @@ const LandingPage = () => {
             <p className="text-foreground text-[1.55rem] font-normal pt-16 md:pt-20">
               <span>Informed by behavioural psychology</span>
               <span className="mx-2">·</span>
-              <span className="font-serif italic text-primary/80">Gentle by design.</span>
+              <span className="font-['Playfair_Display',serif] italic text-primary/80">Gentle by design.</span>
             </p>
 
             {/* Validation Badge */}
