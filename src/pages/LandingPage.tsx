@@ -7,6 +7,7 @@ import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import FAQSection from "@/components/landing/FAQSection";
 import CTASection from "@/components/landing/CTASection";
 import Footer from "@/components/landing/Footer";
+import MobileMenu from "@/components/landing/MobileMenu";
 import heroStones from "@/assets/hero-stones.jpg";
 import laurelWreath from "@/assets/laurel-wreath.png";
 import welloraIcon from "@/assets/wellora-icon.png";
@@ -82,29 +83,29 @@ const LandingPage = () => {
     return () => observer.disconnect();
   }, [patternSectionVisible]);
 
-  return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative">
+  return <div className="min-h-screen bg-background font-['Source_Sans_3',sans-serif] relative overflow-x-hidden">
       {/* Subtle blue fade at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none" style={{
       background: 'linear-gradient(to top, hsl(var(--primary) / 0.04), transparent)'
     }} />
 
       {/* Header - transparent, floats over hero */}
-      <header className="w-full grid grid-cols-3 items-center pl-[calc(1.5rem+70px)] md:pl-[calc(3rem+70px)] pr-[calc(1.5rem+70px)] md:pr-[calc(3rem+70px)] py-6 relative z-20 bg-transparent">
+      <header className="w-full flex items-center justify-between px-4 sm:px-6 md:px-[calc(3rem+70px)] py-4 md:py-6 relative z-20 bg-transparent">
         {/* Logo - left */}
-        <Link to="/" className="flex items-center gap-2 justify-self-start">
+        <Link to="/" className="flex items-center gap-2 flex-shrink-0">
           <img 
             src={welloraIcon} 
             alt="Wellora logo" 
-            className="h-14 w-auto object-contain"
+            className="h-10 md:h-14 w-auto object-contain"
             style={{ filter: 'brightness(0) saturate(100%) invert(76%) sepia(45%) saturate(600%) hue-rotate(170deg) brightness(100%) contrast(95%)' }}
           />
-          <span className="text-[1.5rem] font-semibold text-primary tracking-tight">
+          <span className="text-xl md:text-[1.5rem] font-semibold text-primary tracking-tight">
             Wellora
           </span>
         </Link>
 
-        {/* Centered Navigation */}
-        <nav className="hidden md:flex items-center justify-center gap-8">
+        {/* Centered Navigation - Desktop */}
+        <nav className="hidden md:flex items-center justify-center gap-8 absolute left-1/2 -translate-x-1/2">
           <a 
             href="#how-it-works" 
             onClick={(e) => {
@@ -137,23 +138,26 @@ const LandingPage = () => {
           </a>
         </nav>
 
-        {/* Login - right */}
+        {/* Login - right (Desktop) */}
         <Link 
           to="/auth?mode=login" 
-          className="hidden md:block justify-self-end text-[1rem] font-medium text-primary hover:text-primary/80 transition-colors duration-200"
+          className="hidden md:block text-[1rem] font-medium text-primary hover:text-primary/80 transition-colors duration-200"
         >
           Login
         </Link>
+
+        {/* Mobile Menu */}
+        <MobileMenu />
       </header>
 
       {/* Hero Section - extends behind header */}
-      <section className="relative overflow-hidden pt-[60px] -mt-[60px]">
+      <section className="relative overflow-hidden pt-[40px] md:pt-[60px] -mt-[40px] md:-mt-[60px]">
         {/* Top fade overlay - white dissolving into hero */}
-        <div className="absolute top-0 left-0 right-0 h-[80px] z-10 pointer-events-none" style={{
+        <div className="absolute top-0 left-0 right-0 h-[60px] md:h-[80px] z-10 pointer-events-none" style={{
         background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)'
       }} />
         {/* Ambient stones - positioned in true negative space, outside content wrapper */}
-        <div className="absolute pointer-events-none hidden md:block z-0" style={{
+        <div className="absolute pointer-events-none hidden lg:block z-0" style={{
         right: '-8%',
         bottom: '100px',
         width: '72%',
@@ -168,7 +172,6 @@ const LandingPage = () => {
           backgroundRepeat: 'no-repeat',
           opacity: 0.40,
           filter: 'saturate(0.75) contrast(0.9)',
-          // Layered directional fades: left (strong), right (seamless to corner), bottom (strong), top (subtle)
           maskImage: `
                 linear-gradient(to right, transparent 0%, black 35%),
                 linear-gradient(to left, transparent 0%, black 20%),
@@ -187,42 +190,42 @@ const LandingPage = () => {
         </div>
 
         {/* Hero Content - separate from image, maintains its own margins */}
-        <main className="max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-0 relative z-10">
-          <div className="flex flex-col items-center text-center space-y-6">
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 md:pt-24 lg:pt-32 pb-0 relative z-10">
+          <div className="flex flex-col items-center text-center space-y-4 md:space-y-6">
             {/* Headline */}
-            <h1 className="text-[3.15rem] md:text-[4.1rem] font-semibold text-foreground leading-tight max-w-3xl">
+            <h1 className="text-[2rem] sm:text-[2.5rem] md:text-[3.15rem] lg:text-[4.1rem] font-semibold text-foreground leading-tight max-w-3xl">
               A <WordCycle /> way to notice how your days are flowing
             </h1>
 
             {/* Subheadline */}
-            <p className="text-[1.38rem] text-muted-foreground font-normal leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg md:text-[1.38rem] text-muted-foreground font-normal leading-relaxed max-w-xl px-2">
               Wellora helps you gently track activity and rest, so patterns become visible over time - without pressure or noise.
             </p>
 
             {/* Primary CTA */}
-            <div className="flex flex-col items-center pt-2">
-              <Link to="/auth?mode=signup">
-                <Button className="bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-[1.15rem] font-medium rounded-lg">
+            <div className="flex flex-col items-center pt-2 w-full sm:w-auto">
+              <Link to="/auth?mode=signup" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto bg-primary text-white hover:bg-primary/90 px-8 py-3 h-auto text-base md:text-[1.15rem] font-medium rounded-lg">
                   Explore the app
                 </Button>
               </Link>
             </div>
 
             {/* Micro-copy */}
-            <p className="text-foreground text-[1.55rem] font-normal pt-16 md:pt-20">
+            <p className="text-foreground text-sm sm:text-base md:text-[1.55rem] font-normal pt-10 md:pt-16 lg:pt-20 px-2">
               <span>Informed by behavioural psychology</span>
               <span className="mx-2">·</span>
               <span className="font-['Playfair_Display',serif] italic text-primary/80">Gentle by design.</span>
             </p>
 
             {/* Validation Badge */}
-            <div className="relative inline-flex items-center justify-center pt-3 pb-8 md:pb-10">
+            <div className="relative inline-flex items-center justify-center pt-3 pb-6 md:pb-8 lg:pb-10">
               {/* Text overlaid on laurel */}
-              <p className="absolute left-1/2 -translate-x-1/2 top-[34px] z-10 text-muted-foreground text-[0.9rem] font-medium tracking-wide text-center leading-tight">
+              <p className="absolute left-1/2 -translate-x-1/2 top-[30px] md:top-[34px] z-10 text-muted-foreground text-[0.75rem] md:text-[0.9rem] font-medium tracking-wide text-center leading-tight">
                 Scientifically<br />Validated
               </p>
               {/* Laurel as base layer */}
-              <img src={laurelWreath} alt="Laurel wreath" className="w-[150px] h-auto mt-[25px]" style={{
+              <img src={laurelWreath} alt="Laurel wreath" className="w-[120px] md:w-[150px] h-auto mt-[25px]" style={{
               opacity: 0.75,
               filter: 'brightness(0) saturate(100%) invert(88%) sepia(25%) saturate(500%) hue-rotate(335deg) brightness(1.02)'
             }} />
@@ -232,22 +235,22 @@ const LandingPage = () => {
       </section>
 
       {/* The Pattern Section - Exhale Typography */}
-      <section className="max-w-[1164px] mx-auto px-6 pt-[30px] pb-10 md:pt-[30px] md:pb-12 relative">
+      <section className="max-w-[1164px] mx-auto px-4 sm:px-6 pt-[30px] pb-10 md:pt-[30px] md:pb-12 relative">
         {/* Ambient background blob */}
-        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] pointer-events-none opacity-[0.06]" style={{
+        <div className="absolute bottom-0 right-0 w-[300px] md:w-[400px] h-[200px] md:h-[300px] pointer-events-none opacity-[0.06]" style={{
         background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
       }} />
         
         {/* Eyebrow label */}
-        <span className="text-[1rem] uppercase tracking-wide text-primary mb-6 block">
+        <span className="text-sm md:text-[1rem] uppercase tracking-wide text-primary mb-4 md:mb-6 block">
           The pattern
         </span>
         
         {/* Headline with decorative flow */}
-        <div className="relative mb-10">
+        <div className="relative mb-8 md:mb-10">
           {/* Decorative curved line */}
           
-        <h2 ref={patternHeadlineRef} className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
+        <h2 ref={patternHeadlineRef} className="text-xl sm:text-2xl md:text-[2rem] lg:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
           <span className="text-foreground">Most wellness tools don't fail </span>
           <BlurIn 
             word="- they just ask too much"
@@ -260,57 +263,57 @@ const LandingPage = () => {
         </div>
         
         {/* The Pressure block - tight, compressed, claustrophobic */}
-        <div className="pl-5 border-l-2 border-primary/20 space-y-1.5 text-[1.05rem] md:text-[1.15rem] leading-[1.45] text-foreground/75">
+        <div className="pl-4 md:pl-5 border-l-2 border-primary/20 space-y-1.5 text-sm sm:text-base md:text-[1.05rem] lg:text-[1.15rem] leading-[1.45] text-foreground/75">
           <p>You try to log everything.</p>
           <p>Steps, sleep, water, moods, goals.</p>
           <p>Over time, it starts to feel like work - more numbers, more reminders, more pressure.</p>
         </div>
         
         {/* Breath marker - visual pause */}
-        <div className="flex items-center justify-start gap-2.5 py-10 pl-5">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.44]"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.38]"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.32]"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.26]"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.14]"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.08]"></span>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary/[0.03]"></span>
+        <div className="flex items-center justify-start gap-2 md:gap-2.5 py-8 md:py-10 pl-4 md:pl-5">
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/50"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/[0.44]"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/[0.38]"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/[0.32]"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/[0.26]"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/20"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/[0.14]"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/[0.08]"></span>
+          <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary/[0.03]"></span>
         </div>
         
         {/* The Release block - spacious, airy, open */}
-        <div className="space-y-2 text-[1.25rem] md:text-[1.4rem] leading-[1.85] text-foreground/80 tracking-[0.005em]">
+        <div className="space-y-2 text-base sm:text-lg md:text-[1.25rem] lg:text-[1.4rem] leading-[1.85] text-foreground/80 tracking-[0.005em]">
           <p>What's often missing isn't motivation or discipline.</p>
           <p>It's a simple way to see how activity and rest actually relate in everyday life.</p>
         </div>
         
         {/* The Invitation - Wellora line with soft highlight */}
         <div className="mt-3">
-          <p className="text-[1.3rem] md:text-[1.45rem] leading-[1.75] text-foreground/80 font-medium">
+          <p className="text-base sm:text-lg md:text-[1.3rem] lg:text-[1.45rem] leading-[1.75] text-foreground/80 font-medium">
             And that's where <span className="text-primary font-semibold">Wellora</span> comes in - 
             offering a quieter, more supportive way to notice those patterns.
           </p>
         </div>
 
         {/* A Different Approach - Creative Typography Section */}
-        <div className="pt-12 mt-8 relative">
+        <div className="pt-10 md:pt-12 mt-6 md:mt-8 relative">
           {/* Decorative accent blob */}
-          <div className="absolute -left-20 top-1/4 w-[300px] h-[200px] pointer-events-none opacity-[0.04] hidden md:block" style={{
+          <div className="absolute -left-20 top-1/4 w-[300px] h-[200px] pointer-events-none opacity-[0.04] hidden lg:block" style={{
           background: 'radial-gradient(ellipse at center, hsl(var(--primary)) 0%, transparent 70%)'
         }} />
 
           {/* Eyebrow with accent bar */}
-          <div className="flex items-center gap-3 mb-10">
+          <div className="flex items-center gap-3 mb-8 md:mb-10">
             
-            <span className="text-[1rem] uppercase tracking-wide text-primary font-medium">
+            <span className="text-sm md:text-[1rem] uppercase tracking-wide text-primary font-medium">
               A different approach
             </span>
           </div>
 
           {/* Main headline with mixed typography */}
-          <div className="mb-12">
-            <h2 className="text-[2rem] md:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
+          <div className="mb-10 md:mb-12">
+            <h2 className="text-xl sm:text-2xl md:text-[2rem] lg:text-[2.6rem] leading-[1.15] font-semibold text-foreground">
               Less tracking,
               <br />
               <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
@@ -466,15 +469,15 @@ const LandingPage = () => {
       {/* How It Works Section */}
       <section id="how-it-works">
         {/* Section Header - keeps current width */}
-        <div className="max-w-[1164px] mx-auto px-6">
-          <div className="pt-16 md:pt-24 pb-8 md:pb-12">
+        <div className="max-w-[1164px] mx-auto px-4 sm:px-6">
+          <div className="pt-12 md:pt-16 lg:pt-24 pb-6 md:pb-8 lg:pb-12">
             {/* Eyebrow */}
-            <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
+            <span className="text-sm md:text-[1rem] text-primary uppercase tracking-wide font-medium block mb-4 md:mb-6">
               How it works
             </span>
 
             {/* Headline */}
-            <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-[2rem] lg:text-[2.6rem] font-semibold text-foreground leading-tight">
               A simple way to understand your{' '}
               <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
                 rhythm
@@ -485,7 +488,7 @@ const LandingPage = () => {
 
         {/* Steps Container - breaks out of parent constraints */}
         <div className="w-full relative">
-          <div className="max-w-[1560px] mx-auto px-8 md:px-12 lg:px-16 relative">
+          <div className="max-w-[1560px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 relative">
             {/* Continuous vertical rail */}
             <div className="absolute left-[calc(24px+3rem)] lg:left-[calc(24px+4rem)] w-0.5 bg-primary/30 hidden md:block" style={{
             transform: 'translateX(-50%)',
@@ -494,8 +497,8 @@ const LandingPage = () => {
           }} />
 
           {/* Step 1: Log Activity */}
-          <div className="min-h-[60vh] md:min-h-[75vh] flex items-center">
-            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_50%] gap-8 md:gap-0 items-center w-full">
+          <div className="min-h-[auto] md:min-h-[60vh] lg:min-h-[75vh] flex items-center py-8 md:py-0">
+            <div className="grid grid-cols-1 md:grid-cols-[48px_1fr_50%] gap-6 md:gap-0 items-center w-full">
               {/* Column 1: Circle */}
               <div className="hidden md:flex items-center justify-center">
                 <div className="relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
@@ -504,24 +507,24 @@ const LandingPage = () => {
               </div>
               {/* Column 2: Text */}
               <div className="md:pl-[80px]">
-                <div className="flex items-center gap-5 md:block">
-                  <div className="md:hidden relative z-10 flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
-                    <Pencil className="w-5 h-5 text-primary" />
+                <div className="flex items-center gap-4 md:block">
+                  <div className="md:hidden relative z-10 flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-primary bg-background flex items-center justify-center">
+                    <Pencil className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground mb-2 md:mb-3">
                       Log activity
                     </h3>
-                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                    <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
                       Record a few everyday signals - activity, rest, movement, sleep. Nothing exhaustive. Nothing mandatory.
                     </p>
                   </div>
                 </div>
               </div>
-              {/* Column 3: Screenshot with decorative frames */}
-              <div className="hidden md:block relative">
-                {/* Frame 1: Primary blue, offset top-right */}
-                <div className="absolute rounded-xl border-2 border-primary/40 pointer-events-none" style={{
+              {/* Column 3: Screenshot - visible on all screens */}
+              <div className="relative mt-4 md:mt-0">
+                {/* Frame decorations - hidden on mobile */}
+                <div className="hidden md:block absolute rounded-xl border-2 border-primary/40 pointer-events-none" style={{
                   top: '-12px',
                   right: '-12px',
                   width: '100%',
@@ -529,8 +532,7 @@ const LandingPage = () => {
                   maxWidth: '416px',
                   marginLeft: 'auto'
                 }} />
-                {/* Frame 2: Faded primary blue, offset bottom-left */}
-                <div className="absolute rounded-xl border-2 border-primary/20 pointer-events-none" style={{
+                <div className="hidden md:block absolute rounded-xl border-2 border-primary/20 pointer-events-none" style={{
                   top: '12px',
                   right: '12px',
                   width: '100%',
@@ -542,7 +544,7 @@ const LandingPage = () => {
                 <img 
                   src={howItWorksLogHero} 
                   alt="Log activity interface" 
-                  className="relative z-10 rounded-xl shadow-lg w-full max-w-[416px] ml-auto" 
+                  className="relative z-10 rounded-xl shadow-lg w-full max-w-full md:max-w-[416px] md:ml-auto" 
                   style={{
                     maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
                     WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
