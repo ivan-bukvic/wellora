@@ -84,14 +84,14 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section id="testimonials" ref={sectionRef} className="max-w-[1164px] mx-auto px-6 pt-16 md:pt-24 pb-16 md:pb-24">
+    <section id="testimonials" ref={sectionRef} className="max-w-[1164px] mx-auto px-4 sm:px-6 pt-12 md:pt-16 lg:pt-24 pb-12 md:pb-16 lg:pb-24">
       {/* Eyebrow */}
-      <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
+      <span className="text-sm md:text-[1rem] text-primary uppercase tracking-wide font-medium block mb-4 md:mb-6">
         What people are saying
       </span>
 
       {/* Headline */}
-      <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight mb-12 md:mb-16">
+      <h2 className="text-xl sm:text-2xl md:text-[2rem] lg:text-[2.6rem] font-semibold text-foreground leading-tight mb-8 md:mb-12 lg:mb-16">
         Real experiences,{" "}
         <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal">
           quietly shared
@@ -99,7 +99,7 @@ const TestimonialsSection = () => {
       </h2>
 
       {/* Testimonial Grid - 3 columns on desktop, 2 on tablet, 1 on mobile */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6 items-start">
         {testimonials.map((testimonial, index) => (
           <div
             key={testimonial.name}

@@ -98,7 +98,7 @@ const Auth = () => {
 
   return (
     <div 
-      className="min-h-screen w-full flex items-center justify-start pl-[15%]"
+      className="min-h-screen w-full flex items-center justify-center px-4 sm:px-6 lg:justify-start lg:pl-[15%]"
       style={{
         backgroundImage: `url(${authBackground})`,
         backgroundSize: 'cover',
@@ -107,33 +107,32 @@ const Auth = () => {
     >
       {/* Glassmorphism Card */}
       <div 
-        className="w-[460px] p-10 rounded-[40px]"
+        className="w-full max-w-[460px] p-6 sm:p-8 lg:p-10 rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] lg:translate-x-[100px] lg:-translate-y-[50px]"
         style={{
           background: 'rgba(255, 255, 255, 0.18)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
           boxShadow: 'inset 0 1px 12px rgba(255, 255, 255, 0.35), 0 8px 30px -6px rgba(0, 0, 0, 0.08)',
           border: '1px solid rgba(255, 255, 255, 0.25)',
-          transform: 'translate(200px, -50px)',
         }}
       >
         {/* Logo Header - Centered */}
-        <div className="flex justify-center mb-10">
+        <div className="flex justify-center mb-8 lg:mb-10">
           <img 
             src={WelloraLogo} 
             alt="Wellora logo" 
             className="h-auto object-contain brightness-0 invert"
-            style={{ width: '120px' }}
+            style={{ width: '100px' }}
           />
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-semibold text-white text-center mb-10 -mt-[15px]">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-white text-center mb-8 lg:mb-10 -mt-[10px] lg:-mt-[15px]">
           {authMode === 'signup' ? 'Sign Up' : 'Log In'}
         </h1>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8" autoComplete="off">
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8" autoComplete="off">
           {/* Full Name - Only for signup */}
           {authMode === 'signup' && (
             <div className="relative">
@@ -144,7 +143,7 @@ const Auth = () => {
                 placeholder="Full Name"
                 autoComplete="off"
                 name="fullName_noautofill"
-                className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
+                className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white text-base"
                 style={{ 
                   borderColor: 'rgba(255, 255, 255, 0.6)',
                   color: '#ffffff',
@@ -162,7 +161,7 @@ const Auth = () => {
               placeholder="Email Address"
               autoComplete="off"
               name="email_noautofill"
-              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 focus:outline-none transition-colors placeholder-white text-base"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
                 color: '#ffffff',
@@ -179,7 +178,7 @@ const Auth = () => {
               placeholder="Password"
               autoComplete="new-password"
               name="password_noautofill"
-              className="w-full bg-transparent border-0 border-b py-3 px-0 pr-10 focus:outline-none transition-colors placeholder-white"
+              className="w-full bg-transparent border-0 border-b py-3 px-0 pr-10 focus:outline-none transition-colors placeholder-white text-base"
               style={{ 
                 borderColor: 'rgba(255, 255, 255, 0.6)',
                 color: '#ffffff',
@@ -188,7 +187,7 @@ const Auth = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 hover:opacity-80 transition-opacity"
+              className="absolute right-0 top-1/2 -translate-y-1/2 hover:opacity-80 transition-opacity p-2"
               style={{ color: 'rgba(255, 255, 255, 0.7)' }}
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -199,7 +198,7 @@ const Auth = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-white text-primary font-semibold py-4 rounded-full hover:bg-white/90 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-white text-primary font-semibold py-3.5 sm:py-4 rounded-full hover:bg-white/90 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed text-base min-h-[48px]"
           >
             {isLoading 
               ? (authMode === 'signup' ? 'Creating account...' : 'Logging in...') 
@@ -209,13 +208,13 @@ const Auth = () => {
         </form>
 
         {/* Footer */}
-        <p className="text-center mt-8 text-sm" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+        <p className="text-center mt-6 sm:mt-8 text-sm" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
           {authMode === 'signup' ? (
             <>
               Already have an account?{' '}
               <button 
                 onClick={toggleAuthMode}
-                className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium"
+                className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium p-1"
               >
                 Login here
               </button>
@@ -225,7 +224,7 @@ const Auth = () => {
               Don't have an account?{' '}
               <button 
                 onClick={toggleAuthMode}
-                className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium"
+                className="text-white underline underline-offset-2 hover:opacity-80 transition-opacity font-medium p-1"
               >
                 Sign up
               </button>

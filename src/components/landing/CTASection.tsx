@@ -24,7 +24,7 @@ const CTASection = () => {
   }, [isVisible]);
 
   return (
-    <section className="max-w-[1164px] mx-auto px-6 pt-20 pb-16 md:pt-24 md:pb-20">
+    <section className="max-w-[1164px] mx-auto px-4 sm:px-6 pt-16 pb-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
       <div
         ref={sectionRef}
         className="relative rounded-2xl md:rounded-3xl overflow-hidden"
@@ -50,21 +50,21 @@ const CTASection = () => {
         <div className="absolute inset-0 rounded-2xl md:rounded-3xl border border-primary/15 pointer-events-none" />
 
         {/* Content */}
-        <div className="relative z-10 px-8 py-14 md:px-16 md:py-20 text-center">
+        <div className="relative z-10 px-5 py-10 sm:px-8 sm:py-12 md:px-16 md:py-20 text-center">
           {/* Headline */}
-          <h2 className="text-[2.2rem] md:text-[2.8rem] font-medium text-primary/80 font-['Playfair_Display',serif] italic leading-tight mb-5">
+          <h2 className="text-xl sm:text-2xl md:text-[2.2rem] lg:text-[2.8rem] font-medium text-primary/80 font-['Playfair_Display',serif] italic leading-tight mb-4 md:mb-5">
             A gentler way to notice your days
           </h2>
 
           {/* Supporting text */}
-          <p className="text-[1.1rem] md:text-[1.25rem] text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-10">
+          <p className="text-sm sm:text-base md:text-[1.1rem] lg:text-[1.25rem] text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-8 md:mb-10">
             Wellora helps you reflect on activity and rest so patterns can emerge naturally, without pressure or noise.
           </p>
 
           {/* CTA Button */}
-          <Link to="/auth?mode=signup">
+          <Link to="/auth?mode=signup" className="inline-block w-full sm:w-auto">
             <Button
-              className="bg-primary text-white hover:bg-primary/90 px-10 py-3.5 h-auto text-[1.1rem] font-medium rounded-xl transition-colors duration-300"
+              className="w-full sm:w-auto bg-primary text-white hover:bg-primary/90 px-8 md:px-10 py-3 md:py-3.5 h-auto text-base md:text-[1.1rem] font-medium rounded-xl transition-colors duration-300 min-h-[48px]"
             >
               Explore the app
             </Button>

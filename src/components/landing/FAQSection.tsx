@@ -69,15 +69,15 @@ const FAQSection = () => {
     <section
       id="faq"
       ref={sectionRef}
-      className="max-w-[1164px] mx-auto px-6 pt-16 md:pt-24 pb-16 md:pb-24"
+      className="max-w-[1164px] mx-auto px-4 sm:px-6 pt-12 md:pt-16 lg:pt-24 pb-12 md:pb-16 lg:pb-24"
     >
       {/* Eyebrow */}
-      <span className="text-[1rem] text-primary uppercase tracking-wide font-medium block mb-6">
+      <span className="text-sm md:text-[1rem] text-primary uppercase tracking-wide font-medium block mb-4 md:mb-6">
         Questions
       </span>
 
       {/* Headline */}
-      <h2 className="text-[2rem] md:text-[2.6rem] font-semibold text-foreground leading-tight mb-4">
+      <h2 className="text-xl sm:text-2xl md:text-[2rem] lg:text-[2.6rem] font-semibold text-foreground leading-tight mb-3 md:mb-4">
         Frequently asked{" "}
         <span className="font-['Playfair_Display',serif] italic text-primary/80 font-normal ml-[3px]">
           questions
@@ -85,7 +85,7 @@ const FAQSection = () => {
       </h2>
 
       {/* Subtitle */}
-      <p className="text-[1.1rem] text-muted-foreground mb-12 md:mb-16">
+      <p className="text-sm md:text-[1.1rem] text-muted-foreground mb-8 md:mb-12 lg:mb-16">
         Everything you need to know about Wellora.
       </p>
 
