@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { LayoutDashboard, Activity, Calendar as CalendarIcon, Settings as SettingsIcon, LogOut, Bell, Search } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { LayoutDashboard, Activity, Calendar as CalendarIcon, Settings as SettingsIcon, LogOut, Search, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { useUserProfile } from '@/context/UserProfileContext';
+import { useDashboardSearch } from '@/hooks/useDashboardSearch';
 import WelloraLogo from '@/assets/wellora-logo.png';
 
 // Import section content components
@@ -56,6 +57,29 @@ const AppPage = () => {
   } = useUserProfile();
   const [activeSection, setActiveSection] = useState<Section>('dashboard');
   const activeIndex = navItems.findIndex(item => item.section === activeSection);
+  
+  // Dashboard search state
+  const dashboardSearch = useDashboardSearch();
+  const { searchQuery, setSearchQuery, clearSearch, visibleCards, hasNoMatches, isSearching } = dashboardSearch;
+
+  // Clear search when switching sections
+  useEffect(() => {
+    if (activeSection !== 'dashboard') {
+      clearSearch();
+    }
+  }, [activeSection, clearSearch]);
+
+  // Handle Escape key to clear search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isSearching) {
+        clearSearch();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isSearching, clearSearch]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/auth');
@@ -63,7 +87,7 @@ const AppPage = () => {
   const renderContent = () => {
     switch (activeSection) {
       case 'dashboard':
-        return <DashboardContent />;
+        return <DashboardContent visibleCards={visibleCards} hasNoMatches={hasNoMatches} isSearching={isSearching} />;
       case 'activities':
         return <ActivitiesContent />;
       case 'calendar':
@@ -71,7 +95,7 @@ const AppPage = () => {
       case 'settings':
         return <SettingsContent />;
       default:
-        return <DashboardContent />;
+        return <DashboardContent visibleCards={visibleCards} hasNoMatches={hasNoMatches} isSearching={isSearching} />;
     }
   };
 
@@ -140,10 +164,30 @@ const AppPage = () => {
           
           {/* Right side - Search, Notifications, User */}
           <div className="flex items-center gap-6">
-            {/* Search */}
+            {/* Search - only functional on dashboard */}
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <input type="text" placeholder="Search" className="w-96 pl-12 pr-4 py-3 bg-card rounded-[40px] border border-border/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all" />
+              <input 
+                type="text" 
+                placeholder="Search" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                disabled={activeSection !== 'dashboard'}
+                className={cn(
+                  "w-96 pl-12 py-3 bg-card rounded-[40px] border border-border/50 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all",
+                  searchQuery ? "pr-10" : "pr-4",
+                  activeSection !== 'dashboard' && "opacity-50 cursor-not-allowed"
+                )}
+              />
+              {searchQuery && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Clear search"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </div>
             
             {/* Notifications */}
