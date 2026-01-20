@@ -55,7 +55,7 @@ const sectionSubtitles: Record<Section, string> = {
 const AppPage = () => {
   const navigate = useNavigate();
   const { demoUserName } = useDemoMode();
-  const { profile } = useUserProfile();
+  const { profile, session, authLoading } = useUserProfile();
   const [activeSection, setActiveSection] = useState<Section>('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const activeIndex = navItems.findIndex(item => item.section === activeSection);
@@ -81,6 +81,27 @@ const AppPage = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isSearching, clearSearch]);
+
+  // Redirect to auth if not authenticated
+  useEffect(() => {
+    if (!authLoading && !session) {
+      navigate('/auth');
+    }
+  }, [session, authLoading, navigate]);
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="h-[100dvh] bg-background flex items-center justify-center">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!session) {
+    return null;
+  }
 
   // Close sidebar on section change (mobile)
   const handleSectionChange = (section: Section) => {

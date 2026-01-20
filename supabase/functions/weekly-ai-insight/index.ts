@@ -2,10 +2,26 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+// Allowed origins for CORS
+const ALLOWED_ORIGINS = [
+  'https://id-preview--179889b9-2a12-4b47-8709-0e395273cd99.lovable.app',
+  'http://localhost:5173',
+  'http://localhost:8080',
+  'http://localhost:3000',
+];
+
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const isAllowed = origin && (
+    ALLOWED_ORIGINS.includes(origin) || 
+    origin.endsWith('.lovable.app')
+  );
+  
+  return {
+    'Access-Control-Allow-Origin': isAllowed && origin ? origin : ALLOWED_ORIGINS[0],
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Credentials': 'true',
+  };
+}
 
 const SYSTEM_PROMPT = `You are a calm, supportive wellbeing assistant.
 
@@ -59,6 +75,21 @@ interface InsightResponse {
 }
 
 serve(async (req) => {
+  const origin = req.headers.get('Origin');
+  const corsHeaders = getCorsHeaders(origin);
+  
+  // Check if origin is allowed (except for preflight)
+  if (req.method !== 'OPTIONS' && origin) {
+    const isAllowed = ALLOWED_ORIGINS.includes(origin) || origin.endsWith('.lovable.app');
+    if (!isAllowed) {
+      console.error('Forbidden origin:', origin);
+      return new Response(
+        JSON.stringify({ error: 'Forbidden origin' }), 
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+  }
+  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
