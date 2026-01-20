@@ -140,6 +140,11 @@ const SettingsContent = () => {
   const handleUpdatePassword = async () => {
     setPasswordError('');
     
+    if (!currentPassword) {
+      setPasswordError('Current password is required');
+      return;
+    }
+    
     if (!newPassword || !confirmPassword) {
       setPasswordError('New password and confirmation are required');
       return;
@@ -155,9 +160,26 @@ const SettingsContent = () => {
       return;
     }
 
+    if (!user?.email) {
+      setPasswordError('User email not found');
+      return;
+    }
+
     setIsUpdatingPassword(true);
     
     try {
+      // First verify current password by re-authenticating
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: currentPassword
+      });
+      
+      if (signInError) {
+        setPasswordError('Current password is incorrect');
+        return;
+      }
+      
+      // Then update to new password
       const { error } = await supabase.auth.updateUser({
         password: newPassword
       });
