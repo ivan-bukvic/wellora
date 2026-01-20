@@ -81,16 +81,17 @@ const AppPage = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isSearching, clearSearch]);
-
-  // Redirect to auth if not authenticated
+  // Redirect to auth if not authenticated (skip in dev/editor mode for previewing)
+  const isDevMode = import.meta.env.DEV;
+  
   useEffect(() => {
-    if (!authLoading && !session) {
+    if (!isDevMode && !authLoading && !session) {
       navigate('/auth');
     }
-  }, [session, authLoading, navigate]);
+  }, [session, authLoading, navigate, isDevMode]);
 
-  // Show loading while checking auth
-  if (authLoading) {
+  // Show loading while checking auth (skip in dev mode)
+  if (!isDevMode && authLoading) {
     return (
       <div className="h-[100dvh] bg-background flex items-center justify-center">
         <div className="text-muted-foreground">Loading...</div>
@@ -98,8 +99,8 @@ const AppPage = () => {
     );
   }
 
-  // Don't render if not authenticated (will redirect)
-  if (!session) {
+  // Don't render if not authenticated (will redirect) - except in dev mode
+  if (!isDevMode && !session) {
     return null;
   }
 
