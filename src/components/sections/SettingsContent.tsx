@@ -135,11 +135,13 @@ const SettingsContent = () => {
     }
   };
 
-  const handleUpdatePassword = () => {
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+
+  const handleUpdatePassword = async () => {
     setPasswordError('');
     
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      setPasswordError('All password fields are required');
+    if (!newPassword || !confirmPassword) {
+      setPasswordError('New password and confirmation are required');
       return;
     }
     
@@ -153,10 +155,27 @@ const SettingsContent = () => {
       return;
     }
 
-    toast.success('Password updated successfully');
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+    setIsUpdatingPassword(true);
+    
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+      
+      if (error) {
+        setPasswordError(error.message);
+        return;
+      }
+      
+      toast.success('Password updated successfully');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      setPasswordError('Failed to update password. Please try again.');
+    } finally {
+      setIsUpdatingPassword(false);
+    }
   };
 
   const displayName = profile?.name || demoUserName;
@@ -298,9 +317,17 @@ const SettingsContent = () => {
             <div className="flex justify-end mt-6">
               <Button 
                 onClick={handleUpdatePassword}
+                disabled={isUpdatingPassword}
                 className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
               >
-                Update Password
+                {isUpdatingPassword ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Updating...
+                  </>
+                ) : (
+                  'Update Password'
+                )}
               </Button>
             </div>
           </div>
