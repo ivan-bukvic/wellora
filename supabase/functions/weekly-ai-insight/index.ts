@@ -11,10 +11,7 @@ const ALLOWED_ORIGINS = [
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && (
-    ALLOWED_ORIGINS.includes(origin) || 
-    origin.endsWith('.lovable.app')
-  );
+  const isAllowed = origin && ALLOWED_ORIGINS.includes(origin);
   
   return {
     'Access-Control-Allow-Origin': isAllowed && origin ? origin : ALLOWED_ORIGINS[0],
@@ -80,7 +77,7 @@ serve(async (req) => {
   
   // Check if origin is allowed (except for preflight)
   if (req.method !== 'OPTIONS' && origin) {
-    const isAllowed = ALLOWED_ORIGINS.includes(origin) || origin.endsWith('.lovable.app');
+    const isAllowed = ALLOWED_ORIGINS.includes(origin);
     if (!isAllowed) {
       console.error('Forbidden origin:', origin);
       return new Response(
