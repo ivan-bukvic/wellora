@@ -138,12 +138,12 @@ const LandingPage = () => {
           </a>
         </nav>
 
-        {/* Login - right (Desktop) */}
+        {/* Sign up - right (Desktop) */}
         <Link 
-          to="/auth?mode=login" 
+          to="/auth?mode=signup" 
           className="hidden md:block text-[1rem] font-medium text-primary hover:text-primary/80 transition-colors duration-200"
         >
-          Login
+          Sign up
         </Link>
 
         {/* Mobile Menu */}
