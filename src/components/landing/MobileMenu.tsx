@@ -57,11 +57,11 @@ const MobileMenu = ({ className }: MobileMenuProps) => {
           
           <div className="pt-4 border-t border-border/50">
             <Link
-              to="/auth?mode=login"
+              to="/auth?mode=signup"
               onClick={() => setIsOpen(false)}
               className="block w-full py-4 px-4 text-lg font-medium text-primary hover:bg-primary/5 rounded-xl transition-all"
             >
-              Login
+              Sign up
             </Link>
             <Link
               to="/auth?mode=signup"
