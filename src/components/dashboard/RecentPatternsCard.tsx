@@ -1,15 +1,29 @@
-import { Moon, Droplets, Brain, Eye } from 'lucide-react';
-import { useUserHasData } from '@/hooks/useUserHasData';
+import { Moon, Droplets, Brain } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
-const patterns = [
+// Activity type IDs
+const ACTIVITY_TYPE_IDS = {
+  sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
+  hydration: 'd3942123-3739-459f-ac0d-04f8de531dc7',
+  mindfulness: 'e363142a-a13c-45bd-9728-a1143a2b5d5a',
+};
+
+interface Pattern {
+  icon: React.ComponentType<{ className?: string }>;
+  text: string;
+  bgColor: string;
+}
+
+const defaultPatterns: Pattern[] = [
   {
     icon: Moon,
-    text: 'Sleep has been more consistent.',
+    text: 'Sleep has been consistent.',
     bgColor: 'bg-activity-sleep',
   },
   {
     icon: Droplets,
-    text: 'Hydration improved slightly.',
+    text: 'Hydration is building up.',
     bgColor: 'bg-activity-hydration',
   },
   {
@@ -19,28 +33,102 @@ const patterns = [
   },
 ];
 
-const EmptyState = () => (
-  <div className="wellora-card animate-fade-in-up stagger-1">
-    <h3 className="text-base font-medium text-foreground mb-4">Recent patterns</h3>
-    
-    <div className="flex flex-col items-center justify-center py-4 text-center">
-      <div className="w-10 h-10 rounded-lg bg-muted/60 flex items-center justify-center mb-3">
-        <Eye className="w-5 h-5 text-muted-foreground/50" />
-      </div>
-      <p className="text-sm text-muted-foreground/70 leading-relaxed max-w-[200px]">
-        Patterns emerge as you log activity over time.
-      </p>
-    </div>
-  </div>
-);
-
 export const RecentPatternsCard = () => {
-  const { hasData, isLoading } = useUserHasData();
+  const [patterns, setPatterns] = useState<Pattern[]>(defaultPatterns);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Show empty state for new users
-  if (!isLoading && !hasData) {
-    return <EmptyState />;
-  }
+  useEffect(() => {
+    const fetchPatterns = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          setIsLoading(false);
+          return;
+        }
+
+        // Get last 7 days of data
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        
+        const { data: logs, error } = await supabase
+          .from('activity_logs')
+          .select('*')
+          .eq('user_id', user.id)
+          .gte('date', sevenDaysAgo.toISOString().split('T')[0])
+          .eq('completed', true);
+
+        if (error) {
+          console.error('Error fetching patterns:', error);
+          setIsLoading(false);
+          return;
+        }
+
+        // Analyze patterns
+        const sleepLogs = logs?.filter(l => l.activity_type_id === ACTIVITY_TYPE_IDS.sleeping) || [];
+        const hydrationLogs = logs?.filter(l => l.activity_type_id === ACTIVITY_TYPE_IDS.hydration) || [];
+        const mindfulnessLogs = logs?.filter(l => l.activity_type_id === ACTIVITY_TYPE_IDS.mindfulness) || [];
+
+        const newPatterns: Pattern[] = [];
+
+        // Sleep pattern
+        if (sleepLogs.length >= 5) {
+          const avgSleep = sleepLogs.reduce((sum, l) => sum + (l.sleep_duration_hours || 0), 0) / sleepLogs.length;
+          newPatterns.push({
+            icon: Moon,
+            text: avgSleep >= 7 ? 'Sleep has been consistent and restful.' : 'Sleep is building toward consistency.',
+            bgColor: 'bg-activity-sleep',
+          });
+        } else if (sleepLogs.length > 0) {
+          newPatterns.push({
+            icon: Moon,
+            text: 'Sleep tracking is taking shape.',
+            bgColor: 'bg-activity-sleep',
+          });
+        }
+
+        // Hydration pattern
+        if (hydrationLogs.length >= 4) {
+          const avgHydration = hydrationLogs.reduce((sum, l) => sum + (l.hydration_units || 0), 0) / hydrationLogs.length;
+          newPatterns.push({
+            icon: Droplets,
+            text: avgHydration >= 7 ? 'Hydration has been strong this week.' : 'Hydration is improving gradually.',
+            bgColor: 'bg-activity-hydration',
+          });
+        } else if (hydrationLogs.length > 0) {
+          newPatterns.push({
+            icon: Droplets,
+            text: 'Hydration habits are forming.',
+            bgColor: 'bg-activity-hydration',
+          });
+        }
+
+        // Mindfulness pattern
+        if (mindfulnessLogs.length >= 3) {
+          newPatterns.push({
+            icon: Brain,
+            text: 'Mindfulness stayed light but regular.',
+            bgColor: 'bg-activity-mindfulness',
+          });
+        } else if (mindfulnessLogs.length > 0) {
+          newPatterns.push({
+            icon: Brain,
+            text: 'Mindfulness sessions are emerging.',
+            bgColor: 'bg-activity-mindfulness',
+          });
+        }
+
+        // Use defaults if no patterns found
+        setPatterns(newPatterns.length > 0 ? newPatterns : defaultPatterns);
+      } catch (err) {
+        console.error('Error in patterns fetch:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPatterns();
+  }, []);
 
   return (
     <div className="wellora-card animate-fade-in-up stagger-1">
