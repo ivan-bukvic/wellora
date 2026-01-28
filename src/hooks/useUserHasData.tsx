@@ -1,60 +1,39 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useDemoMode } from './useDemoMode';
 
 interface UseUserHasDataResult {
   hasData: boolean;
   isLoading: boolean;
 }
 
+/**
+ * Hook to check if user has activity data.
+ * 
+ * Since all new users automatically receive seeded demo data on signup
+ * (via the handle_new_user trigger), authenticated users will always have data.
+ * This hook now simply checks for authentication status.
+ */
 export const useUserHasData = (): UseUserHasDataResult => {
-  const { isDemoUser, isLoading: demoLoading } = useDemoMode();
-  const [hasData, setHasData] = useState(false);
+  const [hasData, setHasData] = useState(true); // Default to true since all users have seeded data
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkUserData = async () => {
-      // Demo users always "have data"
-      if (isDemoUser) {
-        setHasData(true);
-        setIsLoading(false);
-        return;
-      }
-
-      // Wait for demo mode check to complete
-      if (demoLoading) return;
-
+    const checkAuth = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         
-        if (!user) {
-          setHasData(false);
-          setIsLoading(false);
-          return;
-        }
-
-        // Check if user has any activity logs
-        const { count, error } = await supabase
-          .from('activity_logs')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', user.id);
-
-        if (error) {
-          console.error('Error checking user data:', error);
-          setHasData(false);
-        } else {
-          setHasData((count ?? 0) > 0);
-        }
+        // If user is authenticated, they have data (seeded on signup)
+        setHasData(!!user);
       } catch (err) {
-        console.error('Error checking user data:', err);
-        setHasData(false);
+        console.error('Error checking auth:', err);
+        setHasData(true); // Default to true to avoid empty states
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkUserData();
-  }, [isDemoUser, demoLoading]);
+    checkAuth();
+  }, []);
 
   return { hasData, isLoading };
 };

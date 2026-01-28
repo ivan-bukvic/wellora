@@ -1,7 +1,14 @@
+import { useState, useEffect } from 'react';
 import { Sparkles, Footprints, Moon, Brain } from 'lucide-react';
 import { useAIInsights } from '@/hooks/useAIInsights';
-import { useDemoMode } from '@/hooks/useDemoMode';
-import { useUserHasData } from '@/hooks/useUserHasData';
+import { supabase } from '@/integrations/supabase/client';
+
+// Activity type IDs
+const ACTIVITY_TYPE_IDS = {
+  walking: '038a9c76-4848-48a9-8245-2d2fefe85711',
+  sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
+  mindfulness: 'e363142a-a13c-45bd-9728-a1143a2b5d5a',
+};
 
 // Soft circular progress indicator (no numbers)
 const SoftProgressRing = ({ progress }: { progress: number }) => {
@@ -70,37 +77,13 @@ const BalanceIcons = ({ active = true }: { active?: boolean }) => {
   );
 };
 
-// Empty state for consistency card
-const ConsistencyEmptyState = () => (
-  <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
-    <div className="flex items-start gap-4">
-      <SoftProgressRing progress={0} />
-      <div className="flex-1 min-w-0">
-        <h4 className="text-sm font-medium text-muted-foreground mb-1">Weekly Consistency</h4>
-        <p className="text-sm text-muted-foreground/70 leading-snug">
-          Your consistency patterns will appear here over time.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-// Empty state for balance card
-const BalanceEmptyState = () => (
-  <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
-    <h4 className="text-sm font-medium text-muted-foreground mb-3">Routine Balance</h4>
-    <p className="text-sm text-muted-foreground/70 leading-snug mb-4">
-      Your routine balance takes shape as you log activities.
-    </p>
-    <BalanceIcons active={false} />
-  </div>
-);
-
-// Consistency card
-const ConsistencyCard = () => {
-  const { isDemoUser } = useDemoMode();
-  // For demo, show ~75% consistency. Real users would calculate from actual data.
-  const consistencyLevel = isDemoUser ? 75 : 65;
+// Consistency card with real data
+const ConsistencyCard = ({ consistencyLevel }: { consistencyLevel: number }) => {
+  const getMessage = () => {
+    if (consistencyLevel >= 70) return "You stayed consistent on most days this week";
+    if (consistencyLevel >= 50) return "You're building consistency this week";
+    return "Your rhythm is taking shape";
+  };
 
   return (
     <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
@@ -109,7 +92,7 @@ const ConsistencyCard = () => {
         <div className="flex-1 min-w-0">
           <h4 className="text-sm font-medium text-muted-foreground mb-1">Weekly Consistency</h4>
           <p className="text-base font-medium text-foreground leading-snug">
-            You stayed consistent on most days this week
+            {getMessage()}
           </p>
         </div>
       </div>
@@ -118,12 +101,15 @@ const ConsistencyCard = () => {
 };
 
 // Balance card
-const BalanceCard = () => {
+const BalanceCard = ({ hasBalance }: { hasBalance: boolean }) => {
   return (
     <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
       <h4 className="text-sm font-medium text-muted-foreground mb-3">Routine Balance</h4>
       <p className="text-base font-medium text-foreground leading-snug mb-4">
-        Good balance between movement, rest, and mindfulness
+        {hasBalance 
+          ? "Good balance between movement, rest, and mindfulness"
+          : "Your balance is emerging across activities"
+        }
       </p>
       <BalanceIcons active={true} />
     </div>
@@ -132,10 +118,56 @@ const BalanceCard = () => {
 
 export const TotalActivityCard = () => {
   const { currentMicroCopy } = useAIInsights();
-  const { hasData, isLoading } = useUserHasData();
+  const [consistencyLevel, setConsistencyLevel] = useState(65);
+  const [hasBalance, setHasBalance] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Show empty state for new users
-  const showEmptyState = !isLoading && !hasData;
+  useEffect(() => {
+    const fetchActivityData = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          setIsLoading(false);
+          return;
+        }
+
+        // Get last 7 days
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        
+        const { data: logs, error } = await supabase
+          .from('activity_logs')
+          .select('*')
+          .eq('user_id', user.id)
+          .gte('date', sevenDaysAgo.toISOString().split('T')[0])
+          .eq('completed', true);
+
+        if (error) {
+          console.error('Error fetching activity data:', error);
+          setIsLoading(false);
+          return;
+        }
+
+        // Calculate consistency (% of days with at least one activity)
+        const uniqueDays = new Set(logs?.map(l => l.date) || []);
+        const consistency = Math.round((uniqueDays.size / 7) * 100);
+        setConsistencyLevel(Math.max(consistency, 30)); // Minimum 30% to show some progress
+
+        // Check balance (has walking, sleep, and mindfulness)
+        const hasWalking = logs?.some(l => l.activity_type_id === ACTIVITY_TYPE_IDS.walking);
+        const hasSleep = logs?.some(l => l.activity_type_id === ACTIVITY_TYPE_IDS.sleeping);
+        const hasMindfulness = logs?.some(l => l.activity_type_id === ACTIVITY_TYPE_IDS.mindfulness);
+        setHasBalance((hasWalking && hasSleep) || (hasSleep && hasMindfulness) || (hasWalking && hasMindfulness));
+      } catch (err) {
+        console.error('Error in activity data fetch:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchActivityData();
+  }, []);
 
   return (
     <div className="wellora-card animate-fade-in-up stagger-1">
@@ -147,21 +179,12 @@ export const TotalActivityCard = () => {
       </div>
       
       <div className="flex flex-col sm:flex-row gap-4">
-        {showEmptyState ? (
-          <>
-            <ConsistencyEmptyState />
-            <BalanceEmptyState />
-          </>
-        ) : (
-          <>
-            <ConsistencyCard />
-            <BalanceCard />
-          </>
-        )}
+        <ConsistencyCard consistencyLevel={consistencyLevel} />
+        <BalanceCard hasBalance={hasBalance} />
       </div>
 
-      {/* Optional AI micro-copy - only show when user has data */}
-      {!showEmptyState && currentMicroCopy && (
+      {/* Optional AI micro-copy */}
+      {currentMicroCopy && (
         <p className="mt-4 text-xs text-muted-foreground/70 italic pl-2 border-l border-border">
           {currentMicroCopy}
         </p>

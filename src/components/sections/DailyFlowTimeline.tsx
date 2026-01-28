@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Footprints, Moon, Droplets, Brain, PersonStanding, LucideProps } from 'lucide-react';
 import {
   Tooltip,
@@ -5,14 +6,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { supabase } from '@/integrations/supabase/client';
 
 interface FlowActivity {
   name: string;
   time: string;
   duration: string;
   completed: boolean;
-  hourOfDay: number; // 0-24 representing hour of day
+  hourOfDay: number;
 }
+
+// Activity type IDs
+const ACTIVITY_TYPE_IDS = {
+  walking: '038a9c76-4848-48a9-8245-2d2fefe85711',
+  sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
+  stretching: '1f244fe2-03a7-45b8-8da8-5ecd8868821f',
+  hydration: 'd3942123-3739-459f-ac0d-04f8de531dc7',
+  mindfulness: 'e363142a-a13c-45bd-9728-a1143a2b5d5a',
+};
 
 const iconMap: Record<string, React.ComponentType<LucideProps>> = {
   Walking: Footprints,
@@ -30,12 +41,12 @@ const activityColorMap: Record<string, string> = {
   Mindfulness: 'hsl(var(--activity-mindfulness))',
 };
 
-// Demo data representing today's flow with actual hours
-const todayFlow: FlowActivity[] = [
+// Default flow for immediate display
+const defaultFlow: FlowActivity[] = [
   { name: 'Sleeping', time: '6:30 AM', duration: '7.5 hours', completed: true, hourOfDay: 6.5 },
   { name: 'Stretching', time: '7:00 AM', duration: '15 min', completed: true, hourOfDay: 7 },
   { name: 'Walking', time: '8:30 AM', duration: '30 min', completed: true, hourOfDay: 8.5 },
-  { name: 'Hydration', time: '12:00 PM', duration: '4/8 glasses', completed: false, hourOfDay: 12 },
+  { name: 'Hydration', time: '12:00 PM', duration: '6/8 glasses', completed: true, hourOfDay: 12 },
   { name: 'Mindfulness', time: '3:30 PM', duration: '10 min', completed: true, hourOfDay: 15.5 },
 ];
 
@@ -58,8 +69,110 @@ const getPositionPercent = (hour: number) => {
   return ((hour - timeScale.start) / range) * 100;
 };
 
+// Map activity type ID to name
+const getActivityName = (typeId: string): string => {
+  switch (typeId) {
+    case ACTIVITY_TYPE_IDS.walking: return 'Walking';
+    case ACTIVITY_TYPE_IDS.sleeping: return 'Sleeping';
+    case ACTIVITY_TYPE_IDS.stretching: return 'Stretching';
+    case ACTIVITY_TYPE_IDS.hydration: return 'Hydration';
+    case ACTIVITY_TYPE_IDS.mindfulness: return 'Mindfulness';
+    default: return 'Activity';
+  }
+};
+
+// Format duration based on activity type
+const formatDuration = (log: any): string => {
+  const name = getActivityName(log.activity_type_id);
+  
+  if (name === 'Sleeping' && log.sleep_duration_hours) {
+    return `${log.sleep_duration_hours} hours`;
+  }
+  if (name === 'Hydration' && log.hydration_units) {
+    return `${log.hydration_units}/8 glasses`;
+  }
+  if (log.duration_minutes) {
+    return `${log.duration_minutes} min`;
+  }
+  return 'Completed';
+};
+
+// Assign a time of day based on activity type (for visualization)
+const getActivityHour = (name: string, index: number): number => {
+  switch (name) {
+    case 'Sleeping': return 6.5;
+    case 'Stretching': return 7;
+    case 'Walking': return 8.5;
+    case 'Hydration': return 12;
+    case 'Mindfulness': return 15.5;
+    default: return 9 + index * 2;
+  }
+};
+
+const formatTimeOfDay = (hour: number): string => {
+  const h = Math.floor(hour);
+  const m = Math.round((hour - h) * 60);
+  const period = h >= 12 ? 'PM' : 'AM';
+  const displayHour = h > 12 ? h - 12 : h === 0 ? 12 : h;
+  return m > 0 ? `${displayHour}:${m.toString().padStart(2, '0')} ${period}` : `${displayHour}:00 ${period}`;
+};
+
 const DailyFlowTimeline = () => {
-  const timelineY = 40; // Fixed Y position for the timeline (percentage)
+  const [todayFlow, setTodayFlow] = useState<FlowActivity[]>(defaultFlow);
+  const [isLoading, setIsLoading] = useState(true);
+  const timelineY = 40;
+  
+  useEffect(() => {
+    const fetchTodayFlow = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          setIsLoading(false);
+          return;
+        }
+
+        const today = new Date().toISOString().split('T')[0];
+        
+        const { data: logs, error } = await supabase
+          .from('activity_logs')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('date', today);
+
+        if (error) {
+          console.error('Error fetching today flow:', error);
+          setIsLoading(false);
+          return;
+        }
+
+        if (logs && logs.length > 0) {
+          const flowActivities: FlowActivity[] = logs.map((log, index) => {
+            const name = getActivityName(log.activity_type_id);
+            const hourOfDay = getActivityHour(name, index);
+            
+            return {
+              name,
+              time: formatTimeOfDay(hourOfDay),
+              duration: formatDuration(log),
+              completed: log.completed,
+              hourOfDay,
+            };
+          });
+
+          // Sort by hour of day
+          flowActivities.sort((a, b) => a.hourOfDay - b.hourOfDay);
+          setTodayFlow(flowActivities);
+        }
+      } catch (err) {
+        console.error('Error in today flow fetch:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTodayFlow();
+  }, []);
   
   return (
     <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.03), hsl(var(--background)), hsl(var(--primary) / 0.02))' }}>
@@ -133,6 +246,8 @@ const DailyFlowTimeline = () => {
               const Icon = iconMap[activity.name];
               const activityColor = activityColorMap[activity.name];
               const xPercent = getPositionPercent(activity.hourOfDay);
+              
+              if (!Icon) return null;
               
               return (
                 <div

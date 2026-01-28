@@ -1,108 +1,114 @@
-import { useDemoMode } from '@/hooks/useDemoMode';
-import { useUserHasData } from '@/hooks/useUserHasData';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 // Gentle wave data representing daily rhythm
-const weekData = [
-  { day: 'Mon', flow: 0.7, rest: 0.5 },
-  { day: 'Tue', flow: 0.85, rest: 0.6 },
-  { day: 'Wed', flow: 0.6, rest: 0.7 },
-  { day: 'Thu', flow: 0.9, rest: 0.55 },
-  { day: 'Fri', flow: 0.75, rest: 0.65 },
-  { day: 'Sat', flow: 0.5, rest: 0.85 },
-  { day: 'Sun', flow: 0.45, rest: 0.9 },
-];
+interface DayData {
+  day: string;
+  flow: number;
+  rest: number;
+}
 
-const EmptyState = () => {
-  const chartWidth = 320;
-  const chartHeight = 160;
-  const padding = { top: 20, right: 20, bottom: 30, left: 20 };
-  const innerWidth = chartWidth - padding.left - padding.right;
-  const innerHeight = chartHeight - padding.top - padding.bottom;
+// Activity type IDs
+const ACTIVITY_TYPE_IDS = {
+  walking: '038a9c76-4848-48a9-8245-2d2fefe85711',
+  sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
+  stretching: '1f244fe2-03a7-45b8-8da8-5ecd8868821f',
+  hydration: 'd3942123-3739-459f-ac0d-04f8de531dc7',
+  mindfulness: 'e363142a-a13c-45bd-9728-a1143a2b5d5a',
+};
 
-  return (
-    <div className="wellora-card flex-1 animate-fade-in-up stagger-3">
-      <h3 className="text-lg font-semibold text-foreground mb-1">Activity vs Rest Balance</h3>
-      <p className="text-xs text-muted-foreground mb-5">A relative snapshot, not a performance score.</p>
-      
-      <div className="flex justify-center relative">
-        <svg 
-          width={chartWidth} 
-          height={chartHeight} 
-          viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-          className="overflow-visible"
-        >
-          {/* Subtle horizontal guide lines */}
-          {[0.25, 0.5, 0.75].map((level) => (
-            <line
-              key={level}
-              x1={padding.left}
-              y1={padding.top + innerHeight * (1 - level)}
-              x2={padding.left + innerWidth}
-              y2={padding.top + innerHeight * (1 - level)}
-              stroke="hsl(var(--border))"
-              strokeWidth="1"
-              strokeDasharray="4 4"
-              opacity="0.3"
-            />
-          ))}
-          
-          {/* Empty placeholder line */}
-          <line
-            x1={padding.left}
-            y1={padding.top + innerHeight * 0.5}
-            x2={padding.left + innerWidth}
-            y2={padding.top + innerHeight * 0.5}
-            stroke="hsl(var(--muted-foreground))"
-            strokeWidth="2"
-            strokeDasharray="8 8"
-            opacity="0.2"
-          />
-          
-          {/* Day labels */}
-          {weekData.map((d, i) => (
-            <text
-              key={d.day}
-              x={padding.left + (i / (weekData.length - 1)) * innerWidth}
-              y={chartHeight - 8}
-              textAnchor="middle"
-              className="text-[10px] fill-muted-foreground/50"
-            >
-              {d.day}
-            </text>
-          ))}
-        </svg>
-        
-        {/* Overlay message */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-sm text-muted-foreground/70 text-center bg-card/80 px-4 py-2 rounded-lg">
-            Your rhythm takes shape gradually.
-          </p>
-        </div>
-      </div>
-      
-      {/* Subtle legend - muted */}
-      <div className="flex justify-center gap-6 mt-4 opacity-40">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-primary opacity-70" />
-          <span className="text-xs text-muted-foreground">Activity</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-warm" />
-          <span className="text-xs text-muted-foreground">Rest</span>
-        </div>
-      </div>
-    </div>
-  );
+const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+// Get dates for the current week (Monday to Sunday)
+const getWeekDates = () => {
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
+  
+  return Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + i);
+    return date.toISOString().split('T')[0];
+  });
 };
 
 export const WeeklyRhythmChart = () => {
-  const { isDemoUser } = useDemoMode();
-  const { hasData, isLoading } = useUserHasData();
-  
-  // Show empty state for new users
-  if (!isLoading && !hasData) {
-    return <EmptyState />;
-  }
+  const [weekData, setWeekData] = useState<DayData[]>(
+    dayNames.map(day => ({ day, flow: 0.5, rest: 0.5 }))
+  );
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWeeklyData = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          setIsLoading(false);
+          return;
+        }
+
+        const weekDates = getWeekDates();
+        
+        const { data: logs, error } = await supabase
+          .from('activity_logs')
+          .select('*')
+          .eq('user_id', user.id)
+          .in('date', weekDates)
+          .eq('completed', true);
+
+        if (error) {
+          console.error('Error fetching weekly data:', error);
+          setIsLoading(false);
+          return;
+        }
+
+        // Calculate flow (activity) and rest for each day
+        const data: DayData[] = weekDates.map((date, index) => {
+          const dayLogs = logs?.filter(l => l.date === date) || [];
+          
+          // Flow = walking + stretching + mindfulness activity
+          const walkingLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.walking);
+          const stretchingLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.stretching);
+          const mindfulnessLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.mindfulness);
+          
+          // Rest = sleep quality
+          const sleepLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.sleeping);
+          
+          // Calculate flow score (0-1)
+          let flowScore = 0.3; // Base score
+          if (walkingLog) flowScore += 0.25;
+          if (stretchingLog) flowScore += 0.2;
+          if (mindfulnessLog) flowScore += 0.25;
+          
+          // Calculate rest score based on sleep hours
+          let restScore = 0.3; // Base score
+          if (sleepLog?.sleep_duration_hours) {
+            const hours = sleepLog.sleep_duration_hours;
+            if (hours >= 8) restScore = 0.95;
+            else if (hours >= 7) restScore = 0.8;
+            else if (hours >= 6) restScore = 0.6;
+            else restScore = 0.4;
+          }
+
+          return {
+            day: dayNames[index],
+            flow: Math.min(flowScore, 1),
+            rest: restScore,
+          };
+        });
+
+        setWeekData(data);
+      } catch (err) {
+        console.error('Error in weekly rhythm fetch:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWeeklyData();
+  }, []);
   
   const chartWidth = 320;
   const chartHeight = 160;
@@ -111,7 +117,7 @@ export const WeeklyRhythmChart = () => {
   const innerHeight = chartHeight - padding.top - padding.bottom;
   
   // Generate smooth curve path
-  const generateSmoothPath = (data: typeof weekData, key: 'flow' | 'rest') => {
+  const generateSmoothPath = (data: DayData[], key: 'flow' | 'rest') => {
     const points = data.map((d, i) => ({
       x: padding.left + (i / (data.length - 1)) * innerWidth,
       y: padding.top + innerHeight - d[key] * innerHeight,
@@ -132,7 +138,7 @@ export const WeeklyRhythmChart = () => {
   };
   
   // Generate area path (closed shape)
-  const generateAreaPath = (data: typeof weekData, key: 'flow' | 'rest') => {
+  const generateAreaPath = (data: DayData[], key: 'flow' | 'rest') => {
     const linePath = generateSmoothPath(data, key);
     const lastX = padding.left + innerWidth;
     const firstX = padding.left;
