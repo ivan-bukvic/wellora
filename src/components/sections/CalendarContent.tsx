@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight, Footprints, Moon, PersonStanding, Droplets, Brain } from 'lucide-react';
-import React, { useState, useMemo } from 'react';
-import { useDemoMode } from '@/hooks/useDemoMode';
-import { generateDemoCalendarData, generateDemoActivityLogs } from '@/data/demoData';
+import React, { useState } from 'react';
+import { useActivityLogs } from '@/hooks/useActivityLogs';
 
 // Activity icon mapping
 const activityIcons: Record<string, React.ElementType> = {
@@ -44,10 +43,9 @@ interface CalendarDayCardProps {
   future: boolean;
   completedActivities: string[];
   hasData: boolean;
-  isDemoUser: boolean;
 }
 
-// Memoized day card component - manages its own hover state
+// Memoized day card component
 const CalendarDayCard = React.memo(({ 
   day, 
   dayData, 
@@ -112,7 +110,7 @@ const CalendarDayCard = React.memo(({
           </div>
         )}
         
-        {/* No data placeholder for non-demo */}
+        {/* No data placeholder */}
         {!hasData && !future && (
           <div className="flex-1 flex items-center justify-center min-h-0">
             <span className="text-[8px] text-muted-foreground/40">—</span>
@@ -156,28 +154,8 @@ const CalendarDayCard = React.memo(({
 CalendarDayCard.displayName = 'CalendarDayCard';
 
 const CalendarContent = () => {
-  const { isDemoUser } = useDemoMode();
+  const { calendarData, completedActivitiesMap, isLoading } = useActivityLogs(30);
   const [currentDate, setCurrentDate] = useState(new Date());
-  
-  // Memoize demo data to prevent regeneration on every render
-  const calendarData = useMemo(() => 
-    isDemoUser ? generateDemoCalendarData() : {}, 
-    [isDemoUser]
-  );
-  
-  const activityLogs = useMemo(() => 
-    isDemoUser ? generateDemoActivityLogs() : [], 
-    [isDemoUser]
-  );
-
-  // Precompute completed activities map
-  const completedActivitiesMap = useMemo(() => {
-    const map: Record<string, string[]> = {};
-    activityLogs.forEach(log => {
-      map[log.date] = log.activities.filter(a => a.completed).map(a => a.name);
-    });
-    return map;
-  }, [activityLogs]);
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                       'July', 'August', 'September', 'October', 'November', 'December'];
@@ -261,7 +239,7 @@ const CalendarContent = () => {
           ))}
         </div>
 
-        {/* Calendar Grid - Flex grow to fill available space */}
+        {/* Calendar Grid */}
         <div className="grid grid-cols-7 gap-2 sm:gap-3 flex-1 auto-rows-fr">
           {/* Empty cells for days before the first of the month */}
           {Array.from({ length: startingDay }).map((_, index) => (
@@ -275,7 +253,7 @@ const CalendarContent = () => {
             const dayData = calendarData[dateKey];
             const today = isToday(day);
             const future = isFuture(day);
-            const hasData = isDemoUser && !!dayData && !future;
+            const hasData = !!dayData && !future;
             const completedActivities = completedActivitiesMap[dateKey] || [];
 
             return (
@@ -287,19 +265,11 @@ const CalendarContent = () => {
                 future={future}
                 completedActivities={completedActivities}
                 hasData={hasData}
-                isDemoUser={isDemoUser}
               />
             );
           })}
         </div>
       </div>
-
-      {/* Empty state for non-demo users */}
-      {!isDemoUser && (
-        <div className="mt-4 text-center text-muted-foreground text-sm">
-          <p>Start logging activities to see your progress on the calendar</p>
-        </div>
-      )}
     </div>
   );
 };
