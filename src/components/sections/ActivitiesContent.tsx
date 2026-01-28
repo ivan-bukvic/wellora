@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Footprints, Moon, Droplets, Brain, Check, Clock, PersonStanding, LucideProps } from 'lucide-react';
-import { useDemoMode } from '@/hooks/useDemoMode';
-import { generateDemoActivityLogs, demoTodayRoutine } from '@/data/demoData';
+import { useActivityLogs } from '@/hooks/useActivityLogs';
 import DailyFlowTimeline from './DailyFlowTimeline';
 import LogActivityModal from '@/components/activities/LogActivityModal';
 
@@ -30,9 +29,7 @@ const activityColors: Record<string, { bg: string; bgMuted: string; bgActive: st
 };
 
 const ActivitiesContent = () => {
-  const { isDemoUser } = useDemoMode();
-  const activityLogs = isDemoUser ? generateDemoActivityLogs() : [];
-  const todayRoutine = isDemoUser ? demoTodayRoutine : [];
+  const { groupedLogs, todayRoutine, isLoading } = useActivityLogs(30);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
@@ -40,17 +37,13 @@ const ActivitiesContent = () => {
   const [openNonce, setOpenNonce] = useState(0);
 
   const handleOpenLogModal = (activityType: string) => {
-    console.log('[LogModal] OPEN click', activityType, 'BEFORE reset', logActivityForm);
-
-    setLogActivityForm({}); // clear ALL keys
+    setLogActivityForm({});
     setActiveActivityType(activityType);
-    setOpenNonce((n) => n + 1); // force new instance each open
+    setOpenNonce((n) => n + 1);
     setIsModalOpen(true);
   };
 
   const handleCloseLogModal = () => {
-    console.log('[LogModal] CLOSE', activeActivityType, 'RESET');
-
     setLogActivityForm({});
     setIsModalOpen(false);
     setActiveActivityType(null);
@@ -58,8 +51,6 @@ const ActivitiesContent = () => {
 
   const handleSaveLogModal = async () => {
     console.log('Saving activity:', activeActivityType, logActivityForm);
-
-    // After successful save, reset then close
     setLogActivityForm({});
     handleCloseLogModal();
   };
@@ -71,12 +62,14 @@ const ActivitiesContent = () => {
     }));
   };
 
+  const hasRoutineData = todayRoutine.some(item => item.completed || item.progress);
+
   return (
     <div className="animate-fade-in-up">
       <p className="text-muted-foreground mb-8">Track and log your daily wellness activities</p>
       
-      {/* Today's Routine - Only for demo user */}
-      {isDemoUser && (
+      {/* Today's Routine - Show when we have data */}
+      {!isLoading && (
         <div className="mb-8">
           <div className="grid grid-cols-2 gap-6">
             {/* Left Column - Today's Routine Daily Flow */}
@@ -110,7 +103,7 @@ const ActivitiesContent = () => {
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-foreground">{item.name}</p>
                             <p className="text-xs text-muted-foreground">
-                              {item.duration || item.progress}
+                              {item.duration || item.progress || 'Not logged yet'}
                             </p>
                           </div>
                           
@@ -128,7 +121,7 @@ const ActivitiesContent = () => {
                           </div>
                         </div>
                         
-                        {/* Subtle spacing rhythm connector (not a literal line) */}
+                        {/* Subtle spacing rhythm connector */}
                         {index < todayRoutine.length - 1 && (
                           <div className="h-1" />
                         )}
@@ -176,7 +169,7 @@ const ActivitiesContent = () => {
             </div>
           );
         })}
-        {/* Row 2: Hydration, Mindfulness - each spans 3 columns for equal width full-row coverage */}
+        {/* Row 2: Hydration, Mindfulness - each spans 3 columns */}
         {activities.slice(3, 5).map((activity) => {
           const Icon = activity.icon;
           return (
@@ -201,14 +194,13 @@ const ActivitiesContent = () => {
         })}
       </div>
 
-
-      {/* Recent Activity Log - Only for demo user */}
-      {isDemoUser && activityLogs.length > 0 && (
+      {/* Recent Activity Log */}
+      {!isLoading && groupedLogs.length > 0 && (
         <div className="mt-8">
           <h2 className="text-lg font-semibold text-foreground mb-4">Recent Activity Log</h2>
           <div className="wellora-card">
             <div className="space-y-4">
-              {activityLogs.slice(0, 7).map((log) => {
+              {groupedLogs.slice(0, 7).map((log) => {
                 const completedCount = log.activities.filter(a => a.completed).length;
                 const date = new Date(log.date);
                 const isToday = new Date().toDateString() === date.toDateString();
@@ -251,7 +243,8 @@ const ActivitiesContent = () => {
           </div>
         </div>
       )}
-      {/* Log Activity Modal - conditionally rendered to force unmount */}
+
+      {/* Log Activity Modal */}
       {isModalOpen && activeActivityType && (
         <LogActivityModal
           key={`${activeActivityType}-${openNonce}`}
