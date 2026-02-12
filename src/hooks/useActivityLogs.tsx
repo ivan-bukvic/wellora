@@ -43,13 +43,31 @@ const activityTypeNames: Record<string, string> = {
   'e363142a-a13c-45bd-9728-a1143a2b5d5a': 'Mindfulness',
 };
 
-export const useActivityLogs = (days: number = 30) => {
+interface UseActivityLogsOptions {
+  days?: number;
+  startDate?: string; // YYYY-MM-DD
+  endDate?: string;   // YYYY-MM-DD
+}
+
+export const useActivityLogs = (optionsOrDays: number | UseActivityLogsOptions = 30) => {
+  const options: UseActivityLogsOptions = typeof optionsOrDays === 'number' 
+    ? { days: optionsOrDays } 
+    : optionsOrDays;
+
   const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const startDateStr = options.startDate ?? (() => {
+    const d = new Date();
+    d.setDate(d.getDate() - (options.days ?? 30));
+    return d.toISOString().split('T')[0];
+  })();
+  const endDateStr = options.endDate;
+
   useEffect(() => {
     const fetchLogs = async () => {
+      setIsLoading(true);
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
@@ -57,15 +75,16 @@ export const useActivityLogs = (days: number = 30) => {
           return;
         }
 
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() - days);
-        const startDateStr = startDate.toISOString().split('T')[0];
-
-        const { data, error: fetchError } = await supabase
+        let query = supabase
           .from('activity_logs')
           .select('*')
-          .gte('date', startDateStr)
-          .order('date', { ascending: false });
+          .gte('date', startDateStr);
+
+        if (endDateStr) {
+          query = query.lte('date', endDateStr);
+        }
+
+        const { data, error: fetchError } = await query.order('date', { ascending: false });
 
         if (fetchError) throw fetchError;
 
@@ -84,7 +103,7 @@ export const useActivityLogs = (days: number = 30) => {
     };
 
     fetchLogs();
-  }, [days]);
+  }, [startDateStr, endDateStr]);
 
   // Group logs by date for the activity log list
   const groupedLogs = useMemo((): DayLog[] => {
