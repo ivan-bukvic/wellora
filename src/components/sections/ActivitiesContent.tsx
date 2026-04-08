@@ -29,7 +29,7 @@ const activityColors: Record<string, { bg: string; bgMuted: string; bgActive: st
 };
 
 const ActivitiesContent = () => {
-  const { groupedLogs, todayRoutine, isLoading } = useActivityLogs();
+  const { groupedLogs, todayRoutine, routineDate, isLoading } = useActivityLogs();
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
