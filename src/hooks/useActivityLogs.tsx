@@ -57,6 +57,7 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
   const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   // If days or startDate is provided, compute a start date filter; otherwise fetch all
   const startDateStr = options.startDate ?? (options.days != null ? (() => {
@@ -66,19 +67,30 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
   })() : undefined);
   const endDateStr = options.endDate;
 
+  // Listen for auth state changes
   useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserId(session?.user?.id ?? null);
+    });
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUserId(user?.id ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!userId) {
+      setIsLoading(false);
+      return;
+    }
+
     const fetchLogs = async () => {
       setIsLoading(true);
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          setIsLoading(false);
-          return;
-        }
-
         let query = supabase
           .from('activity_logs')
-          .select('*');
+          .select('*')
+          .eq('user_id', userId);
 
         if (startDateStr) {
           query = query.gte('date', startDateStr);
@@ -107,7 +119,7 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
     };
 
     fetchLogs();
-  }, [startDateStr, endDateStr]);
+  }, [userId, startDateStr, endDateStr]);
 
   // Group logs by date for the activity log list
   const groupedLogs = useMemo((): DayLog[] => {

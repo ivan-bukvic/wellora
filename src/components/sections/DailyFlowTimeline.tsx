@@ -121,20 +121,31 @@ const DailyFlowTimeline = () => {
   const [todayFlow, setTodayFlow] = useState<FlowActivity[]>(defaultFlow);
   const [isLoading, setIsLoading] = useState(true);
   const [flowDate, setFlowDate] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const timelineY = 40;
+
+  // Listen for auth state changes
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserId(session?.user?.id ?? null);
+    });
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUserId(user?.id ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
   
   useEffect(() => {
+    if (!userId) { setIsLoading(false); return; }
+
     const fetchTodayFlow = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setIsLoading(false); return; }
-
         const today = new Date().toISOString().split('T')[0];
         
         let { data: logs, error } = await supabase
           .from('activity_logs')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .eq('date', today);
 
         if (error) { console.error('Error fetching today flow:', error); setIsLoading(false); return; }
@@ -144,7 +155,7 @@ const DailyFlowTimeline = () => {
           const { data: recentLogs, error: recentError } = await supabase
             .from('activity_logs')
             .select('*')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .order('date', { ascending: false })
             .limit(10);
 
@@ -178,7 +189,7 @@ const DailyFlowTimeline = () => {
     };
 
     fetchTodayFlow();
-  }, []);
+  }, [userId]);
   
   return (
     <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.03), hsl(var(--background)), hsl(var(--primary) / 0.02))' }}>

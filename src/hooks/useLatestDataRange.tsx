@@ -15,22 +15,39 @@ interface LatestDataRange {
 export const useLatestDataRange = (): LatestDataRange => {
   const [latestDate, setLatestDate] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  // Listen for auth state changes
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserId(session?.user?.id ?? null);
+    });
+    // Also check current session
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUserId(user?.id ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
-    const fetch = async () => {
+    if (!userId) {
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    const fetchLatest = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setIsLoading(false); return; }
-
         const { data, error } = await supabase
           .from('activity_logs')
           .select('date')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .order('date', { ascending: false })
           .limit(1);
 
         if (!error && data && data.length > 0) {
           setLatestDate(data[0].date);
+        } else {
+          setLatestDate(null);
         }
       } catch (err) {
         console.error('useLatestDataRange error:', err);
@@ -38,8 +55,8 @@ export const useLatestDataRange = (): LatestDataRange => {
         setIsLoading(false);
       }
     };
-    fetch();
-  }, []);
+    fetchLatest();
+  }, [userId]);
 
   // Compute the Mon–Sun week containing latestDate
   const latestWeekDates: string[] = (() => {
