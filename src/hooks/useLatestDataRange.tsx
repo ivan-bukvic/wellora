@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 interface LatestDataRange {
   latestDate: string | null;
@@ -13,30 +14,29 @@ interface LatestDataRange {
  * fallback week (Mon–Sun) and month ranges from it.
  */
 export const useLatestDataRange = (): LatestDataRange => {
+  const { session, authLoading } = useUserProfile();
   const [latestDate, setLatestDate] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [userId, setUserId] = useState<string | null>(null);
 
-  // Listen for auth state changes
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUserId(session?.user?.id ?? null);
-    });
-    // Also check current session
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUserId(user?.id ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
+  console.log('[DEBUG] useLatestDataRange hook initialized, authLoading:', authLoading, 'userId:', session?.user?.id ?? 'none');
 
   useEffect(() => {
-    if (!userId) {
+    console.log('[DEBUG] useLatestDataRange effect running, authLoading:', authLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] useLatestDataRange: no session user, skipping fetch');
       setIsLoading(false);
       return;
     }
+
     setIsLoading(true);
+    const userId = session.user.id;
+
     const fetchLatest = async () => {
       try {
+        console.log('[DEBUG] useLatestDataRange: fetching latest date for user', userId);
         const { data, error } = await supabase
           .from('activity_logs')
           .select('date')
@@ -44,19 +44,23 @@ export const useLatestDataRange = (): LatestDataRange => {
           .order('date', { ascending: false })
           .limit(1);
 
-        if (!error && data && data.length > 0) {
+        if (error) {
+          console.error('[DEBUG] useLatestDataRange query error:', error);
+        } else if (data && data.length > 0) {
+          console.log('[DEBUG] useLatestDataRange: latest date =', data[0].date);
           setLatestDate(data[0].date);
         } else {
+          console.log('[DEBUG] useLatestDataRange: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
           setLatestDate(null);
         }
       } catch (err) {
-        console.error('useLatestDataRange error:', err);
+        console.error('[DEBUG] useLatestDataRange error:', err);
       } finally {
         setIsLoading(false);
       }
     };
     fetchLatest();
-  }, [userId]);
+  }, [session, authLoading]);
 
   // Compute the Mon–Sun week containing latestDate
   const latestWeekDates: string[] = (() => {

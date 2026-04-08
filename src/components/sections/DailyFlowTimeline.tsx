@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { supabase } from '@/integrations/supabase/client';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 interface FlowActivity {
   name: string;
@@ -16,7 +17,6 @@ interface FlowActivity {
   hourOfDay: number;
 }
 
-// Activity type IDs
 const ACTIVITY_TYPE_IDS = {
   walking: '038a9c76-4848-48a9-8245-2d2fefe85711',
   sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
@@ -41,7 +41,6 @@ const activityColorMap: Record<string, string> = {
   Mindfulness: 'hsl(var(--activity-mindfulness))',
 };
 
-// Default flow for immediate display
 const defaultFlow: FlowActivity[] = [
   { name: 'Sleeping', time: '6:30 AM', duration: '7.5 hours', completed: true, hourOfDay: 6.5 },
   { name: 'Stretching', time: '7:00 AM', duration: '15 min', completed: true, hourOfDay: 7 },
@@ -50,10 +49,9 @@ const defaultFlow: FlowActivity[] = [
   { name: 'Mindfulness', time: '3:30 PM', duration: '10 min', completed: true, hourOfDay: 15.5 },
 ];
 
-// Time scale configuration
 const timeScale = {
-  start: 6, // 6 AM
-  end: 21, // 9 PM
+  start: 6,
+  end: 21,
   labels: [
     { hour: 6, label: '6 AM' },
     { hour: 9, label: '9 AM' },
@@ -69,7 +67,6 @@ const getPositionPercent = (hour: number) => {
   return ((hour - timeScale.start) / range) * 100;
 };
 
-// Map activity type ID to name
 const getActivityName = (typeId: string): string => {
   switch (typeId) {
     case ACTIVITY_TYPE_IDS.walking: return 'Walking';
@@ -81,23 +78,14 @@ const getActivityName = (typeId: string): string => {
   }
 };
 
-// Format duration based on activity type
 const formatDuration = (log: any): string => {
   const name = getActivityName(log.activity_type_id);
-  
-  if (name === 'Sleeping' && log.sleep_duration_hours) {
-    return `${log.sleep_duration_hours} hours`;
-  }
-  if (name === 'Hydration' && log.hydration_units) {
-    return `${log.hydration_units}/8 glasses`;
-  }
-  if (log.duration_minutes) {
-    return `${log.duration_minutes} min`;
-  }
+  if (name === 'Sleeping' && log.sleep_duration_hours) return `${log.sleep_duration_hours} hours`;
+  if (name === 'Hydration' && log.hydration_units) return `${log.hydration_units}/8 glasses`;
+  if (log.duration_minutes) return `${log.duration_minutes} min`;
   return 'Completed';
 };
 
-// Assign a time of day based on activity type (for visualization)
 const getActivityHour = (name: string, index: number): number => {
   switch (name) {
     case 'Sleeping': return 6.5;
@@ -118,25 +106,26 @@ const formatTimeOfDay = (hour: number): string => {
 };
 
 const DailyFlowTimeline = () => {
+  const { session, authLoading } = useUserProfile();
   const [todayFlow, setTodayFlow] = useState<FlowActivity[]>(defaultFlow);
   const [isLoading, setIsLoading] = useState(true);
   const [flowDate, setFlowDate] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
   const timelineY = 40;
 
-  // Listen for auth state changes
+  console.log('[DEBUG] DailyFlowTimeline initialized, authLoading:', authLoading, 'userId:', session?.user?.id ?? 'none');
+
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUserId(session?.user?.id ?? null);
-    });
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUserId(user?.id ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
-  
-  useEffect(() => {
-    if (!userId) { setIsLoading(false); return; }
+    console.log('[DEBUG] DailyFlowTimeline effect running, authLoading:', authLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] DailyFlowTimeline: no session user, skipping fetch');
+      setIsLoading(false);
+      return;
+    }
+
+    const userId = session.user.id;
 
     const fetchTodayFlow = async () => {
       try {
@@ -148,10 +137,10 @@ const DailyFlowTimeline = () => {
           .eq('user_id', userId)
           .eq('date', today);
 
-        if (error) { console.error('Error fetching today flow:', error); setIsLoading(false); return; }
+        if (error) { console.error('[DEBUG] DailyFlowTimeline error:', error); setIsLoading(false); return; }
 
-        // Fallback: if no logs today, fetch the most recent date's logs
         if (!logs || logs.length === 0) {
+          console.log('[DEBUG] DailyFlowTimeline: no logs today, fetching latest');
           const { data: recentLogs, error: recentError } = await supabase
             .from('activity_logs')
             .select('*')
@@ -163,7 +152,12 @@ const DailyFlowTimeline = () => {
             const latestDate = recentLogs[0].date;
             logs = recentLogs.filter(l => l.date === latestDate);
             setFlowDate(latestDate);
+            console.log('[DEBUG] DailyFlowTimeline: using fallback date', latestDate, 'with', logs.length, 'logs');
+          } else {
+            console.log('[DEBUG] DailyFlowTimeline: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
           }
+        } else {
+          console.log('[DEBUG] DailyFlowTimeline: found', logs.length, 'logs for today');
         }
 
         if (logs && logs.length > 0) {
@@ -182,18 +176,17 @@ const DailyFlowTimeline = () => {
           setTodayFlow(flowActivities);
         }
       } catch (err) {
-        console.error('Error in today flow fetch:', err);
+        console.error('[DEBUG] DailyFlowTimeline fetch error:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchTodayFlow();
-  }, [userId]);
+  }, [session, authLoading]);
   
   return (
     <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.03), hsl(var(--background)), hsl(var(--primary) / 0.02))' }}>
-      {/* Header */}
       <div className="px-6 pt-5 pb-3">
         <h3 className="text-base font-semibold text-foreground">
           {flowDate ? `Last recorded: ${new Date(flowDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : "Today's Flow"}
@@ -203,18 +196,9 @@ const DailyFlowTimeline = () => {
         </p>
       </div>
       
-      {/* Timeline Container */}
       <div className="flex-1 flex flex-col px-6 pb-4">
-        {/* Main timeline area */}
         <div className="relative flex-1" style={{ minHeight: '140px' }}>
-          {/* Flow Line SVG */}
-          <svg
-            className="absolute inset-0 w-full h-full"
-            viewBox="0 0 400 100"
-            preserveAspectRatio="none"
-            fill="none"
-          >
-            {/* Gradient definition for the flow line */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none" fill="none">
             <defs>
               <linearGradient id="flowLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.12" />
@@ -224,78 +208,31 @@ const DailyFlowTimeline = () => {
                 <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.12" />
               </linearGradient>
             </defs>
-            
-            {/* Main flow line - gentle wave */}
-            <path
-              d="M 0 40 
-                 Q 60 36, 120 42 
-                 Q 180 48, 240 38 
-                 Q 300 32, 360 42 
-                 Q 380 46, 400 40"
-              stroke="url(#flowLineGradient)"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              fill="none"
-            />
+            <path d="M 0 40 Q 60 36, 120 42 Q 180 48, 240 38 Q 300 32, 360 42 Q 380 46, 400 40" stroke="url(#flowLineGradient)" strokeWidth="2.5" strokeLinecap="round" fill="none" />
           </svg>
           
-          {/* Vertical guide lines (dotted) */}
           {todayFlow.map((activity) => {
             const xPercent = getPositionPercent(activity.hourOfDay);
             return (
-              <div
-                key={`guide-${activity.name}`}
-                className="absolute"
-                style={{
-                  left: `${xPercent}%`,
-                  top: `${timelineY + 8}%`,
-                  height: `${100 - timelineY - 8}%`,
-                  width: '1px',
-                  backgroundImage: 'linear-gradient(to bottom, hsl(var(--muted-foreground) / 0.15) 2px, transparent 2px)',
-                  backgroundSize: '1px 6px',
-                  transform: 'translateX(-50%)',
-                }}
-              />
+              <div key={`guide-${activity.name}`} className="absolute" style={{ left: `${xPercent}%`, top: `${timelineY + 8}%`, height: `${100 - timelineY - 8}%`, width: '1px', backgroundImage: 'linear-gradient(to bottom, hsl(var(--muted-foreground) / 0.15) 2px, transparent 2px)', backgroundSize: '1px 6px', transform: 'translateX(-50%)' }} />
             );
           })}
           
-          {/* Activity Markers */}
           <TooltipProvider delayDuration={100}>
             {todayFlow.map((activity) => {
               const Icon = iconMap[activity.name];
               const activityColor = activityColorMap[activity.name];
               const xPercent = getPositionPercent(activity.hourOfDay);
-              
               if (!Icon) return null;
-              
               return (
-                <div
-                  key={activity.name}
-                  className="absolute flex flex-col items-center"
-                  style={{
-                    left: `${xPercent}%`,
-                    top: `${timelineY}%`,
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                >
+                <div key={activity.name} className="absolute flex flex-col items-center" style={{ left: `${xPercent}%`, top: `${timelineY}%`, transform: 'translate(-50%, -50%)' }}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button
-                        className={`w-8 h-8 rounded-full flex items-center justify-center
-                          transition-all duration-200 hover:scale-110 hover:shadow-md
-                          bg-card border-2 ${activity.completed ? '' : 'opacity-60'}
-                          shadow-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30`}
-                        style={{
-                          borderColor: activityColor,
-                        }}
-                      >
+                      <button className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 hover:shadow-md bg-card border-2 ${activity.completed ? '' : 'opacity-60'} shadow-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30`} style={{ borderColor: activityColor }}>
                         <Icon className="w-4 h-4 text-primary" />
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent 
-                      className="bg-card border-border/50 shadow-soft px-3 py-2"
-                      sideOffset={8}
-                    >
+                    <TooltipContent className="bg-card border-border/50 shadow-soft px-3 py-2" sideOffset={8}>
                       <div className="text-center">
                         <p className="text-sm font-medium text-foreground">{activity.name}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{activity.time}</p>
@@ -303,8 +240,6 @@ const DailyFlowTimeline = () => {
                       </div>
                     </TooltipContent>
                   </Tooltip>
-                  
-                  {/* Small time label below icon */}
                   <span className="mt-1.5 text-[9px] text-muted-foreground/60 font-medium whitespace-nowrap">
                     {activity.time.replace(' AM', '').replace(' PM', '')}
                   </span>
@@ -314,16 +249,11 @@ const DailyFlowTimeline = () => {
           </TooltipProvider>
         </div>
         
-        {/* Time axis labels */}
         <div className="relative h-5 mt-1">
           {timeScale.labels.map(({ hour, label }) => {
             const xPercent = getPositionPercent(hour);
             return (
-              <span
-                key={hour}
-                className="absolute text-[10px] text-muted-foreground/40 font-medium transform -translate-x-1/2"
-                style={{ left: `${xPercent}%` }}
-              >
+              <span key={hour} className="absolute text-[10px] text-muted-foreground/40 font-medium transform -translate-x-1/2" style={{ left: `${xPercent}%` }}>
                 {label}
               </span>
             );

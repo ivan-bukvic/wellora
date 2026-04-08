@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 interface ActivityLog {
   id: string;
@@ -45,8 +46,8 @@ const activityTypeNames: Record<string, string> = {
 
 interface UseActivityLogsOptions {
   days?: number;
-  startDate?: string; // YYYY-MM-DD
-  endDate?: string;   // YYYY-MM-DD
+  startDate?: string;
+  endDate?: string;
 }
 
 export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions) => {
@@ -54,12 +55,12 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
     ? { days: optionsOrDays } 
     : (optionsOrDays ?? {});
 
+  const { session, authLoading } = useUserProfile();
+
   const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
 
-  // If days or startDate is provided, compute a start date filter; otherwise fetch all
   const startDateStr = options.startDate ?? (options.days != null ? (() => {
     const d = new Date();
     d.setDate(d.getDate() - options.days!);
@@ -67,26 +68,25 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
   })() : undefined);
   const endDateStr = options.endDate;
 
-  // Listen for auth state changes
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUserId(session?.user?.id ?? null);
-    });
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUserId(user?.id ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
+  console.log('[DEBUG] useActivityLogs hook initialized, authLoading:', authLoading, 'userId:', session?.user?.id ?? 'none');
 
   useEffect(() => {
-    if (!userId) {
+    console.log('[DEBUG] useActivityLogs effect running, authLoading:', authLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] useActivityLogs: no session user, skipping fetch');
       setIsLoading(false);
       return;
     }
 
+    const userId = session.user.id;
+
     const fetchLogs = async () => {
       setIsLoading(true);
       try {
+        console.log('[DEBUG] useActivityLogs: fetching logs for user', userId, 'startDate:', startDateStr, 'endDate:', endDateStr);
         let query = supabase
           .from('activity_logs')
           .select('*')
@@ -104,6 +104,12 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
 
         if (fetchError) throw fetchError;
 
+        if (!data || data.length === 0) {
+          console.log('[DEBUG] useActivityLogs: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
+        } else {
+          console.log('[DEBUG] useActivityLogs: fetched', data.length, 'rows');
+        }
+
         const enrichedLogs = (data || []).map(log => ({
           ...log,
           activity_name: activityTypeNames[log.activity_type_id] || 'Unknown',
@@ -111,7 +117,7 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
 
         setLogs(enrichedLogs);
       } catch (err) {
-        console.error('Error fetching activity logs:', err);
+        console.error('[DEBUG] useActivityLogs fetch error:', err);
         setError(err as Error);
       } finally {
         setIsLoading(false);
@@ -119,7 +125,7 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
     };
 
     fetchLogs();
-  }, [userId, startDateStr, endDateStr]);
+  }, [session, authLoading, startDateStr, endDateStr]);
 
   // Group logs by date for the activity log list
   const groupedLogs = useMemo((): DayLog[] => {
@@ -164,7 +170,6 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
     let targetDate = today;
     let targetLogs = logs.filter(log => log.date === today);
 
-    // Fallback: if no logs today, use the most recent date from groupedLogs
     if (targetLogs.length === 0 && groupedLogs.length > 0) {
       targetDate = groupedLogs[0].date;
       targetLogs = logs.filter(log => log.date === targetDate);

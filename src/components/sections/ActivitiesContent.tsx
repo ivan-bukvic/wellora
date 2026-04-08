@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Footprints, Moon, Droplets, Brain, Check, Clock, PersonStanding, LucideProps } from 'lucide-react';
 import { useActivityLogs } from '@/hooks/useActivityLogs';
 import { supabase } from '@/integrations/supabase/client';
+import { useUserProfile } from '@/context/UserProfileContext';
 import DailyFlowTimeline from './DailyFlowTimeline';
 import LogActivityModal from '@/components/activities/LogActivityModal';
 
@@ -30,33 +31,51 @@ const activityColors: Record<string, { bg: string; bgMuted: string; bgActive: st
 };
 
 const ActivitiesContent = () => {
+  const { session, authLoading } = useUserProfile();
   const { groupedLogs, todayRoutine, routineDate, isLoading } = useActivityLogs();
 
-  // === DEBUG: Raw data fetch bypass ===
+  // === DEBUG: Session-aware raw data fetch ===
   useEffect(() => {
+    console.log('[DEBUG] ActivitiesContent debug probe running, authLoading:', authLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading) return;
+    if (!session?.user) {
+      console.log('[DEBUG] ActivitiesContent: no session user for debug probe');
+      return;
+    }
+
     const debugFetch = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      console.log('[DEBUG] Current user:', user?.id ?? 'NOT AUTHENTICATED');
+      const userId = session.user.id;
+      console.log('[DEBUG] ActivitiesContent: fetching raw logs for user', userId);
 
       const { data: rawLogs, error } = await supabase
         .from('activity_logs')
         .select('*')
         .limit(5);
 
-      console.log('[DEBUG] Raw activity_logs (no filter):', rawLogs, 'error:', error);
-
-      if (user) {
-        const { data: userLogs, error: userErr } = await supabase
-          .from('activity_logs')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('date', { ascending: false })
-          .limit(5);
-        console.log('[DEBUG] User-filtered logs:', userLogs, 'error:', userErr);
+      if (!rawLogs || rawLogs.length === 0) {
+        console.log('[DEBUG] ActivitiesContent raw: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
+      } else {
+        console.log('[DEBUG] ActivitiesContent raw logs (no filter):', rawLogs.length, 'rows');
       }
+      if (error) console.error('[DEBUG] ActivitiesContent raw error:', error);
+
+      const { data: userLogs, error: userErr } = await supabase
+        .from('activity_logs')
+        .select('*')
+        .eq('user_id', userId)
+        .order('date', { ascending: false })
+        .limit(5);
+
+      if (!userLogs || userLogs.length === 0) {
+        console.log('[DEBUG] ActivitiesContent user-filtered: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
+      } else {
+        console.log('[DEBUG] ActivitiesContent user-filtered logs:', userLogs.length, 'rows, dates:', userLogs.map(l => l.date));
+      }
+      if (userErr) console.error('[DEBUG] ActivitiesContent user-filtered error:', userErr);
     };
     debugFetch();
-  }, []);
+  }, [session, authLoading]);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
@@ -97,11 +116,9 @@ const ActivitiesContent = () => {
     <div className="animate-fade-in-up">
       <p className="text-muted-foreground mb-8">Track and log your daily wellness activities</p>
       
-      {/* Today's Routine - Show when we have data */}
       {!isLoading && (
         <div className="mb-8">
           <div className="grid grid-cols-2 gap-6">
-            {/* Left Column - Today's Routine Daily Flow */}
             <div className="col-span-1">
               <h2 className="text-lg font-semibold text-foreground mb-4">
                 {isShowingHistorical 
@@ -128,20 +145,15 @@ const ActivitiesContent = () => {
                                 : 'bg-muted/20 border border-border/20'
                           }`}
                         >
-                          {/* Icon - neutral background, activity color in glyph */}
                           <div className="w-10 h-10 bg-muted/40 rounded-xl flex items-center justify-center flex-shrink-0">
                             <Icon className={`w-5 h-5 ${colors.text} opacity-80`} />
                           </div>
-                          
-                          {/* Activity Name + Duration */}
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-foreground">{item.name}</p>
                             <p className="text-xs text-muted-foreground">
                               {item.duration || item.progress || 'Not logged yet'}
                             </p>
                           </div>
-                          
-                          {/* Status Indicator */}
                           <div className="flex-shrink-0">
                             {isCompleted ? (
                               <div className="w-7 h-7 rounded-full bg-success/15 flex items-center justify-center">
@@ -154,11 +166,7 @@ const ActivitiesContent = () => {
                             )}
                           </div>
                         </div>
-                        
-                        {/* Subtle spacing rhythm connector */}
-                        {index < todayRoutine.length - 1 && (
-                          <div className="h-1" />
-                        )}
+                        {index < todayRoutine.length - 1 && <div className="h-1" />}
                       </div>
                     );
                   })}
@@ -166,7 +174,6 @@ const ActivitiesContent = () => {
               </div>
             </div>
             
-            {/* Right Column - Daily Flow Timeline */}
             <div className="col-span-1">
               <h2 className="text-lg font-semibold text-foreground mb-4 opacity-0">Placeholder</h2>
               <div className="wellora-card p-0 h-[calc(100%-2rem)] overflow-hidden border-border/40">
@@ -177,10 +184,8 @@ const ActivitiesContent = () => {
         </div>
       )}
 
-      {/* Activity Cards */}
       <h2 className="text-lg font-semibold text-foreground mb-4">Available Activities</h2>
       <div className="grid grid-cols-6 gap-6">
-        {/* Row 1: Walking, Sleeping, Stretching - each spans 2 columns */}
         {activities.slice(0, 3).map((activity) => {
           const Icon = activity.icon;
           return (
@@ -203,7 +208,6 @@ const ActivitiesContent = () => {
             </div>
           );
         })}
-        {/* Row 2: Hydration, Mindfulness - each spans 3 columns */}
         {activities.slice(3, 5).map((activity) => {
           const Icon = activity.icon;
           return (
@@ -228,7 +232,6 @@ const ActivitiesContent = () => {
         })}
       </div>
 
-      {/* Recent Activity Log */}
       {!isLoading && groupedLogs.length > 0 && (
         <div className="mt-8">
           <h2 className="text-lg font-semibold text-foreground mb-4">Recent Activity Log</h2>
@@ -278,7 +281,6 @@ const ActivitiesContent = () => {
         </div>
       )}
 
-      {/* Log Activity Modal */}
       {isModalOpen && activeActivityType && (
         <LogActivityModal
           key={`${activeActivityType}-${openNonce}`}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Droplets, Brain, Footprints, Moon, PersonStanding } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLatestDataRange, getWeekDatesFor } from '@/hooks/useLatestDataRange';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
@@ -45,40 +46,51 @@ const buildPatterns = (logs: any[], weekDates: string[]) => {
 };
 
 export const WeeklyRhythmStrips = () => {
+  const { session, authLoading } = useUserProfile();
   const { latestDate, isLoading: rangeLoading } = useLatestDataRange();
   const [activityPatterns, setActivityPatterns] = useState<Record<string, boolean[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [showingHistorical, setShowingHistorical] = useState(false);
   const [historicalLabel, setHistoricalLabel] = useState('');
 
+  console.log('[DEBUG] WeeklyRhythmStrips initialized, authLoading:', authLoading, 'rangeLoading:', rangeLoading);
+
   useEffect(() => {
-    if (rangeLoading) return;
+    console.log('[DEBUG] WeeklyRhythmStrips effect, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading || rangeLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] WeeklyRhythmStrips: no session user');
+      setIsLoading(false);
+      return;
+    }
+
+    const userId = session.user.id;
 
     const fetchWeeklyData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setIsLoading(false); return; }
-
         const weekDates = getWeekDates();
         const { data: logs, error } = await supabase
           .from('activity_logs')
           .select('activity_type_id, date, completed')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .in('date', weekDates);
 
-        if (error) { console.error('Error fetching weekly data:', error); setIsLoading(false); return; }
+        if (error) { console.error('[DEBUG] WeeklyRhythmStrips error:', error); setIsLoading(false); return; }
 
         const hasData = logs && logs.length > 0;
-
         if (hasData) {
+          console.log('[DEBUG] WeeklyRhythmStrips: current week has', logs.length, 'logs');
           setActivityPatterns(buildPatterns(logs, weekDates));
           setShowingHistorical(false);
         } else if (latestDate) {
+          console.log('[DEBUG] WeeklyRhythmStrips: falling back to latestDate', latestDate);
           const fallbackWeek = getWeekDatesFor(latestDate);
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('activity_type_id, date, completed')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .in('date', fallbackWeek);
 
           if (fallbackLogs && fallbackLogs.length > 0) {
@@ -86,17 +98,21 @@ export const WeeklyRhythmStrips = () => {
             setShowingHistorical(true);
             const d = new Date(fallbackWeek[0] + 'T00:00:00');
             setHistoricalLabel(`Week of ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`);
+          } else {
+            console.log('[DEBUG] WeeklyRhythmStrips: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
           }
+        } else {
+          console.log('[DEBUG] WeeklyRhythmStrips: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
         }
       } catch (err) {
-        console.error('Error in weekly rhythm fetch:', err);
+        console.error('[DEBUG] WeeklyRhythmStrips fetch error:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchWeeklyData();
-  }, [latestDate, rangeLoading]);
+  }, [session, authLoading, latestDate, rangeLoading]);
 
   return (
     <div className="bg-card/60 border border-border/30 rounded-2xl p-4 animate-fade-in-up">
