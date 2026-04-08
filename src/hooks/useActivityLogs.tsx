@@ -49,20 +49,21 @@ interface UseActivityLogsOptions {
   endDate?: string;   // YYYY-MM-DD
 }
 
-export const useActivityLogs = (optionsOrDays: number | UseActivityLogsOptions = 30) => {
+export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions) => {
   const options: UseActivityLogsOptions = typeof optionsOrDays === 'number' 
     ? { days: optionsOrDays } 
-    : optionsOrDays;
+    : (optionsOrDays ?? {});
 
   const [logs, setLogs] = useState<ActivityLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const startDateStr = options.startDate ?? (() => {
+  // If days or startDate is provided, compute a start date filter; otherwise fetch all
+  const startDateStr = options.startDate ?? (options.days != null ? (() => {
     const d = new Date();
-    d.setDate(d.getDate() - (options.days ?? 30));
+    d.setDate(d.getDate() - options.days!);
     return d.toISOString().split('T')[0];
-  })();
+  })() : undefined);
   const endDateStr = options.endDate;
 
   useEffect(() => {
