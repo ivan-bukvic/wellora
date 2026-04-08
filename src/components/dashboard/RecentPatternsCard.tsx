@@ -2,6 +2,7 @@ import { Moon, Droplets, Brain } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLatestDataRange, getSevenDaysEndingAt } from '@/hooks/useLatestDataRange';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 const ACTIVITY_TYPE_IDS = {
   sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
@@ -52,55 +53,72 @@ const analyzePatterns = (logs: any[]): Pattern[] => {
 };
 
 export const RecentPatternsCard = () => {
+  const { session, authLoading } = useUserProfile();
   const { latestDate, isLoading: rangeLoading } = useLatestDataRange();
   const [patterns, setPatterns] = useState<Pattern[]>(defaultPatterns);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log('[DEBUG] RecentPatternsCard initialized, authLoading:', authLoading, 'rangeLoading:', rangeLoading);
+
   useEffect(() => {
-    if (rangeLoading) return;
+    console.log('[DEBUG] RecentPatternsCard effect, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading || rangeLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] RecentPatternsCard: no session user');
+      setIsLoading(false);
+      return;
+    }
+
+    const userId = session.user.id;
 
     const fetchPatterns = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setIsLoading(false); return; }
-
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         
         const { data: logs, error } = await supabase
           .from('activity_logs')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .gte('date', sevenDaysAgo.toISOString().split('T')[0])
           .eq('completed', true);
 
-        if (error) { console.error('Error fetching patterns:', error); setIsLoading(false); return; }
+        if (error) { console.error('[DEBUG] RecentPatternsCard error:', error); setIsLoading(false); return; }
 
         let activeLogs = logs || [];
 
         if (activeLogs.length === 0 && latestDate) {
+          console.log('[DEBUG] RecentPatternsCard: falling back to latestDate', latestDate);
           const fallbackStart = getSevenDaysEndingAt(latestDate);
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('*')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .gte('date', fallbackStart)
             .lte('date', latestDate)
             .eq('completed', true);
           activeLogs = fallbackLogs || [];
         }
 
+        if (activeLogs.length === 0) {
+          console.log('[DEBUG] RecentPatternsCard: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
+        } else {
+          console.log('[DEBUG] RecentPatternsCard: processing', activeLogs.length, 'logs');
+        }
+
         const newPatterns = analyzePatterns(activeLogs);
         setPatterns(newPatterns.length > 0 ? newPatterns : defaultPatterns);
       } catch (err) {
-        console.error('Error in patterns fetch:', err);
+        console.error('[DEBUG] RecentPatternsCard fetch error:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchPatterns();
-  }, [latestDate, rangeLoading]);
+  }, [session, authLoading, latestDate, rangeLoading]);
 
   return (
     <div className="wellora-card animate-fade-in-up stagger-1">

@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLatestDataRange, getWeekDatesFor } from '@/hooks/useLatestDataRange';
+import { useUserProfile } from '@/context/UserProfileContext';
 
-// Gentle wave data representing daily rhythm
 interface DayData {
   day: string;
   flow: number;
   rest: number;
 }
 
-// Activity type IDs
 const ACTIVITY_TYPE_IDS = {
   walking: '038a9c76-4848-48a9-8245-2d2fefe85711',
   sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
@@ -20,13 +19,11 @@ const ACTIVITY_TYPE_IDS = {
 
 const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-// Get dates for the current week (Monday to Sunday)
 const getWeekDates = () => {
   const today = new Date();
   const dayOfWeek = today.getDay();
   const monday = new Date(today);
   monday.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
-  
   return Array.from({ length: 7 }, (_, i) => {
     const date = new Date(monday);
     date.setDate(monday.getDate() + i);
@@ -37,17 +34,14 @@ const getWeekDates = () => {
 const computeWeekData = (logs: any[], weekDates: string[]): DayData[] => {
   return weekDates.map((date, index) => {
     const dayLogs = logs?.filter(l => l.date === date) || [];
-    
     const walkingLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.walking);
     const stretchingLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.stretching);
     const mindfulnessLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.mindfulness);
     const sleepLog = dayLogs.find(l => l.activity_type_id === ACTIVITY_TYPE_IDS.sleeping);
-    
     let flowScore = 0.3;
     if (walkingLog) flowScore += 0.25;
     if (stretchingLog) flowScore += 0.2;
     if (mindfulnessLog) flowScore += 0.25;
-    
     let restScore = 0.3;
     if (sleepLog?.sleep_duration_hours) {
       const hours = sleepLog.sleep_duration_hours;
@@ -56,56 +50,57 @@ const computeWeekData = (logs: any[], weekDates: string[]): DayData[] => {
       else if (hours >= 6) restScore = 0.6;
       else restScore = 0.4;
     }
-
-    return {
-      day: dayNames[index],
-      flow: Math.min(flowScore, 1),
-      rest: restScore,
-    };
+    return { day: dayNames[index], flow: Math.min(flowScore, 1), rest: restScore };
   });
 };
 
 export const WeeklyRhythmChart = () => {
+  const { session, authLoading } = useUserProfile();
   const { latestDate, isLoading: rangeLoading } = useLatestDataRange();
-  const [weekData, setWeekData] = useState<DayData[]>(
-    dayNames.map(day => ({ day, flow: 0.5, rest: 0.5 }))
-  );
+  const [weekData, setWeekData] = useState<DayData[]>(dayNames.map(day => ({ day, flow: 0.5, rest: 0.5 })));
   const [isLoading, setIsLoading] = useState(true);
   const [showingHistorical, setShowingHistorical] = useState(false);
   const [historicalLabel, setHistoricalLabel] = useState('');
 
+  console.log('[DEBUG] WeeklyRhythmChart initialized, authLoading:', authLoading, 'rangeLoading:', rangeLoading);
+
   useEffect(() => {
-    if (rangeLoading) return;
+    console.log('[DEBUG] WeeklyRhythmChart effect, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading || rangeLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] WeeklyRhythmChart: no session user');
+      setIsLoading(false);
+      return;
+    }
+
+    const userId = session.user.id;
 
     const fetchWeeklyData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setIsLoading(false); return; }
-
-        // Try current week first
         const weekDates = getWeekDates();
-        
         const { data: logs, error } = await supabase
           .from('activity_logs')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .in('date', weekDates)
           .eq('completed', true);
 
-        if (error) { console.error('Error fetching weekly data:', error); setIsLoading(false); return; }
+        if (error) { console.error('[DEBUG] WeeklyRhythmChart error:', error); setIsLoading(false); return; }
 
         const hasCurrentData = logs && logs.length > 0;
-
         if (hasCurrentData) {
+          console.log('[DEBUG] WeeklyRhythmChart: current week has', logs.length, 'logs');
           setWeekData(computeWeekData(logs, weekDates));
           setShowingHistorical(false);
         } else if (latestDate) {
-          // Fallback to the week containing the latest data
+          console.log('[DEBUG] WeeklyRhythmChart: falling back to latestDate', latestDate);
           const fallbackWeek = getWeekDatesFor(latestDate);
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('*')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .in('date', fallbackWeek)
             .eq('completed', true);
 
@@ -114,17 +109,21 @@ export const WeeklyRhythmChart = () => {
             setShowingHistorical(true);
             const d = new Date(fallbackWeek[0] + 'T00:00:00');
             setHistoricalLabel(`Week of ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`);
+          } else {
+            console.log('[DEBUG] WeeklyRhythmChart: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
           }
+        } else {
+          console.log('[DEBUG] WeeklyRhythmChart: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
         }
       } catch (err) {
-        console.error('Error in weekly rhythm fetch:', err);
+        console.error('[DEBUG] WeeklyRhythmChart fetch error:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchWeeklyData();
-  }, [latestDate, rangeLoading]);
+  }, [session, authLoading, latestDate, rangeLoading]);
   
   const chartWidth = 320;
   const chartHeight = 160;
@@ -137,7 +136,6 @@ export const WeeklyRhythmChart = () => {
       x: padding.left + (i / (data.length - 1)) * innerWidth,
       y: padding.top + innerHeight - d[key] * innerHeight,
     }));
-    
     let path = `M ${points[0].x} ${points[0].y}`;
     for (let i = 0; i < points.length - 1; i++) {
       const current = points[i];

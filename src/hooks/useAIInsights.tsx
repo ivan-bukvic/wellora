@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLatestDataRange, getSevenDaysEndingAt } from '@/hooks/useLatestDataRange';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 export interface AIInsightData {
   heroInsight: string;
@@ -34,63 +35,79 @@ const ACTIVITY_TYPE_IDS = {
 };
 
 export const useAIInsights = () => {
+  const { session, authLoading } = useUserProfile();
   const { latestDate, isLoading: rangeLoading } = useLatestDataRange();
   const [data, setData] = useState<AIInsightData>(FALLBACK_DATA);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.log('[DEBUG] useAIInsights hook initialized, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
+
   useEffect(() => {
-    if (rangeLoading) return;
+    console.log('[DEBUG] useAIInsights effect running, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading || rangeLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] useAIInsights: no session user, using fallback');
+      setData(FALLBACK_DATA);
+      setIsLoading(false);
+      return;
+    }
+
+    const userId = session.user.id;
 
     const fetchInsights = async () => {
       setIsLoading(true);
       setError(null);
 
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setData(FALLBACK_DATA); setIsLoading(false); return; }
-
-        // Try last 7 days first
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         
         let { data: logs, error: logsError } = await supabase
           .from('activity_logs')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .gte('date', sevenDaysAgo.toISOString().split('T')[0])
           .order('date', { ascending: false });
 
-        if (logsError) { console.error('Error fetching activity logs:', logsError); setData(FALLBACK_DATA); setIsLoading(false); return; }
+        if (logsError) { console.error('[DEBUG] useAIInsights logs error:', logsError); setData(FALLBACK_DATA); setIsLoading(false); return; }
 
-        // Fallback to latest data range if current week is empty
         if ((!logs || logs.length === 0) && latestDate) {
+          console.log('[DEBUG] useAIInsights: no recent logs, falling back to latestDate', latestDate);
           const fallbackStart = getSevenDaysEndingAt(latestDate);
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('*')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .gte('date', fallbackStart)
             .lte('date', latestDate)
             .order('date', { ascending: false });
           logs = fallbackLogs || [];
         }
 
-        const activityData = processLogsForInsight(logs || [], user.email || 'User');
+        if (!logs || logs.length === 0) {
+          console.log('[DEBUG] useAIInsights: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
+        } else {
+          console.log('[DEBUG] useAIInsights: processing', logs.length, 'logs');
+        }
+
+        const activityData = processLogsForInsight(logs || [], session.user.email || 'User');
 
         const { data: responseData, error: fnError } = await supabase.functions.invoke('weekly-ai-insight', {
           body: activityData
         });
 
         if (fnError) {
-          console.error('AI insight fetch error:', fnError);
+          console.error('[DEBUG] useAIInsights edge function error:', fnError);
           setData(generateLocalInsights(logs || []));
           return;
         }
 
         setData(responseData || generateLocalInsights(logs || []));
       } catch (err) {
-        console.error('AI insight error:', err);
+        console.error('[DEBUG] useAIInsights error:', err);
         setError('Failed to load insights');
         setData(FALLBACK_DATA);
       } finally {
@@ -99,7 +116,7 @@ export const useAIInsights = () => {
     };
 
     fetchInsights();
-  }, [latestDate, rangeLoading]);
+  }, [session, authLoading, latestDate, rangeLoading]);
 
   const currentMicroCopy = data?.microCopyCandidates?.[
     Math.floor(Date.now() / 60000) % (data?.microCopyCandidates?.length || 1)
@@ -109,7 +126,6 @@ export const useAIInsights = () => {
 };
 
 function processLogsForInsight(logs: any[], userName: string) {
-  // Derive the date range from the actual logs
   const logDates = logs.map(l => l.date).sort();
   const uniqueDates = [...new Set(logDates)];
   const days = uniqueDates.length > 0

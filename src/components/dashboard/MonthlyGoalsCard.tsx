@@ -3,6 +3,7 @@ import { Target, Moon, Droplets, Brain, Footprints, PersonStanding } from 'lucid
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useLatestDataRange } from '@/hooks/useLatestDataRange';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 const ACTIVITY_TYPE_IDS = {
   sleeping: 'e74434f7-3f12-4854-a66f-493f0fc1cb28',
@@ -54,37 +55,48 @@ const computeGoals = (logs: any[]): Goal[] => {
 };
 
 export const MonthlyGoalsCard = () => {
+  const { session, authLoading } = useUserProfile();
   const { latestDate, latestMonthStart, isLoading: rangeLoading } = useLatestDataRange();
   const [goals, setGoals] = useState(goalConfig);
   const [isLoading, setIsLoading] = useState(true);
   const [showingHistorical, setShowingHistorical] = useState(false);
   const [historicalLabel, setHistoricalLabel] = useState('');
 
+  console.log('[DEBUG] MonthlyGoalsCard initialized, authLoading:', authLoading, 'rangeLoading:', rangeLoading);
+
   useEffect(() => {
-    if (rangeLoading) return;
+    console.log('[DEBUG] MonthlyGoalsCard effect, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading || rangeLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] MonthlyGoalsCard: no session user');
+      setIsLoading(false);
+      return;
+    }
+
+    const userId = session.user.id;
 
     const fetchGoalsData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setIsLoading(false); return; }
-
         const now = new Date();
         const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
         
         const { data: logs, error } = await supabase
           .from('activity_logs')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .gte('date', monthStart.toISOString().split('T')[0])
           .eq('completed', true);
 
-        if (error) { console.error('Error fetching goals data:', error); setIsLoading(false); return; }
+        if (error) { console.error('[DEBUG] MonthlyGoalsCard error:', error); setIsLoading(false); return; }
 
         if (logs && logs.length > 0) {
+          console.log('[DEBUG] MonthlyGoalsCard: current month has', logs.length, 'logs');
           setGoals(computeGoals(logs));
           setShowingHistorical(false);
         } else if (latestMonthStart && latestDate) {
-          // Fallback to the month containing the latest data
+          console.log('[DEBUG] MonthlyGoalsCard: falling back to latestMonthStart', latestMonthStart);
           const fallbackEnd = new Date(latestDate + 'T00:00:00');
           const lastDayOfMonth = new Date(fallbackEnd.getFullYear(), fallbackEnd.getMonth() + 1, 0);
           const endStr = lastDayOfMonth.toISOString().split('T')[0];
@@ -92,7 +104,7 @@ export const MonthlyGoalsCard = () => {
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('*')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .gte('date', latestMonthStart)
             .lte('date', endStr)
             .eq('completed', true);
@@ -102,17 +114,21 @@ export const MonthlyGoalsCard = () => {
             setShowingHistorical(true);
             const d = new Date(latestMonthStart + 'T00:00:00');
             setHistoricalLabel(d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }));
+          } else {
+            console.log('[DEBUG] MonthlyGoalsCard: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
           }
+        } else {
+          console.log('[DEBUG] MonthlyGoalsCard: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
         }
       } catch (err) {
-        console.error('Error in goals fetch:', err);
+        console.error('[DEBUG] MonthlyGoalsCard fetch error:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchGoalsData();
-  }, [latestDate, latestMonthStart, rangeLoading]);
+  }, [session, authLoading, latestDate, latestMonthStart, rangeLoading]);
 
   return (
     <div className="wellora-card animate-fade-in-up stagger-3 h-[280px] flex flex-col">

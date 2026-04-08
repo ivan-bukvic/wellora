@@ -3,6 +3,7 @@ import { Sparkles, Footprints, Moon, Brain } from 'lucide-react';
 import { useAIInsights } from '@/hooks/useAIInsights';
 import { supabase } from '@/integrations/supabase/client';
 import { useLatestDataRange, getSevenDaysEndingAt } from '@/hooks/useLatestDataRange';
+import { useUserProfile } from '@/context/UserProfileContext';
 
 const ACTIVITY_TYPE_IDS = {
   walking: '038a9c76-4848-48a9-8245-2d2fefe85711',
@@ -14,7 +15,6 @@ const SoftProgressRing = ({ progress }: { progress: number }) => {
   const radius = 28;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (progress / 100) * circumference;
-
   return (
     <div className="relative w-16 h-16 flex-shrink-0">
       <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
@@ -34,7 +34,6 @@ const BalanceIcons = ({ active = true }: { active?: boolean }) => {
     { icon: Moon, label: 'Rest' },
     { icon: Brain, label: 'Mindfulness' },
   ];
-
   return (
     <div className="flex items-center gap-3">
       {activities.map(({ icon: Icon, label }) => (
@@ -53,7 +52,6 @@ const ConsistencyCard = ({ consistencyLevel }: { consistencyLevel: number }) => 
     if (consistencyLevel >= 50) return "You're building consistency this week";
     return "Your rhythm is taking shape";
   };
-
   return (
     <div className="flex-1 p-5 rounded-2xl bg-muted/40 border border-border">
       <div className="flex items-start gap-4">
@@ -80,6 +78,7 @@ const BalanceCard = ({ hasBalance }: { hasBalance: boolean }) => {
 };
 
 export const TotalActivityCard = () => {
+  const { session, authLoading } = useUserProfile();
   const { currentMicroCopy } = useAIInsights();
   const { latestDate, isLoading: rangeLoading } = useLatestDataRange();
   const [consistencyLevel, setConsistencyLevel] = useState(65);
@@ -87,42 +86,57 @@ export const TotalActivityCard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showingHistorical, setShowingHistorical] = useState(false);
 
+  console.log('[DEBUG] TotalActivityCard initialized, authLoading:', authLoading, 'rangeLoading:', rangeLoading);
+
   useEffect(() => {
-    if (rangeLoading) return;
+    console.log('[DEBUG] TotalActivityCard effect, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
+
+    if (authLoading || rangeLoading) return;
+
+    if (!session?.user) {
+      console.log('[DEBUG] TotalActivityCard: no session user');
+      setIsLoading(false);
+      return;
+    }
+
+    const userId = session.user.id;
 
     const fetchActivityData = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { setIsLoading(false); return; }
-
-        // Try last 7 days
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         
         const { data: logs, error } = await supabase
           .from('activity_logs')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', userId)
           .gte('date', sevenDaysAgo.toISOString().split('T')[0])
           .eq('completed', true);
 
-        if (error) { console.error('Error fetching activity data:', error); setIsLoading(false); return; }
+        if (error) { console.error('[DEBUG] TotalActivityCard error:', error); setIsLoading(false); return; }
 
         let activeLogs = logs;
         let historical = false;
 
         if ((!logs || logs.length === 0) && latestDate) {
+          console.log('[DEBUG] TotalActivityCard: falling back to latestDate', latestDate);
           const fallbackStart = getSevenDaysEndingAt(latestDate);
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('*')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .gte('date', fallbackStart)
             .lte('date', latestDate)
             .eq('completed', true);
 
           activeLogs = fallbackLogs || [];
           historical = true;
+        }
+
+        if (!activeLogs || activeLogs.length === 0) {
+          console.log('[DEBUG] TotalActivityCard: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
+        } else {
+          console.log('[DEBUG] TotalActivityCard: processing', activeLogs.length, 'logs');
         }
 
         const uniqueDays = new Set(activeLogs?.map(l => l.date) || []);
@@ -135,14 +149,14 @@ export const TotalActivityCard = () => {
         setHasBalance((hasWalking && hasSleep) || (hasSleep && hasMindfulness) || (hasWalking && hasMindfulness));
         setShowingHistorical(historical);
       } catch (err) {
-        console.error('Error in activity data fetch:', err);
+        console.error('[DEBUG] TotalActivityCard fetch error:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchActivityData();
-  }, [latestDate, rangeLoading]);
+  }, [session, authLoading, latestDate, rangeLoading]);
 
   return (
     <div className="wellora-card animate-fade-in-up stagger-1">
