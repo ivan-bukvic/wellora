@@ -120,37 +120,45 @@ const formatTimeOfDay = (hour: number): string => {
 const DailyFlowTimeline = () => {
   const [todayFlow, setTodayFlow] = useState<FlowActivity[]>(defaultFlow);
   const [isLoading, setIsLoading] = useState(true);
+  const [flowDate, setFlowDate] = useState<string | null>(null);
   const timelineY = 40;
   
   useEffect(() => {
     const fetchTodayFlow = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        
-        if (!user) {
-          setIsLoading(false);
-          return;
-        }
+        if (!user) { setIsLoading(false); return; }
 
         const today = new Date().toISOString().split('T')[0];
         
-        const { data: logs, error } = await supabase
+        let { data: logs, error } = await supabase
           .from('activity_logs')
           .select('*')
           .eq('user_id', user.id)
           .eq('date', today);
 
-        if (error) {
-          console.error('Error fetching today flow:', error);
-          setIsLoading(false);
-          return;
+        if (error) { console.error('Error fetching today flow:', error); setIsLoading(false); return; }
+
+        // Fallback: if no logs today, fetch the most recent date's logs
+        if (!logs || logs.length === 0) {
+          const { data: recentLogs, error: recentError } = await supabase
+            .from('activity_logs')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('date', { ascending: false })
+            .limit(10);
+
+          if (!recentError && recentLogs && recentLogs.length > 0) {
+            const latestDate = recentLogs[0].date;
+            logs = recentLogs.filter(l => l.date === latestDate);
+            setFlowDate(latestDate);
+          }
         }
 
         if (logs && logs.length > 0) {
           const flowActivities: FlowActivity[] = logs.map((log, index) => {
             const name = getActivityName(log.activity_type_id);
             const hourOfDay = getActivityHour(name, index);
-            
             return {
               name,
               time: formatTimeOfDay(hourOfDay),
@@ -159,8 +167,6 @@ const DailyFlowTimeline = () => {
               hourOfDay,
             };
           });
-
-          // Sort by hour of day
           flowActivities.sort((a, b) => a.hourOfDay - b.hourOfDay);
           setTodayFlow(flowActivities);
         }
