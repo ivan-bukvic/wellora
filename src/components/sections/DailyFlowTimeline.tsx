@@ -184,7 +184,9 @@ const DailyFlowTimeline = () => {
     <div className="relative w-full h-full min-h-[280px] rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.03), hsl(var(--background)), hsl(var(--primary) / 0.02))' }}>
       {/* Header */}
       <div className="px-6 pt-5 pb-3">
-        <h3 className="text-base font-semibold text-foreground">Today's Flow</h3>
+        <h3 className="text-base font-semibold text-foreground">
+          {flowDate ? `Last recorded: ${new Date(flowDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : "Today's Flow"}
+        </h3>
         <p className="text-xs text-muted-foreground mt-0.5">
           A gentle timeline of how your day unfolded
         </p>
