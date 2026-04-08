@@ -63,6 +63,8 @@ const ActivitiesContent = () => {
   };
 
   const hasRoutineData = todayRoutine.some(item => item.completed || item.progress);
+  const today = new Date().toISOString().split('T')[0];
+  const isShowingHistorical = routineDate !== today && hasRoutineData;
 
   return (
     <div className="animate-fade-in-up">
