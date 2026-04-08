@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, Footprints, Moon, PersonStanding, Droplets, Brain } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useActivityLogs } from '@/hooks/useActivityLogs';
+import { useLatestDataRange } from '@/hooks/useLatestDataRange';
 
 // Activity icon mapping
 const activityIcons: Record<string, React.ElementType> = {
@@ -155,6 +156,8 @@ CalendarDayCard.displayName = 'CalendarDayCard';
 
 const CalendarContent = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [hasAutoNavigated, setHasAutoNavigated] = useState(false);
+  const { latestDate, isLoading: rangeLoading } = useLatestDataRange();
 
   // Compute the viewed month's full date range
   const year = currentDate.getFullYear();
@@ -164,6 +167,17 @@ const CalendarContent = () => {
   const endDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
 
   const { calendarData, completedActivitiesMap, isLoading } = useActivityLogs({ startDate, endDate });
+
+  // Auto-navigate to the month containing the latest data if current month is empty
+  useEffect(() => {
+    if (hasAutoNavigated || rangeLoading || isLoading) return;
+    const hasDataThisMonth = Object.keys(calendarData).length > 0;
+    if (!hasDataThisMonth && latestDate) {
+      const d = new Date(latestDate + 'T00:00:00');
+      setCurrentDate(new Date(d.getFullYear(), d.getMonth(), 1));
+    }
+    setHasAutoNavigated(true);
+  }, [calendarData, latestDate, rangeLoading, isLoading, hasAutoNavigated]);
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                       'July', 'August', 'September', 'October', 'November', 'December'];

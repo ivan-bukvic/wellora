@@ -29,7 +29,7 @@ const activityColors: Record<string, { bg: string; bgMuted: string; bgActive: st
 };
 
 const ActivitiesContent = () => {
-  const { groupedLogs, todayRoutine, isLoading } = useActivityLogs();
+  const { groupedLogs, todayRoutine, routineDate, isLoading } = useActivityLogs();
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
@@ -63,6 +63,8 @@ const ActivitiesContent = () => {
   };
 
   const hasRoutineData = todayRoutine.some(item => item.completed || item.progress);
+  const today = new Date().toISOString().split('T')[0];
+  const isShowingHistorical = routineDate !== today && hasRoutineData;
 
   return (
     <div className="animate-fade-in-up">
@@ -74,7 +76,12 @@ const ActivitiesContent = () => {
           <div className="grid grid-cols-2 gap-6">
             {/* Left Column - Today's Routine Daily Flow */}
             <div className="col-span-1">
-              <h2 className="text-lg font-semibold text-foreground mb-4">Today's Routine</h2>
+              <h2 className="text-lg font-semibold text-foreground mb-4">
+                {isShowingHistorical 
+                  ? `Last Recorded Activity · ${new Date(routineDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                  : "Today's Routine"
+                }
+              </h2>
               <div className="wellora-card p-5" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.025), hsl(var(--primary) / 0.015))', borderColor: 'hsl(var(--primary) / 0.12)' }}>
                 <div className="space-y-3">
                   {todayRoutine.map((item, index) => {
