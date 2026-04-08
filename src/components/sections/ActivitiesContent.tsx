@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Footprints, Moon, Droplets, Brain, Check, Clock, PersonStanding, LucideProps } from 'lucide-react';
 import { useActivityLogs } from '@/hooks/useActivityLogs';
+import { supabase } from '@/integrations/supabase/client';
 import DailyFlowTimeline from './DailyFlowTimeline';
 import LogActivityModal from '@/components/activities/LogActivityModal';
 
@@ -30,6 +31,32 @@ const activityColors: Record<string, { bg: string; bgMuted: string; bgActive: st
 
 const ActivitiesContent = () => {
   const { groupedLogs, todayRoutine, routineDate, isLoading } = useActivityLogs();
+
+  // === DEBUG: Raw data fetch bypass ===
+  useEffect(() => {
+    const debugFetch = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      console.log('[DEBUG] Current user:', user?.id ?? 'NOT AUTHENTICATED');
+
+      const { data: rawLogs, error } = await supabase
+        .from('activity_logs')
+        .select('*')
+        .limit(5);
+
+      console.log('[DEBUG] Raw activity_logs (no filter):', rawLogs, 'error:', error);
+
+      if (user) {
+        const { data: userLogs, error: userErr } = await supabase
+          .from('activity_logs')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('date', { ascending: false })
+          .limit(5);
+        console.log('[DEBUG] User-filtered logs:', userLogs, 'error:', userErr);
+      }
+    };
+    debugFetch();
+  }, []);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeActivityType, setActiveActivityType] = useState<string | null>(null);
