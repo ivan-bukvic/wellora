@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, Footprints, Moon, PersonStanding, Droplets, Brain } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useActivityLogs } from '@/hooks/useActivityLogs';
+import { useLatestDataRange } from '@/hooks/useLatestDataRange';
 
 // Activity icon mapping
 const activityIcons: Record<string, React.ElementType> = {
