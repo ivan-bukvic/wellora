@@ -221,6 +221,7 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
     logs,
     groupedLogs,
     todayRoutine,
+    routineDate,
     calendarData,
     completedActivitiesMap,
     isLoading,
