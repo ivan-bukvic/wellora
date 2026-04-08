@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Footprints, Moon, Droplets, Brain, Check, Clock, PersonStanding, LucideProps } from 'lucide-react';
 import { useActivityLogs } from '@/hooks/useActivityLogs';
+import { supabase } from '@/integrations/supabase/client';
 import DailyFlowTimeline from './DailyFlowTimeline';
 import LogActivityModal from '@/components/activities/LogActivityModal';
 
