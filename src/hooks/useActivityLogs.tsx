@@ -78,8 +78,11 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
 
         let query = supabase
           .from('activity_logs')
-          .select('*')
-          .gte('date', startDateStr);
+          .select('*');
+
+        if (startDateStr) {
+          query = query.gte('date', startDateStr);
+        }
 
         if (endDateStr) {
           query = query.lte('date', endDateStr);
