@@ -1,77 +1,75 @@
 
+Goal: make every data fetch run only after auth is ready, so fallback logic can actually execute and debug logs always appear.
 
-## Plan: Make Historical Data Always Visible
+What I found:
+- `UserProfileContext` already owns the real auth state (`session`, `authLoading`).
+- `useLatestDataRange`, `useActivityLogs`, and `DailyFlowTimeline` still create their own auth listeners or call `getUser()` locally.
+- Several dashboard fetchers (`useAIInsights`, `WeeklyRhythmChart`, `WeeklyRhythmStrips`, `TotalActivityCard`, `RecentPatternsCard`, `MonthlyGoalsCard`) only depend on `rangeLoading`/`latestDate`, then call `supabase.auth.getUser()` inside the effect. If auth is not restored yet, they return once and may never retry at the right time.
+- That explains the current symptom: no reliable fetch after login, so no logs and empty UI.
 
-The demo dataset covers January 1–21, 2026. All dashboard cards, the activities page, and the calendar hardcode date ranges relative to "today," so they appear empty when no recent data exists.
+Implementation plan
 
-### Strategy
+1. Standardize auth dependency
+- Update every data-fetching hook/component to read `session` and `authLoading` from `useUserProfile()`.
+- Stop using local `onAuthStateChange` / `getUser()` for these fetches.
+- Keep authentication logic untouched; only consume the existing shared auth state.
 
-Instead of removing time-based logic (which would break the semantic meaning of "weekly rhythm" or "monthly goals"), we add **smart fallback**: detect when the current time window has no data, then shift the window to the most recent period that does have data.
+2. Fix core hooks first
+- `src/hooks/useLatestDataRange.tsx`
+  - Add `console.log('[DEBUG] useLatestDataRange hook initialized')` at top.
+  - Replace local `userId` auth listener logic with `const { session, authLoading } = useUserProfile()`.
+  - Move fetch into `fetchLatestData()` and run it from:
+    `useEffect(() => { if (authLoading || !session?.user) return; fetchLatestData(); }, [session, authLoading])`
+  - Log before querying, and log query results / empty-result reason.
+- `src/hooks/useActivityLogs.tsx`
+  - Same pattern: use shared `session`, not local auth state.
+  - Trigger fetch from `[session, authLoading, startDateStr, endDateStr]`.
+  - Add guaranteed top-level debug log plus logs inside fetch.
+  - Ensure logs still sort newest first and existing fallback display behavior remains.
 
-### Changes
+3. Fix component-level fetchers that currently race auth
+- Update these files to use `useUserProfile()` and rerun fetches when `session` becomes available:
+  - `src/hooks/useAIInsights.tsx`
+  - `src/components/sections/DailyFlowTimeline.tsx`
+  - `src/components/dashboard/WeeklyRhythmChart.tsx`
+  - `src/components/dashboard/WeeklyRhythmStrips.tsx`
+  - `src/components/dashboard/TotalActivityCard.tsx`
+  - `src/components/dashboard/RecentPatternsCard.tsx`
+  - `src/components/dashboard/MonthlyGoalsCard.tsx`
+- Each effect should follow the same pattern:
+  - log initialization
+  - `if (authLoading) return`
+  - `if (!session?.user) { log no session; set non-loading state if needed; return }`
+  - call fetch function
+- Effect deps should include `session`, `authLoading`, plus existing date-range inputs (`latestDate`, `latestMonthStart`, `rangeLoading`, etc.).
 
-#### 1. New utility: find the most recent data window
-**File: `src/hooks/useLatestDataRange.tsx`** (new)
+4. Make debug logs guaranteed
+- Move all debug logs above early returns so they always fire when the hook/component runs.
+- Add logs for:
+  - hook/component initialized
+  - auth state seen (`authLoading`, `session?.user?.id`)
+  - fetch started
+  - query returned row count / empty result
+  - query error
 
-A small hook that queries the user's most recent `activity_log` date (`order by date desc limit 1`). Returns `{ latestDate, latestWeekDates, latestMonthStart }` so all components can fall back to the correct period. Single query, shared via React context or called independently.
+5. Clean up the temporary Activities debug probe
+- `src/components/sections/ActivitiesContent.tsx`
+  - Change the temporary raw debug effect to also depend on shared `session`/`authLoading`, so it runs after login.
+  - Keep it temporary for diagnosis, or remove it once the main hooks are confirmed working.
 
-#### 2. Dashboard — WeeklyRhythmChart
-**File: `src/components/dashboard/WeeklyRhythmChart.tsx`**
+6. Preserve existing UI behavior
+- No styling/layout changes.
+- No auth flow changes.
+- No backend/schema changes.
+- Fallback behavior remains the same; this fix only makes the fetches actually execute at the right time.
 
-- After fetching current-week data, if all logs are empty, re-fetch using the week containing `latestDate` from the hook.
-- Update the day labels to reflect the actual week shown.
-- Add a subtle label like "Week of Jan 13" when showing historical data.
+Technical notes
+- Main rule to apply everywhere:
+  `useEffect(() => { if (authLoading || !session?.user) return; fetchData(); }, [session, authLoading, ...otherDeps])`
+- `CalendarContent` should not need special auth work once `useLatestDataRange` and `useActivityLogs` are fixed, because it already depends on those hooks.
+- This is a frontend timing fix, not a table/RLS redesign.
 
-#### 3. Dashboard — WeeklyRhythmStrips  
-**File: `src/components/dashboard/WeeklyRhythmStrips.tsx`**
-
-- Same pattern: fall back to the week containing the latest data if current week is empty.
-
-#### 4. Dashboard — TotalActivityCard
-**File: `src/components/dashboard/TotalActivityCard.tsx`**
-
-- Change the 7-day window: if no completed logs in the last 7 days, query the 7 days ending at `latestDate`.
-
-#### 5. Dashboard — RecentPatternsCard
-**File: `src/components/dashboard/RecentPatternsCard.tsx`**
-
-- Same fallback: use the 7 days ending at the most recent log date.
-
-#### 6. Dashboard — MonthlyGoalsCard
-**File: `src/components/dashboard/MonthlyGoalsCard.tsx`**
-
-- If current month has no data, use the month containing `latestDate`.
-
-#### 7. Dashboard — useAIInsights
-**File: `src/hooks/useAIInsights.tsx`**
-
-- Fall back to the 7 days ending at the latest log date when recent data is empty.
-
-#### 8. Activities — todayRoutine fallback
-**File: `src/hooks/useActivityLogs.tsx`**
-
-- In `todayRoutine` memo: if no logs exist for today, use the most recent date that has logs (from `groupedLogs[0].date`). Return that data instead, adding a `routineDate` field to indicate which date is shown.
-
-#### 9. Activities — DailyFlowTimeline
-**File: `src/components/sections/DailyFlowTimeline.tsx`**
-
-- If `.eq('date', today)` returns no rows, do a second query: fetch logs for the most recent date (`order by date desc limit 5`).
-- Update the header to show "Last recorded: Jan 18" instead of "Today's Flow" when showing historical data.
-
-#### 10. Activities — ActivitiesContent
-**File: `src/components/sections/ActivitiesContent.tsx`**
-
-- Use the new `routineDate` from the hook. When showing fallback data, change the heading from "Today's Routine" to "Last Recorded Activity · Jan 18".
-
-#### 11. Calendar — auto-navigate to data
-**File: `src/components/sections/CalendarContent.tsx`**
-
-- On mount, if the current month has no data in `calendarData`, set `currentDate` to the month of `latestDate` (e.g., January 2026).
-
-### Technical details
-
-- **`useLatestDataRange` hook** performs one lightweight query: `select date from activity_logs where user_id = $uid order by date desc limit 1`. From the returned date, it computes the fallback week (Mon–Sun) and fallback month start.
-- Each dashboard card will first attempt its normal query. If results are empty, it re-queries using the fallback range. This avoids changing behavior when the user does have current data.
-- No styling, layout, or auth changes.
-- No backend query changes.
-
+Expected result after implementation
+- Debug logs appear consistently after login.
+- `useLatestDataRange` resolves a real `latestDate` whenever the user has historical logs.
+- Dashboard, Activities, and Calendar fallback logic finally runs using historical data instead of staying empty.
