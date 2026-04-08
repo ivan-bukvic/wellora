@@ -146,14 +146,22 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
     );
   }, [logs]);
 
-  // Get today's routine
-  const todayRoutine = useMemo((): TodayRoutineItem[] => {
+  // Get today's routine (falls back to most recent date if today has no data)
+  const { todayRoutine, routineDate } = useMemo((): { todayRoutine: TodayRoutineItem[]; routineDate: string } => {
     const today = new Date().toISOString().split('T')[0];
-    const todayLogs = logs.filter(log => log.date === today);
+    let targetDate = today;
+    let targetLogs = logs.filter(log => log.date === today);
+
+    // Fallback: if no logs today, use the most recent date from groupedLogs
+    if (targetLogs.length === 0 && groupedLogs.length > 0) {
+      targetDate = groupedLogs[0].date;
+      targetLogs = logs.filter(log => log.date === targetDate);
+    }
+
     const allActivityNames = ['Walking', 'Sleeping', 'Stretching', 'Hydration', 'Mindfulness'];
 
-    return allActivityNames.map(name => {
-      const log = todayLogs.find(l => l.activity_name === name);
+    const routine = allActivityNames.map(name => {
+      const log = targetLogs.find(l => l.activity_name === name);
       
       if (!log) {
         return { name, completed: false };
@@ -175,7 +183,9 @@ export const useActivityLogs = (optionsOrDays?: number | UseActivityLogsOptions)
 
       return { name, completed: log.completed, duration };
     });
-  }, [logs]);
+
+    return { todayRoutine: routine, routineDate: targetDate };
+  }, [logs, groupedLogs]);
 
   // Calendar data mapping
   const calendarData = useMemo((): Record<string, CalendarDayData> => {
