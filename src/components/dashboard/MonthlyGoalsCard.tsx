@@ -81,44 +81,55 @@ export const MonthlyGoalsCard = () => {
       try {
         const now = new Date();
         const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        const monthStartStr = monthStart.toISOString().split('T')[0];
+        const monthEndStr = monthEnd.toISOString().split('T')[0];
         
+        console.log('[DEBUG] MonthlyGoalsCard: querying current month', monthStartStr, 'to', monthEndStr);
+
         const { data: logs, error } = await supabase
           .from('activity_logs')
           .select('*')
           .eq('user_id', userId)
-          .gte('date', monthStart.toISOString().split('T')[0])
+          .gte('date', monthStartStr)
+          .lte('date', monthEndStr)
           .eq('completed', true);
 
         if (error) { console.error('[DEBUG] MonthlyGoalsCard error:', error); setIsLoading(false); return; }
 
         if (logs && logs.length > 0) {
-          console.log('[DEBUG] MonthlyGoalsCard: current month has', logs.length, 'logs');
-          setGoals(computeGoals(logs));
+          console.log('Monthly logs count:', logs.length);
+          const computed = computeGoals(logs);
+          const totals = computed.map(g => ({ label: g.label, current: g.current, target: g.target }));
+          console.log('Monthly totals:', totals);
+          setGoals(computed);
           setShowingHistorical(false);
         } else if (latestMonthStart && latestDate) {
-          console.log('[DEBUG] MonthlyGoalsCard: falling back to latestMonthStart', latestMonthStart);
-          const fallbackEnd = new Date(latestDate + 'T00:00:00');
-          const lastDayOfMonth = new Date(fallbackEnd.getFullYear(), fallbackEnd.getMonth() + 1, 0);
-          const endStr = lastDayOfMonth.toISOString().split('T')[0];
+          // Fallback: use the month of the latest data
+          const fallbackDate = new Date(latestMonthStart + 'T00:00:00');
+          const fallbackEndDate = new Date(fallbackDate.getFullYear(), fallbackDate.getMonth() + 1, 0);
+          const fallbackStartStr = latestMonthStart;
+          const fallbackEndStr = fallbackEndDate.toISOString().split('T')[0];
+
+          console.log('[DEBUG] MonthlyGoalsCard: fallback month', fallbackStartStr, 'to', fallbackEndStr);
 
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('*')
             .eq('user_id', userId)
-            .gte('date', latestMonthStart)
-            .lte('date', endStr)
+            .gte('date', fallbackStartStr)
+            .lte('date', fallbackEndStr)
             .eq('completed', true);
 
           if (fallbackLogs && fallbackLogs.length > 0) {
-            setGoals(computeGoals(fallbackLogs));
+            console.log('Monthly logs count:', fallbackLogs.length);
+            const computed = computeGoals(fallbackLogs);
+            const totals = computed.map(g => ({ label: g.label, current: g.current, target: g.target }));
+            console.log('Monthly totals:', totals);
+            setGoals(computed);
             setShowingHistorical(true);
-            const d = new Date(latestMonthStart + 'T00:00:00');
-            setHistoricalLabel(d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }));
-          } else {
-            console.log('[DEBUG] MonthlyGoalsCard: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
+            setHistoricalLabel(fallbackDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }));
           }
-        } else {
-          console.log('[DEBUG] MonthlyGoalsCard: Query returned 0 rows – possible causes: wrong table, user_id mismatch, or empty database');
         }
       } catch (err) {
         console.error('[DEBUG] MonthlyGoalsCard fetch error:', err);
