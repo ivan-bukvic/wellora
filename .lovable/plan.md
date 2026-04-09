@@ -1,75 +1,42 @@
 
-Goal: make every data fetch run only after auth is ready, so fallback logic can actually execute and debug logs always appear.
 
-What I found:
-- `UserProfileContext` already owns the real auth state (`session`, `authLoading`).
-- `useLatestDataRange`, `useActivityLogs`, and `DailyFlowTimeline` still create their own auth listeners or call `getUser()` locally.
-- Several dashboard fetchers (`useAIInsights`, `WeeklyRhythmChart`, `WeeklyRhythmStrips`, `TotalActivityCard`, `RecentPatternsCard`, `MonthlyGoalsCard`) only depend on `rangeLoading`/`latestDate`, then call `supabase.auth.getUser()` inside the effect. If auth is not restored yet, they return once and may never retry at the right time.
-- That explains the current symptom: no reliable fetch after login, so no logs and empty UI.
+## Fix Monthly Goals: Align target scaling with data
 
-Implementation plan
+### Problem
+Targets in `goalConfig` are **weekly** (e.g. Sleep 56 hrs = 8 hrs/day × 7). But data spans 21 days. Currently targets aren't scaled at all, so 21 days of actuals are compared against 7-day targets — making everything look 3x over target.
 
-1. Standardize auth dependency
-- Update every data-fetching hook/component to read `session` and `authLoading` from `useUserProfile()`.
-- Stop using local `onAuthStateChange` / `getUser()` for these fetches.
-- Keep authentication logic untouched; only consume the existing shared auth state.
+### Actual data (21 days, Jan 1–21)
+| Activity | Actual | Current target | % shown |
+|---|---|---|---|
+| Sleep | 157 hrs | 56 hrs | 280% ← wrong |
+| Water | 142 glasses | 56 | 253% |
+| Mindfulness | 237 min | 70 min | 339% |
+| Stretching | 12 sessions | 7 | 171% |
+| Walking | 531 min | 210 min | 253% |
 
-2. Fix core hooks first
-- `src/hooks/useLatestDataRange.tsx`
-  - Add `console.log('[DEBUG] useLatestDataRange hook initialized')` at top.
-  - Replace local `userId` auth listener logic with `const { session, authLoading } = useUserProfile()`.
-  - Move fetch into `fetchLatestData()` and run it from:
-    `useEffect(() => { if (authLoading || !session?.user) return; fetchLatestData(); }, [session, authLoading])`
-  - Log before querying, and log query results / empty-result reason.
-- `src/hooks/useActivityLogs.tsx`
-  - Same pattern: use shared `session`, not local auth state.
-  - Trigger fetch from `[session, authLoading, startDateStr, endDateStr]`.
-  - Add guaranteed top-level debug log plus logs inside fetch.
-  - Ensure logs still sort newest first and existing fallback display behavior remains.
+### Fix: scale weekly targets by number of weeks in data range
 
-3. Fix component-level fetchers that currently race auth
-- Update these files to use `useUserProfile()` and rerun fetches when `session` becomes available:
-  - `src/hooks/useAIInsights.tsx`
-  - `src/components/sections/DailyFlowTimeline.tsx`
-  - `src/components/dashboard/WeeklyRhythmChart.tsx`
-  - `src/components/dashboard/WeeklyRhythmStrips.tsx`
-  - `src/components/dashboard/TotalActivityCard.tsx`
-  - `src/components/dashboard/RecentPatternsCard.tsx`
-  - `src/components/dashboard/MonthlyGoalsCard.tsx`
-- Each effect should follow the same pattern:
-  - log initialization
-  - `if (authLoading) return`
-  - `if (!session?.user) { log no session; set non-loading state if needed; return }`
-  - call fetch function
-- Effect deps should include `session`, `authLoading`, plus existing date-range inputs (`latestDate`, `latestMonthStart`, `rangeLoading`, etc.).
+Since targets are weekly-based, multiply each by `actualDays / 7`:
 
-4. Make debug logs guaranteed
-- Move all debug logs above early returns so they always fire when the hook/component runs.
-- Add logs for:
-  - hook/component initialized
-  - auth state seen (`authLoading`, `session?.user?.id`)
-  - fetch started
-  - query returned row count / empty result
-  - query error
+For 21 days: scale = 3 → Sleep target = 168, Water = 168, etc.
 
-5. Clean up the temporary Activities debug probe
-- `src/components/sections/ActivitiesContent.tsx`
-  - Change the temporary raw debug effect to also depend on shared `session`/`authLoading`, so it runs after login.
-  - Keep it temporary for diagnosis, or remove it once the main hooks are confirmed working.
+| Activity | Actual | Scaled target | % |
+|---|---|---|---|
+| Sleep | 157 hrs | 168 hrs | 93% ✓ |
+| Water | 142 | 168 | 85% ✓ |
+| Mindfulness | 237 min | 210 min | 113% ✓ |
+| Stretching | 12 | 21 | 57% ✓ |
+| Walking | 531 min | 630 min | 84% ✓ |
 
-6. Preserve existing UI behavior
-- No styling/layout changes.
-- No auth flow changes.
-- No backend/schema changes.
-- Fallback behavior remains the same; this fix only makes the fetches actually execute at the right time.
+### Changes — `src/components/dashboard/MonthlyGoalsCard.tsx`
 
-Technical notes
-- Main rule to apply everywhere:
-  `useEffect(() => { if (authLoading || !session?.user) return; fetchData(); }, [session, authLoading, ...otherDeps])`
-- `CalendarContent` should not need special auth work once `useLatestDataRange` and `useActivityLogs` are fixed, because it already depends on those hooks.
-- This is a frontend timing fix, not a table/RLS redesign.
+1. **Update `computeGoals` signature** to accept `actualDays: number`
+2. **Scale targets**: `adjustedTarget = Math.round(goal.target * (actualDays / 7))`
+3. **After fetching logs**, compute `actualDays` from min/max `log.date` (+1), pass to `computeGoals`
+4. **Add debug logs**:
+   - `console.log('Actual data range:', earliestDate, '→', latestDate, '=', actualDays, 'days')`
+   - `console.log('Adjusted goals:', computed.map(g => ({ label: g.label, current: g.current, target: g.target })))`
+5. **Display subtitle** showing the data range (e.g. "Jan 1–21") so the user knows targets are scaled
 
-Expected result after implementation
-- Debug logs appear consistently after login.
-- `useLatestDataRange` resolves a real `latestDate` whenever the user has historical logs.
-- Dashboard, Activities, and Calendar fallback logic finally runs using historical data instead of staying empty.
+No other files changed.
+
