@@ -23,6 +23,7 @@ interface Goal {
   typeId: string;
 }
 
+// Weekly-based targets (e.g. Sleep 56 = 8 hrs/day × 7)
 const goalConfig: Goal[] = [
   { icon: Moon, label: 'Sleep', current: 0, target: 56, unit: 'hrs', color: 'bg-activity-sleep', typeId: ACTIVITY_TYPE_IDS.sleeping },
   { icon: Droplets, label: 'Drink Water', current: 0, target: 56, unit: 'glasses', color: 'bg-activity-hydration', typeId: ACTIVITY_TYPE_IDS.hydration },
@@ -31,8 +32,10 @@ const goalConfig: Goal[] = [
   { icon: Footprints, label: 'Walking', current: 0, target: 210, unit: 'min', color: 'bg-activity-walking', typeId: ACTIVITY_TYPE_IDS.walking },
 ];
 
-const computeGoals = (logs: any[]): Goal[] => {
+const computeGoals = (logs: any[], actualDays: number): Goal[] => {
+  const scale = actualDays / 7;
   return goalConfig.map(goal => {
+    const adjustedTarget = Math.round(goal.target * scale);
     const activityLogs = logs?.filter(l => l.activity_type_id === goal.typeId) || [];
     let current = 0;
     switch (goal.typeId) {
@@ -50,8 +53,17 @@ const computeGoals = (logs: any[]): Goal[] => {
         current = activityLogs.length;
         break;
     }
-    return { ...goal, current };
+    return { ...goal, current, target: adjustedTarget };
   });
+};
+
+const getActualDays = (logs: any[]): { actualDays: number; earliestDate: string; latestLogDate: string } => {
+  const dates = logs.map(l => l.date as string).sort();
+  const earliestDate = dates[0];
+  const latestLogDate = dates[dates.length - 1];
+  const diffMs = new Date(latestLogDate + 'T00:00:00').getTime() - new Date(earliestDate + 'T00:00:00').getTime();
+  const actualDays = Math.round(diffMs / (1000 * 60 * 60 * 24)) + 1;
+  return { actualDays, earliestDate, latestLogDate };
 };
 
 export const MonthlyGoalsCard = () => {
@@ -61,21 +73,43 @@ export const MonthlyGoalsCard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showingHistorical, setShowingHistorical] = useState(false);
   const [historicalLabel, setHistoricalLabel] = useState('');
-
-  console.log('[DEBUG] MonthlyGoalsCard initialized, authLoading:', authLoading, 'rangeLoading:', rangeLoading);
+  const [dataRangeLabel, setDataRangeLabel] = useState('');
 
   useEffect(() => {
-    console.log('[DEBUG] MonthlyGoalsCard effect, authLoading:', authLoading, 'rangeLoading:', rangeLoading, 'userId:', session?.user?.id ?? 'none');
-
     if (authLoading || rangeLoading) return;
 
     if (!session?.user) {
-      console.log('[DEBUG] MonthlyGoalsCard: no session user');
       setIsLoading(false);
       return;
     }
 
     const userId = session.user.id;
+
+    const processLogs = (logs: any[], monthLabel?: string) => {
+      if (!logs || logs.length === 0) return false;
+      const { actualDays, earliestDate, latestLogDate } = getActualDays(logs);
+      console.log('Actual data range:', earliestDate, '→', latestLogDate, '=', actualDays, 'days');
+      console.log('Filtered logs count:', logs.length);
+
+      const computed = computeGoals(logs, actualDays);
+      console.log('Adjusted goals:', computed.map(g => ({ label: g.label, current: g.current, target: g.target })));
+
+      setGoals(computed);
+
+      // Build range label like "Jan 1–21"
+      const start = new Date(earliestDate + 'T00:00:00');
+      const end = new Date(latestLogDate + 'T00:00:00');
+      const monthName = start.toLocaleDateString('en-US', { month: 'short' });
+      setDataRangeLabel(`${monthName} ${start.getDate()}–${end.getDate()}`);
+
+      if (monthLabel) {
+        setShowingHistorical(true);
+        setHistoricalLabel(monthLabel);
+      } else {
+        setShowingHistorical(false);
+      }
+      return true;
+    };
 
     const fetchGoalsData = async () => {
       try {
@@ -84,8 +118,6 @@ export const MonthlyGoalsCard = () => {
         const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         const monthStartStr = monthStart.toISOString().split('T')[0];
         const monthEndStr = monthEnd.toISOString().split('T')[0];
-        
-        console.log('[DEBUG] MonthlyGoalsCard: querying current month', monthStartStr, 'to', monthEndStr);
 
         const { data: logs, error } = await supabase
           .from('activity_logs')
@@ -95,44 +127,28 @@ export const MonthlyGoalsCard = () => {
           .lte('date', monthEndStr)
           .eq('completed', true);
 
-        if (error) { console.error('[DEBUG] MonthlyGoalsCard error:', error); setIsLoading(false); return; }
+        if (error) { console.error('MonthlyGoalsCard error:', error); setIsLoading(false); return; }
 
         if (logs && logs.length > 0) {
-          console.log('Monthly logs count:', logs.length);
-          const computed = computeGoals(logs);
-          const totals = computed.map(g => ({ label: g.label, current: g.current, target: g.target }));
-          console.log('Monthly totals:', totals);
-          setGoals(computed);
-          setShowingHistorical(false);
+          processLogs(logs);
         } else if (latestMonthStart && latestDate) {
-          // Fallback: use the month of the latest data
           const fallbackDate = new Date(latestMonthStart + 'T00:00:00');
           const fallbackEndDate = new Date(fallbackDate.getFullYear(), fallbackDate.getMonth() + 1, 0);
-          const fallbackStartStr = latestMonthStart;
           const fallbackEndStr = fallbackEndDate.toISOString().split('T')[0];
-
-          console.log('[DEBUG] MonthlyGoalsCard: fallback month', fallbackStartStr, 'to', fallbackEndStr);
 
           const { data: fallbackLogs } = await supabase
             .from('activity_logs')
             .select('*')
             .eq('user_id', userId)
-            .gte('date', fallbackStartStr)
+            .gte('date', latestMonthStart)
             .lte('date', fallbackEndStr)
             .eq('completed', true);
 
-          if (fallbackLogs && fallbackLogs.length > 0) {
-            console.log('Monthly logs count:', fallbackLogs.length);
-            const computed = computeGoals(fallbackLogs);
-            const totals = computed.map(g => ({ label: g.label, current: g.current, target: g.target }));
-            console.log('Monthly totals:', totals);
-            setGoals(computed);
-            setShowingHistorical(true);
-            setHistoricalLabel(fallbackDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }));
-          }
+          const label = fallbackDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+          processLogs(fallbackLogs || [], label);
         }
       } catch (err) {
-        console.error('[DEBUG] MonthlyGoalsCard fetch error:', err);
+        console.error('MonthlyGoalsCard fetch error:', err);
       } finally {
         setIsLoading(false);
       }
@@ -146,9 +162,9 @@ export const MonthlyGoalsCard = () => {
       <div className="flex items-center gap-2 mb-3">
         <Target className="w-4 h-4 text-primary" />
         <h3 className="text-base font-semibold text-foreground">Your Monthly Goals</h3>
-        {showingHistorical && (
-          <span className="text-[10px] text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full ml-auto">{historicalLabel}</span>
-        )}
+        <span className="text-[10px] text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full ml-auto">
+          {showingHistorical ? historicalLabel : dataRangeLabel}
+        </span>
       </div>
       
       <ScrollArea className="flex-1 -mr-2 pr-2">
